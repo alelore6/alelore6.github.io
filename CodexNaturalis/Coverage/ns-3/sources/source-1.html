@@ -1,0 +1,263 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > ClientImpl</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.Distributed</a>
+</div>
+
+<h1>Coverage Summary for Class: ClientImpl (it.polimi.ingsw.Distributed)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ClientImpl</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/9)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/20)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw.Distributed;
+&nbsp;
+&nbsp;
+&nbsp;import it.polimi.ingsw.ClientApp;
+&nbsp;import it.polimi.ingsw.Distributed.Middleware.ServerStub;
+&nbsp;import it.polimi.ingsw.Events.ClientRegister;
+&nbsp;import it.polimi.ingsw.Events.GenericEvent;
+&nbsp;import it.polimi.ingsw.View.GUI;
+&nbsp;import it.polimi.ingsw.View.TUI;
+&nbsp;import it.polimi.ingsw.View.UI;
+&nbsp;
+&nbsp;
+&nbsp;import java.rmi.RemoteException;
+&nbsp;import java.rmi.server.UnicastRemoteObject;
+&nbsp;
+&nbsp;/**
+&nbsp; * Class representing a client instance.
+&nbsp; */
+&nbsp;public class ClientImpl extends UnicastRemoteObject implements Client{
+&nbsp;
+&nbsp;    /**
+&nbsp;     * The client application.
+&nbsp;     */
+&nbsp;    public final ClientApp clientApp;
+&nbsp;    /**
+&nbsp;     * The user interface.
+&nbsp;     */
+&nbsp;    private final UI userInterface;
+&nbsp;    /**
+&nbsp;     * The nickname of the user.
+&nbsp;     */
+&nbsp;    private String nickname;
+&nbsp;    /**
+&nbsp;     * The server to which the client is connected to.
+&nbsp;     */
+&nbsp;    private final Server server;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Constructor
+&nbsp;     *
+&nbsp;     * @param clientApp the app starting this client instance
+&nbsp;     * @param server the game server
+&nbsp;     * @param isTUI boolean representing the choice for the UI
+&nbsp;     * @throws RemoteException default rmi exception
+&nbsp;     */
+&nbsp;    public ClientImpl(ClientApp clientApp, Server server, boolean isTUI) throws RemoteException {
+<b class="nc">&nbsp;        super();</b>
+&nbsp;
+<b class="nc">&nbsp;        this.clientApp = clientApp;</b>
+<b class="nc">&nbsp;        this.server = server;</b>
+<b class="nc">&nbsp;        userInterface = isTUI ? new TUI(this) : new GUI(this);</b>
+&nbsp;
+<b class="nc">&nbsp;        run();</b>
+&nbsp;
+<b class="nc">&nbsp;        nickname = userInterface.chooseNickname();</b>
+&nbsp;
+<b class="nc">&nbsp;        initialize();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Method to initialize the client. It sends a registration request to the server and activates
+&nbsp;     * the listener to do it.
+&nbsp;     * @throws RemoteException
+&nbsp;     * @see UI
+&nbsp;     */
+&nbsp;    private void initialize() throws RemoteException {
+&nbsp;        // Socket
+<b class="nc">&nbsp;        if(server instanceof ServerStub){</b>
+<b class="nc">&nbsp;            ((ServerStub) server).register(this);</b>
+<b class="nc">&nbsp;            userInterface.notifyListener(new ClientRegister(this));</b>
+<b class="nc">&nbsp;            userInterface.getListener().handleEvent();</b>
+&nbsp;        }
+&nbsp;        // RMI
+&nbsp;        else{
+&nbsp;            // The RMI registration is already implicitly happened
+<b class="nc">&nbsp;            userInterface.notifyListener(new ClientRegister(this));</b>
+<b class="nc">&nbsp;            userInterface.getListener().handleEvent();</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Setter for the nickname.
+&nbsp;     * @param nickname the entered nickname
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void setNickname(String nickname) {
+<b class="nc">&nbsp;        this.nickname = nickname;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Method to start running the UI handling incoming event.
+&nbsp;     * @see TUI
+&nbsp;     * @see GUI
+&nbsp;     */
+&nbsp;    private void run() {
+<b class="nc">&nbsp;        userInterface.run();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Method to pong with the server.
+&nbsp;     * @throws RemoteException default rmi exception
+&nbsp;     * @see ServerImpl
+&nbsp;     */
+&nbsp;    @Override
+<b class="nc">&nbsp;    public void ping() throws RemoteException{}</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Method to call the event handler in the UI.
+&nbsp;     * @param event the received event
+&nbsp;     * @see TUI
+&nbsp;     * @see GUI
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void update(GenericEvent event){
+<b class="nc">&nbsp;        userInterface.update(event);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Method to send an event to the server.
+&nbsp;     * @param event the sending event
+&nbsp;     * @throws RemoteException default rmi exception
+&nbsp;     * @see ServerImpl
+&nbsp;     * @see ServerStub
+&nbsp;     */
+&nbsp;    public void sendEvent(GenericEvent event) throws RemoteException {
+<b class="nc">&nbsp;        server.update(this, event);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Getter for the UI.
+&nbsp;     * @return the UI.
+&nbsp;     * @see UI
+&nbsp;     */
+&nbsp;    public UI getUserInterface() {
+<b class="nc">&nbsp;        return userInterface;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Getter for the nickname.
+&nbsp;     * @return the nickname.
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public String getNickname(){
+<b class="nc">&nbsp;        return nickname;</b>
+&nbsp;    }
+&nbsp;}
+&nbsp;
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-07-03 15:07</div>
+</div>
+</body>
+</html>

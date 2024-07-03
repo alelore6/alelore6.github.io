@@ -1,0 +1,544 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > MainFrame</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.Graphical</a>
+</div>
+
+<h1>Coverage Summary for Class: MainFrame (it.polimi.ingsw.Graphical)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">MainFrame</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/14)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/10)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/63)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">MainFrame$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/5)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">MainFrame$2</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">MainFrame$3</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/14)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">MainFrame$4</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/10)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">MainFrame$5</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/23)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/18)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/95)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw.Graphical;
+&nbsp;
+&nbsp;import it.polimi.ingsw.Model.Game;
+&nbsp;import it.polimi.ingsw.Model.TokenColor;
+&nbsp;import it.polimi.ingsw.ModelView.GameView;
+&nbsp;import it.polimi.ingsw.View.GUI;
+&nbsp;
+&nbsp;import javax.swing.*;
+&nbsp;import java.awt.*;
+&nbsp;import java.awt.event.ActionEvent;
+&nbsp;import java.awt.event.ActionListener;
+&nbsp;import java.util.HashMap;
+&nbsp;
+&nbsp;/**
+&nbsp; *  represent the frame for the graphic UI.
+&nbsp; *  It contains all the panels and the switch logic.
+&nbsp; */
+&nbsp;public class MainFrame extends JFrame {
+&nbsp;    /**
+&nbsp;     * the UI that communicates with the frame
+&nbsp;     */
+&nbsp;    private final GUI gui;
+&nbsp;    /**
+&nbsp;     * the menu bar that allows the switch between panels
+&nbsp;     */
+&nbsp;    private JMenuBar menuBar;
+&nbsp;    /**
+&nbsp;     * panel that contains all the game panels
+&nbsp;     */
+&nbsp;    final JPanel mainPanel;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * the panel that contains the table center information and logic
+&nbsp;     */
+&nbsp;    private TableCenterPanel tableCenterPanel;
+&nbsp;    /**
+&nbsp;     * the panel of the owner of the frame
+&nbsp;     */
+&nbsp;    private PersonalPanel myPanel;
+&nbsp;    /**
+&nbsp;     * the panel that contains the chat and its logic
+&nbsp;     */
+&nbsp;    private final ChatPanel chatPanel;
+&nbsp;    /**
+&nbsp;     * map between other player&#39;s nicknames and their panel
+&nbsp;     */
+&nbsp;    private HashMap&lt;String, PlayerPanel&gt; otherPlayers;
+&nbsp;    /**
+&nbsp;     * the owner of the frame nickname
+&nbsp;     */
+&nbsp;    private String nickname;
+&nbsp;    /**
+&nbsp;     * the logo shown in dialogs
+&nbsp;     */
+&nbsp;    private ImageIcon icon;
+&nbsp;    /**
+&nbsp;     * lock that allows the synchronization for game actions
+&nbsp;     */
+<b class="nc">&nbsp;    private final Object playLock=new Object();</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Constructor: create the split pane with the chat panel and the default panel.
+&nbsp;     * @param gui the UI that communicates with the frame
+&nbsp;     */
+&nbsp;    public MainFrame(GUI gui) {
+<b class="nc">&nbsp;        super(&quot;CodexNaturalis&quot;);</b>
+<b class="nc">&nbsp;        this.gui=gui;</b>
+<b class="nc">&nbsp;        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);</b>
+<b class="nc">&nbsp;        setExtendedState(JFrame.MAXIMIZED_BOTH);// full screen</b>
+&nbsp;
+&nbsp;
+<b class="nc">&nbsp;        JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);</b>
+<b class="nc">&nbsp;       this.chatPanel=new ChatPanel(this);</b>
+<b class="nc">&nbsp;        splitPane.add(chatPanel, JSplitPane.LEFT);</b>
+<b class="nc">&nbsp;        splitPane.setDividerLocation(300); // Imposta la posizione iniziale del divisore</b>
+&nbsp;
+<b class="nc">&nbsp;        mainPanel = new JPanel(new CardLayout());</b>
+&nbsp;        try {
+<b class="nc">&nbsp;            ImageIcon img = new ImageIcon(this.getClass().getClassLoader().getResource(&quot;assets/images/rulebook/01.png&quot;));</b>
+<b class="nc">&nbsp;            int width = 800;</b>
+<b class="nc">&nbsp;            int height = 720;</b>
+&nbsp;
+<b class="nc">&nbsp;            Image imgResized = img.getImage().getScaledInstance(width, height, Image.SCALE_DEFAULT);</b>
+<b class="nc">&nbsp;            ImageIcon resizedIcon = new ImageIcon(imgResized);</b>
+&nbsp;
+&nbsp;            // icon for dialogs
+<b class="nc">&nbsp;            Image icon = img.getImage().getScaledInstance(35, 35, Image.SCALE_DEFAULT);</b>
+<b class="nc">&nbsp;            this.icon = new ImageIcon(icon);</b>
+&nbsp;
+<b class="nc">&nbsp;            JPanel backgroundPanel = new JPanel() {</b>
+&nbsp;                @Override
+&nbsp;                protected void paintComponent(Graphics g) {
+<b class="nc">&nbsp;                    super.paintComponent(g);</b>
+&nbsp;
+<b class="nc">&nbsp;                    int x = (getWidth() - width) / 2;</b>
+<b class="nc">&nbsp;                    int y = (getHeight() - height) / 2;</b>
+<b class="nc">&nbsp;                    g.drawImage(resizedIcon.getImage(), x, y, this);</b>
+&nbsp;                }
+&nbsp;            };
+<b class="nc">&nbsp;            mainPanel.add(backgroundPanel, &quot;Background&quot;);</b>
+<b class="nc">&nbsp;        } catch (Exception e) {</b>
+<b class="nc">&nbsp;            System.out.println(&quot;Errore nel caricamento dell&#39;immagine: &quot; + e.getMessage());</b>
+<b class="nc">&nbsp;            e.printStackTrace();</b>
+&nbsp;        }
+<b class="nc">&nbsp;        splitPane.add(mainPanel, JSplitPane.RIGHT);</b>
+<b class="nc">&nbsp;        add(splitPane, BorderLayout.CENTER);</b>
+&nbsp;
+<b class="nc">&nbsp;        setVisible(true);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Creates the actual game panels calling the relative constructor and add the relative menu item by calling the addToMenuBar method.
+&nbsp;     * @param gameView the game info based on which the panels are created.
+&nbsp;     */
+&nbsp;    private void createGamePanels(GameView gameView) {
+<b class="nc">&nbsp;        tableCenterPanel = new TableCenterPanel(gameView,playLock);</b>
+&nbsp;
+<b class="nc">&nbsp;        addToMenuBar(&quot;Table center&quot;, null);</b>
+<b class="nc">&nbsp;        mainPanel.add(tableCenterPanel, &quot;Table center&quot;);</b>
+<b class="nc">&nbsp;        addToMenuBar(&quot;My panel&quot;, gameView.getPlayerViewByNickname(nickname).token.color);</b>
+&nbsp;
+<b class="nc">&nbsp;        otherPlayers = new HashMap&lt;String, PlayerPanel&gt;();</b>
+&nbsp;
+<b class="nc">&nbsp;        for (int i = 0; i &lt; gameView.numPlayers; i++) {</b>
+<b class="nc">&nbsp;            if (gameView.players.get(i).nickname.equalsIgnoreCase(nickname)) {</b>
+<b class="nc">&nbsp;                myPanel= new PersonalPanel(gameView.players.get(i), playLock);</b>
+<b class="nc">&nbsp;                mainPanel.add(myPanel, &quot;My panel&quot;);</b>
+&nbsp;            } else {
+<b class="nc">&nbsp;                PlayerPanel playerPanel = new PlayerPanel(gameView.players.get(i), false);</b>
+<b class="nc">&nbsp;                otherPlayers.put(gameView.players.get(i).nickname, playerPanel);</b>
+<b class="nc">&nbsp;                addToMenuBar(gameView.players.get(i).nickname + &quot;&#39;s panel&quot;, gameView.players.get(i).token.color);</b>
+<b class="nc">&nbsp;                mainPanel.add(playerPanel, gameView.players.get(i).nickname + &quot;&#39;s panel&quot;);</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     *  add a menu item to the menu bar
+&nbsp;     * @param label the label of the menu item
+&nbsp;     * @param color the color of the menu item
+&nbsp;     */
+&nbsp;    private void addToMenuBar(String label, TokenColor color) {
+<b class="nc">&nbsp;        JMenuItem menuItem = new JMenuItem(label);</b>
+&nbsp;
+<b class="nc">&nbsp;        if(color!=null){</b>
+<b class="nc">&nbsp;            switch (color) {</b>
+<b class="nc">&nbsp;                case RED : menuItem.setBackground(Color.RED); break;</b>
+<b class="nc">&nbsp;                case GREEN : menuItem.setBackground(Color.GREEN); break;</b>
+<b class="nc">&nbsp;                case BLUE : menuItem.setBackground(Color.decode(&quot;#256fe6&quot;)); break;</b>
+<b class="nc">&nbsp;                case YELLOW : menuItem.setBackground(Color.YELLOW); break;</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        menuItem.setBorder(BorderFactory.createLineBorder(Color.BLACK));</b>
+<b class="nc">&nbsp;        menuItem.setMargin(new Insets(5, 10, 5, 10));</b>
+&nbsp;
+<b class="nc">&nbsp;        menuItem.addActionListener(new ActionListener() {</b>
+&nbsp;            @Override
+&nbsp;            public void actionPerformed(ActionEvent e) {
+<b class="nc">&nbsp;                switchPanel(label);</b>
+&nbsp;            }
+&nbsp;        });
+&nbsp;
+<b class="nc">&nbsp;        menuBar.add(menuItem);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * allows the switch between different game panels using CardLayout
+&nbsp;     * @param label the name of the selected panel
+&nbsp;     */
+&nbsp;    public void switchPanel(String label) {
+<b class="nc">&nbsp;        CardLayout layout = (CardLayout) (mainPanel.getLayout());</b>
+<b class="nc">&nbsp;        layout.show(mainPanel, label);</b>
+<b class="nc">&nbsp;        mainPanel.repaint();</b>
+<b class="nc">&nbsp;        mainPanel.revalidate();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Creates the game panels by calling the createGamePanels method and the menu bar.
+&nbsp;     * @param gameView the game info based on which the panels are created.
+&nbsp;     */
+&nbsp;    public void reactStartGame(GameView gameView) {
+<b class="nc">&nbsp;        SwingUtilities.invokeLater(new Runnable() {</b>
+&nbsp;            @Override
+&nbsp;            public void run() {
+<b class="nc">&nbsp;                menuBar = new JMenuBar();</b>
+<b class="nc">&nbsp;                menuBar.setLayout(new BoxLayout(menuBar, BoxLayout.X_AXIS));</b>
+<b class="nc">&nbsp;                createGamePanels(gameView);</b>
+<b class="nc">&nbsp;                setJMenuBar(menuBar);</b>
+<b class="nc">&nbsp;                String[] nicknames = new String[gameView.numPlayers-1];</b>
+<b class="nc">&nbsp;                int index = 0;</b>
+<b class="nc">&nbsp;                for (int i = 0; i &lt; gameView.numPlayers; i++) {</b>
+<b class="nc">&nbsp;                    if (!gameView.players.get(i).nickname.equalsIgnoreCase(nickname)) {</b>
+<b class="nc">&nbsp;                     nicknames[index] = gameView.players.get(i).nickname;</b>
+<b class="nc">&nbsp;                     index ++;</b>
+&nbsp;                    }
+&nbsp;                }
+<b class="nc">&nbsp;                chatPanel.createRecipient(nicknames);</b>
+<b class="nc">&nbsp;                revalidate();</b>
+<b class="nc">&nbsp;                switchPanel(&quot;Table center&quot;);</b>
+&nbsp;            }});
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * updates the game panels based on the gameview info.
+&nbsp;     * @param gameView contains all the info about the game in a certain moment, like a screenshot.
+&nbsp;     * @param playPhase indicates the turn phase for the owner of the frame: 1 for play phase, 2 for draw phase, 0 else.
+&nbsp;     */
+&nbsp;    public void update(GameView gameView, int playPhase) {
+<b class="nc">&nbsp;        SwingUtilities.invokeLater(new Runnable() {</b>
+&nbsp;            @Override
+&nbsp;            public void run() {
+<b class="nc">&nbsp;                switch (playPhase) {</b>
+&nbsp;                    case 1: //playing
+<b class="nc">&nbsp;                        tableCenterPanel.update(gameView, false);</b>
+<b class="nc">&nbsp;                        myPanel.update(gameView.getPlayerViewByNickname(nickname), true);</b>
+<b class="nc">&nbsp;                        switchPanel(&quot;My panel&quot;);</b>
+&nbsp;                        break;
+&nbsp;                    case 2: //drawing
+<b class="nc">&nbsp;                        tableCenterPanel.update(gameView, true);</b>
+&nbsp;                        //switchPanel(&quot;Table center&quot;);
+&nbsp;                        break;
+&nbsp;                    default:
+<b class="nc">&nbsp;                        tableCenterPanel.update(gameView, false);</b>
+<b class="nc">&nbsp;                        myPanel.update(gameView.getPlayerViewByNickname(nickname), false);</b>
+&nbsp;                        break;
+&nbsp;                }
+&nbsp;
+<b class="nc">&nbsp;                for (String name : otherPlayers.keySet()) {</b>
+<b class="nc">&nbsp;                    otherPlayers.get(name).update(gameView.getPlayerViewByNickname(name));</b>
+&nbsp;                }
+&nbsp;            }});
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * show an input dialog in this frame.
+&nbsp;     * @param title the title of the dialog.
+&nbsp;     * @param message the message shown in the dialog.
+&nbsp;     * @param possibilities the possibilities of choices for the input (null for free text area).
+&nbsp;     * @return the input as a string.
+&nbsp;     */
+&nbsp;    public String showInputDialog(String title, String message, Object[] possibilities) {
+<b class="nc">&nbsp;        return (String) JOptionPane.showInputDialog(this, message, title, JOptionPane.PLAIN_MESSAGE, icon, possibilities, null);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * reports the chat message to the chat panel where it will be added.
+&nbsp;     * @param nickname the sender of the chat message.
+&nbsp;     * @param message the message text.
+&nbsp;     */
+&nbsp;    public void addChatMessage(String nickname, String message){
+<b class="nc">&nbsp;        chatPanel.addChatMessage(message,nickname);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * reports the sending of a chat message to the gui element.
+&nbsp;     * @param message the message text.
+&nbsp;     */
+&nbsp;    void sendChatMessage(String message){
+<b class="nc">&nbsp;        gui.sendChatMessage(message);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * reports the sending of a chat message to only one of the players to the gui element.
+&nbsp;     * @param message the text message
+&nbsp;     * @param recipient names who you want to send a message to.
+&nbsp;     */
+&nbsp;    public void sendPrivateChatMessage(String message, String recipient) {
+<b class="nc">&nbsp;        gui.sendPrivateChatMessage(message,recipient);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * sets the nickname of the owner of the frame.
+&nbsp;     * @param nickname the nickname of the owner of the frame
+&nbsp;     */
+&nbsp;    public void setNickname(String nickname) {
+<b class="nc">&nbsp;        this.nickname = nickname;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * getter for lock for synchronization.
+&nbsp;     * @return the lock object.
+&nbsp;     */
+&nbsp;    public Object getLock(){
+<b class="nc">&nbsp;        return playLock;</b>
+&nbsp;    }
+&nbsp;    /**
+&nbsp;     * transmitter for the play action from the personal panel.
+&nbsp;     * @return the encoded information for the play.
+&nbsp;     */
+&nbsp;    public CardComponent getPlayChoice(){
+<b class="nc">&nbsp;        return myPanel.getPlayChoice();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * transmitter for the draw choice from the table center panel.
+&nbsp;     * @return the encoded position for the draw.
+&nbsp;     */
+&nbsp;    public int getDrawChoice(){
+<b class="nc">&nbsp;        return tableCenterPanel.getDrawChoice();</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-07-03 15:07</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,343 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > TableCenter</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.Model</a>
+</div>
+
+<h1>Coverage Summary for Class: TableCenter (it.polimi.ingsw.Model)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">TableCenter</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (9/9)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    90%
+  </span>
+  <span class="absValue">
+    (9/10)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (38/38)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">TableCenter$MockitoMock$1476158640</td>
+  </tr>
+  <tr>
+    <td class="name">TableCenter$MockitoMock$1476158640$auxiliary$5aN7DPKq</td>
+  </tr>
+  <tr>
+    <td class="name">TableCenter$MockitoMock$1476158640$auxiliary$fwvSp5Aq</td>
+  </tr>
+  <tr>
+    <td class="name">TableCenter$MockitoMock$1476158640$auxiliary$FzeK0Agu</td>
+  </tr>
+  <tr>
+    <td class="name">TableCenter$MockitoMock$1476158640$auxiliary$jmESVP6O</td>
+  </tr>
+  <tr>
+    <td class="name">TableCenter$MockitoMock$1476158640$auxiliary$oC3TTQ2K</td>
+  </tr>
+  <tr>
+    <td class="name">TableCenter$MockitoMock$1476158640$auxiliary$vMOHNIeG</td>
+  </tr>
+  <tr>
+    <td class="name">TableCenter$MockitoMock$1476158640$auxiliary$vVMAqy8L</td>
+  </tr>
+  <tr>
+    <td class="name">TableCenter$MockitoMock$1476158640$auxiliary$YPwKdJJe</td>
+  </tr>
+  <tr>
+    <td class="name">TableCenter$MockitoMock$1476158640$auxiliary$YWapXG8M</td>
+  </tr>
+  <tr>
+    <td class="name">TableCenter$MockitoMock$1476158640$auxiliary$Zj34ozY6</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (9/9)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    90%
+  </span>
+  <span class="absValue">
+    (9/10)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (38/38)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw.Model;
+&nbsp;
+&nbsp;import it.polimi.ingsw.Exceptions.isEmptyException;
+&nbsp;
+&nbsp;import java.io.Serializable;
+&nbsp;
+&nbsp;/**
+&nbsp; *  Class containing the table center of the game, holding the playing card decks aswell the cards layed common for everyone.
+&nbsp; */
+&nbsp;public class TableCenter {
+&nbsp;    /**
+&nbsp;     * Game instance linked to this table center
+&nbsp;     */
+&nbsp;    private final Game game;
+&nbsp;    /**
+&nbsp;     * Deck instance containing the resource cards to be drawn by the players
+&nbsp;     */
+&nbsp;    private final ResourceDeck resDeck;
+&nbsp;    /**
+&nbsp;     * Deck instance containing the gold cards to be drawn by the players
+&nbsp;     */
+&nbsp;    private final GoldDeck goldDeck;
+&nbsp;    /**
+&nbsp;     * Deck instance containing the objective cards to be drawn by the players
+&nbsp;     */
+&nbsp;    private final ObjectiveDeck objDeck;
+&nbsp;    /**
+&nbsp;     * array containing the two common objective cards laying on the table
+&nbsp;     */
+<b class="fc">&nbsp;    private final ObjectiveCard[] objCards = new ObjectiveCard[2];</b>
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * array containing the four playing cards (two resource and two gold) layed on the table,
+&nbsp;     * that can be drawn alternatively to the two decks
+&nbsp;     */
+<b class="fc">&nbsp;    private  PlayableCard[] centerCards = new PlayableCard[4]; //first two are resource cards, last two are goldù</b>
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * attribute Scoretrack representing the score track of the current game
+&nbsp;     */
+&nbsp;    private Scoretrack scoretrack;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Constructor: initializes the table center, linking all the attributes to the class
+&nbsp;     * @param resDeck resource cards deck that will be placed on the table center
+&nbsp;     * @param goldDeck gold cards deck that will be placed on the table center
+&nbsp;     * @param objDeck objective cards deck that will be placed on the table center
+&nbsp;     * @param game Game instance linked to the table center
+&nbsp;     */
+<b class="fc">&nbsp;    public TableCenter(ResourceDeck resDeck, GoldDeck goldDeck, ObjectiveDeck objDeck, Game game) {</b>
+<b class="fc">&nbsp;        this.resDeck = resDeck;</b>
+<b class="fc">&nbsp;        this.goldDeck = goldDeck;</b>
+<b class="fc">&nbsp;        this.objDeck = objDeck;</b>
+<b class="fc">&nbsp;        this.game = game;</b>
+<b class="fc">&nbsp;        scoretrack = new Scoretrack();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * getter for the two objective cards layed on the table
+&nbsp;     * @return objective cards array
+&nbsp;     */
+&nbsp;    public ObjectiveCard[] getObjCards() {
+<b class="fc">&nbsp;        return objCards;</b>
+&nbsp;    }    //GETTER
+&nbsp;    /**
+&nbsp;     * getter for the four playable cards layed on the table
+&nbsp;     * @return playable cards array
+&nbsp;     */
+&nbsp;    public PlayableCard[] getCenterCards() {
+<b class="fc">&nbsp;        return centerCards;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * getter for the resource cards deck placed on the table center
+&nbsp;     * @return resource card deck instance
+&nbsp;     */
+&nbsp;    public ResourceDeck getResDeck() {
+<b class="fc">&nbsp;        return resDeck;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * getter for the gold cards deck placed on the table center
+&nbsp;     * @return gold card deck instance
+&nbsp;     */
+&nbsp;    public GoldDeck getGoldDeck() {
+<b class="fc">&nbsp;        return goldDeck;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * getter for the objective cards deck placed on the table center
+&nbsp;     * @return objective card deck instance
+&nbsp;     */
+&nbsp;    public ObjectiveDeck getObjDeck() {
+<b class="fc">&nbsp;        return objDeck;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * getter for scoretrack
+&nbsp;     * @return scoretrack
+&nbsp;     */
+&nbsp;    public Scoretrack getScoretrack() {
+<b class="fc">&nbsp;        return scoretrack;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * method that can be called by the user ALTERNATIVELY to the standard draw from deck method.
+&nbsp;     * Finds the playable card the user requested through the array, returns it if it exists.
+&nbsp;     * Later it replaces it (if possible) with a card of the same type (gold or resource) and if not
+&nbsp;     * just replaces it with the other type.
+&nbsp;     * If both decks are empty, the card slot remains empty and endgame process is triggered
+&nbsp;     * @param playablecard the card that is chosen for the draw
+&nbsp;     * @return an integer representing the state of the draw:
+&nbsp;     *   0 means the draw was correct and neither of the decks were empty
+&nbsp;     *   1 means the draw was correct but one or both the decks were empty
+&nbsp;     *  -1 means the card requested by the user was not found (the player will not draw anything, and it
+&nbsp;     *   will be prompted to draw again either from the deck or from the cards layed on the table)
+&nbsp;     */
+&nbsp;    public int drawAndPosition(PlayableCard playablecard){
+<b class="fc">&nbsp;        int result=0;</b>
+&nbsp;        int i;
+<b class="fc">&nbsp;        boolean found = false;</b>
+<b class="fc">&nbsp;        for (i = 0; i &lt; getCenterCards().length; i++) {   //iterate array to find card passed by parameter</b>
+<b class="fc">&nbsp;            if (getCenterCards()[i] == playablecard) {</b>
+<b class="fc">&nbsp;                found = true;</b>
+&nbsp;                break;
+&nbsp;            }
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        if (found) {</b>
+<b class="fc">&nbsp;            getCenterCards()[i] = null; //if card  passed by parameter is found but I cant draw, just empty the space</b>
+&nbsp;
+<b class="fc">&nbsp;            if (playablecard instanceof ResourceCard) {  //if card passed by param. is a resource card I draw from ResourceDeck</b>
+&nbsp;
+&nbsp;                    try {
+<b class="fc">&nbsp;                        getCenterCards()[i] = resDeck.draw();</b>
+&nbsp;
+<b class="fc">&nbsp;                    } catch(isEmptyException e){</b>
+<b class="fc">&nbsp;                        result=1;</b>
+&nbsp;                        try {
+<b class="fc">&nbsp;                            getCenterCards()[i] = goldDeck.draw();</b>
+&nbsp;
+<b class="fc">&nbsp;                        } catch (isEmptyException e1) {</b>
+<b class="fc">&nbsp;                            game.endGame(4);</b>
+&nbsp;                        }
+&nbsp;                    }
+&nbsp;
+&nbsp;
+<b class="pc">&nbsp;            } else if (playablecard instanceof GoldCard) { //if instead card is GoldCard I first draw from goldDeck</b>
+&nbsp;                try {
+<b class="fc">&nbsp;                    getCenterCards()[i] = goldDeck.draw();</b>
+&nbsp;
+<b class="fc">&nbsp;                } catch (isEmptyException e) {</b>
+<b class="fc">&nbsp;                    result=1;</b>
+&nbsp;                    try {
+<b class="fc">&nbsp;                        getCenterCards()[i] = resDeck.draw();</b>
+&nbsp;
+<b class="fc">&nbsp;                    } catch (isEmptyException e1) {</b>
+<b class="fc">&nbsp;                        game.endGame(4);</b>
+&nbsp;                    }
+&nbsp;                }
+&nbsp;            }
+<b class="fc">&nbsp;            return result;</b>
+&nbsp;        }
+<b class="fc">&nbsp;        return -1; //return statement in case the card is not found (the player won&#39;t draw anything)</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Setter for the center cards
+&nbsp;     * @param centerCards the center card
+&nbsp;     */
+&nbsp;    public void setCenterCards(PlayableCard[] centerCards) {
+<b class="fc">&nbsp;        this.centerCards = centerCards;</b>
+&nbsp;    }
+&nbsp;}
+&nbsp;
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-07-03 15:07</div>
+</div>
+</body>
+</html>

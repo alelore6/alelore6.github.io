@@ -1,0 +1,263 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > ServerApp</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw</a>
+</div>
+
+<h1>Coverage Summary for Class: ServerApp (it.polimi.ingsw)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ServerApp</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/9)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/10)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/47)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw;
+&nbsp;
+&nbsp;import it.polimi.ingsw.Controller.Logger;
+&nbsp;import it.polimi.ingsw.Distributed.Middleware.ClientSkeleton;
+&nbsp;import it.polimi.ingsw.Distributed.ServerImpl;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.net.ServerSocket;
+&nbsp;import java.net.Socket;
+&nbsp;import java.rmi.*;
+&nbsp;import java.rmi.registry.LocateRegistry;
+&nbsp;import java.rmi.registry.Registry;
+&nbsp;
+&nbsp;/**
+&nbsp; * Class that define the application server side.
+&nbsp; */
+<b class="nc">&nbsp;public class ServerApp {</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * The particular instance of the client.
+&nbsp;     */
+&nbsp;    private static ServerImpl server;
+&nbsp;    /**
+&nbsp;     * The logger.
+&nbsp;     */
+<b class="nc">&nbsp;    private static final Logger logger = new Logger();</b>
+&nbsp;    /**
+&nbsp;     * Boolean that indicates if thread-loops are running.
+&nbsp;     */
+<b class="nc">&nbsp;    private volatile boolean running = true;</b>
+&nbsp;    /**
+&nbsp;     * The socket instance to accept socket connections.
+&nbsp;     */
+<b class="nc">&nbsp;    private Socket socket = null;</b>
+&nbsp;    /**
+&nbsp;     * The registry instance to accept RMI connections.
+&nbsp;     */
+<b class="nc">&nbsp;    private Registry registry = null;</b>
+&nbsp;    /**
+&nbsp;     * Attribute that represents the port where socket connections are open.
+&nbsp;     */
+&nbsp;    public static final int SOCKET_PORT = 2002;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Constructor
+&nbsp;     *
+&nbsp;     * @throws InterruptedException
+&nbsp;     */
+<b class="nc">&nbsp;    private ServerApp() throws InterruptedException {</b>
+&nbsp;        try {
+<b class="nc">&nbsp;            server = new ServerImpl(this, logger);</b>
+<b class="nc">&nbsp;        } catch (RemoteException e) {</b>
+<b class="nc">&nbsp;            throw new RuntimeException(e);</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        // create RMI server
+&nbsp;        try {
+<b class="nc">&nbsp;            startRMI();</b>
+<b class="nc">&nbsp;        } catch (RemoteException | AlreadyBoundException e) {</b>
+<b class="nc">&nbsp;            System.err.println(&quot;Cannot start RMI.\n&quot;);</b>
+<b class="nc">&nbsp;            e.printStackTrace();</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        // create socket server
+<b class="nc">&nbsp;        Thread socketThread = new Thread(() -&gt; {</b>
+&nbsp;            try {
+<b class="nc">&nbsp;                startSocket(SOCKET_PORT);</b>
+<b class="nc">&nbsp;            } catch (RemoteException e) {</b>
+<b class="nc">&nbsp;                System.err.println(&quot;Cannot start socket.\n&quot;);</b>
+&nbsp;            }
+&nbsp;        });
+<b class="nc">&nbsp;        socketThread.start();</b>
+<b class="nc">&nbsp;        System.out.println(&quot;Socket active on port &quot; + SOCKET_PORT + &quot;!&quot;);</b>
+&nbsp;
+<b class="nc">&nbsp;        socketThread.join();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public static void main(String[] args){
+&nbsp;        try{
+<b class="nc">&nbsp;            new ServerApp();</b>
+<b class="nc">&nbsp;        }catch (InterruptedException ignored){}</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Method to start RMI connections.
+&nbsp;     * @throws RemoteException
+&nbsp;     * @throws AlreadyBoundException
+&nbsp;     */
+&nbsp;    private void startRMI () throws RemoteException, AlreadyBoundException {
+<b class="nc">&nbsp;        new Thread(() -&gt; {</b>
+&nbsp;            try{
+<b class="nc">&nbsp;                if(registry == null){</b>
+<b class="nc">&nbsp;                    registry = LocateRegistry.createRegistry(1099);</b>
+&nbsp;                }
+&nbsp;
+&nbsp;                //Binding the server to the RMI registry so that the client can look up
+<b class="nc">&nbsp;                registry.rebind(&quot;CodexNaturalis_Server&quot;, server);</b>
+&nbsp;
+<b class="nc">&nbsp;                System.out.println(&quot;RMI started and registered&quot;);</b>
+<b class="nc">&nbsp;            }catch (RemoteException e){</b>
+<b class="nc">&nbsp;                System.err.println(&quot;Cannot start RMI.\n&quot;);</b>
+&nbsp;            }
+<b class="nc">&nbsp;        }).start();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Method to start socket connections.
+&nbsp;     * @param port
+&nbsp;     * @throws RemoteException
+&nbsp;     */
+&nbsp;    private void startSocket(int port) throws RemoteException {
+&nbsp;        try {
+<b class="nc">&nbsp;            ServerSocket serverSocket = new ServerSocket(port);</b>
+&nbsp;
+<b class="nc">&nbsp;            while (running) {</b>
+&nbsp;                try{
+<b class="nc">&nbsp;                    socket = serverSocket.accept();</b>
+&nbsp;
+<b class="nc">&nbsp;                    new Thread(() -&gt; {</b>
+<b class="nc">&nbsp;                        ClientSkeleton clientSkeleton = null;</b>
+&nbsp;                        try{
+<b class="nc">&nbsp;                            clientSkeleton = new ClientSkeleton(socket, logger);</b>
+<b class="nc">&nbsp;                            System.out.println(&quot; (&quot; + socket.getRemoteSocketAddress() + &quot;) is connected with socket.&quot;);</b>
+&nbsp;
+<b class="nc">&nbsp;                            while (running)    clientSkeleton.receive(server);</b>
+&nbsp;
+<b class="nc">&nbsp;                        }catch(RemoteException e){</b>
+<b class="nc">&nbsp;                            assert clientSkeleton != null;</b>
+<b class="nc">&nbsp;                            server.disconnectPlayer(clientSkeleton.getNickname());</b>
+&nbsp;                        }
+<b class="nc">&nbsp;                    }).start();</b>
+<b class="nc">&nbsp;                } catch (IOException e) {</b>
+<b class="nc">&nbsp;                    System.err.println(&quot;Socket failed: &quot; + e.getMessage() );</b>
+&nbsp;                }
+&nbsp;            }
+<b class="nc">&nbsp;        } catch (IOException e) {</b>
+<b class="nc">&nbsp;            throw new RemoteException(&quot;Cannot create server socket&quot;, e);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Method to restart the server.
+&nbsp;     */
+&nbsp;    public void stop(){
+&nbsp;        // System.exit(0);
+<b class="nc">&nbsp;    }</b>
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-07-03 15:07</div>
+</div>
+</body>
+</html>

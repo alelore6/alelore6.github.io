@@ -1,0 +1,147 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > TableCenterView</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.ModelView</a>
+</div>
+
+<h1>Coverage Summary for Class: TableCenterView (it.polimi.ingsw.ModelView)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">TableCenterView</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (6/6)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw.ModelView;
+&nbsp;
+&nbsp;import it.polimi.ingsw.Model.*;
+&nbsp;
+&nbsp;import java.awt.*;
+&nbsp;import java.io.Serializable;
+&nbsp;
+&nbsp;/**
+&nbsp; * Represent the table center of the game in a certain moment
+&nbsp; */
+&nbsp;public class TableCenterView implements Serializable {
+&nbsp;    /**
+&nbsp;     * the public objective cards
+&nbsp;     */
+&nbsp;    public final ObjectiveCard[] objCards;
+&nbsp;    /**
+&nbsp;     * the displayed cards
+&nbsp;     */
+&nbsp;    public final PlayableCard[] centerCards;//first two are resource cards, last two are gold
+&nbsp;    /**
+&nbsp;     * the score track info
+&nbsp;     */
+&nbsp;    public final ScoretrackView scoreTrack;
+&nbsp;    /**
+&nbsp;     * represent the color of the card on the top of the resource deck
+&nbsp;     */
+&nbsp;    public final CardColor topResourceCardColor;
+&nbsp;    /**
+&nbsp;     * represent the color of the card on the top of the gold deck
+&nbsp;     */
+&nbsp;    public final CardColor topGoldCardColor;
+&nbsp;    /**
+&nbsp;     * Constructor that works like a clone method
+&nbsp;     * @param tableCenter the table center of the game
+&nbsp;     */
+<b class="fc">&nbsp;    public TableCenterView(TableCenter tableCenter) {</b>
+<b class="fc">&nbsp;        objCards=tableCenter.getObjCards();</b>
+<b class="fc">&nbsp;        centerCards=tableCenter.getCenterCards();</b>
+<b class="fc">&nbsp;        scoreTrack=new ScoretrackView(tableCenter.getScoretrack());</b>
+<b class="fc">&nbsp;        this.topResourceCardColor = tableCenter.getResDeck().peek();</b>
+<b class="fc">&nbsp;        this.topGoldCardColor = tableCenter.getGoldDeck().peek();</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-07-03 15:07</div>
+</div>
+</body>
+</html>

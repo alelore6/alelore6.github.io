@@ -1,0 +1,136 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > PlaceStartingCard</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.Events</a>
+</div>
+
+<h1>Coverage Summary for Class: PlaceStartingCard (it.polimi.ingsw.Events)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">PlaceStartingCard</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    50%
+  </span>
+  <span class="absValue">
+    (1/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    66,7%
+  </span>
+  <span class="absValue">
+    (2/3)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw.Events;
+&nbsp;
+&nbsp;import it.polimi.ingsw.Model.StartingCard;
+&nbsp;
+&nbsp;import java.io.Serializable;
+&nbsp;
+&nbsp;/**
+&nbsp; * Events that represent the action of placing the starting card
+&nbsp; */
+&nbsp;public class PlaceStartingCard extends GenericRequest{
+&nbsp;    /**
+&nbsp;     * the starting card
+&nbsp;     */
+&nbsp;    public final StartingCard startingCard;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Constructor
+&nbsp;     * @param startingCard the starting card
+&nbsp;     * @param nickname the receiver of the event
+&nbsp;     */
+&nbsp;    public PlaceStartingCard(StartingCard startingCard, String nickname) {
+<b class="fc">&nbsp;        super(&quot;Now it&#39;s time to place your starting card.&quot;, nickname);</b>
+<b class="fc">&nbsp;        this.startingCard = startingCard;</b>
+&nbsp;    }
+&nbsp;    /**
+&nbsp;     * Getter for the second part of the event message in a cli friendly format
+&nbsp;     * @return the message
+&nbsp;     */
+&nbsp;    public String msgOutput2(){
+<b class="nc">&nbsp;        return &quot;\nEnter (1) if you want the card faced up, (2) if faced down: &quot;;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-07-03 15:07</div>
+</div>
+</body>
+</html>

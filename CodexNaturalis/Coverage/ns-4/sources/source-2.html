@@ -1,0 +1,240 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > ServerStub</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.Distributed.Middleware</a>
+</div>
+
+<h1>Coverage Summary for Class: ServerStub (it.polimi.ingsw.Distributed.Middleware)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ServerStub</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/31)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw.Distributed.Middleware;
+&nbsp;
+&nbsp;import it.polimi.ingsw.Distributed.Client;
+&nbsp;import it.polimi.ingsw.Distributed.Server;
+&nbsp;import it.polimi.ingsw.Events.GenericEvent;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.io.ObjectInputStream;
+&nbsp;import java.io.ObjectOutputStream;
+&nbsp;import java.io.Serializable;
+&nbsp;import java.net.Socket;
+&nbsp;import java.rmi.RemoteException;
+&nbsp;
+&nbsp;/**
+&nbsp; * Class representing the server in socket connections.
+&nbsp; */
+&nbsp;public class ServerStub implements Server, Serializable {
+&nbsp;
+&nbsp;    /**
+&nbsp;     * The IP address of the server
+&nbsp;     */
+&nbsp;    private final String ip;
+&nbsp;    /**
+&nbsp;     * The port on which the server accepts connections from clients.
+&nbsp;     */
+&nbsp;    private final int port;
+&nbsp;    /**
+&nbsp;     * The socket class needed for the connection.
+&nbsp;     */
+&nbsp;    private Socket socket;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * The stream to write objects to the clients.
+&nbsp;     */
+&nbsp;    private ObjectOutputStream out;
+&nbsp;    /**
+&nbsp;     * The stream to receive objects from the clients.
+&nbsp;     */
+&nbsp;    private ObjectInputStream in;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Constructor Initializes the IP and port attributes.
+&nbsp;     * @param ip IP address of the server
+&nbsp;     * @param port Port number of the server on which the clients will connect.
+&nbsp;     */
+<b class="nc">&nbsp;    public ServerStub(String ip, int port) {</b>
+<b class="nc">&nbsp;        this.ip = ip;</b>
+<b class="nc">&nbsp;        this.port = port;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Method to register a socket type connection with the server.
+&nbsp;     * @param client the client to register a connection with.
+&nbsp;     * @throws RemoteException exception thrown in remote connections.
+&nbsp;     */
+&nbsp;    public void register(Client client) throws RemoteException {
+&nbsp;        try{
+<b class="nc">&nbsp;            this.socket = new Socket(ip, port);</b>
+<b class="nc">&nbsp;            socket.setKeepAlive(true);</b>
+&nbsp;            try{
+<b class="nc">&nbsp;                this.out = new ObjectOutputStream(socket.getOutputStream());</b>
+<b class="nc">&nbsp;            }catch(IOException e) {</b>
+<b class="nc">&nbsp;                throw new RemoteException(&quot;Error in creating output stream&quot;, e);</b>
+&nbsp;            }
+&nbsp;            try {
+<b class="nc">&nbsp;                this.in = new ObjectInputStream(socket.getInputStream());</b>
+<b class="nc">&nbsp;            }catch(IOException e) {</b>
+<b class="nc">&nbsp;                throw new RemoteException(&quot;Error in creating input stream&quot;, e);</b>
+&nbsp;            }
+<b class="nc">&nbsp;        }catch(IOException e) {</b>
+<b class="nc">&nbsp;            throw new RemoteException(&quot;Can&#39;t connect to the server&quot;, e);</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        System.out.println(&quot;Connected!&quot;);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Method to pong with the client.
+&nbsp;     */
+<b class="nc">&nbsp;    public void ping(){}</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Method to update a client with an event using a socket type connection.
+&nbsp;     * @param client the client to which the event is sent to.
+&nbsp;     * @param event the event (information) which the server sends to the client.
+&nbsp;     * @throws RemoteException exception thrown in remote connections.
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void update(Client client, GenericEvent event) throws RemoteException {
+&nbsp;        try {
+&nbsp;            // System.out.println(&quot;Sending &quot; + event.msgOutput() + &quot; to server&quot;);
+<b class="nc">&nbsp;            out.reset();</b>
+<b class="nc">&nbsp;            out.writeObject(event);</b>
+<b class="nc">&nbsp;            out.flush();</b>
+&nbsp;            // System.out.println(&quot;[DEBUG] Event sent to server: &quot; + event.getClass().getName());
+<b class="nc">&nbsp;        } catch (IOException e) {</b>
+<b class="nc">&nbsp;            System.out.println(&quot;Error in updating &quot; + event.getClass());</b>
+<b class="nc">&nbsp;            throw new RemoteException(&quot;Cannot send event to server.&quot;, e);</b>
+&nbsp;        }
+&nbsp;        //socket: client skeleton is always reading
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Method to receive an event coming from a socket type connection.
+&nbsp;     * @return the generic event object read from the object input stream.
+&nbsp;     * @throws RemoteException exception thrown in remote connections.
+&nbsp;     */
+&nbsp;    public GenericEvent receive() throws RemoteException {
+&nbsp;        //socket: receive from client skeleton update()
+&nbsp;
+<b class="nc">&nbsp;        GenericEvent ev = null;</b>
+&nbsp;        try{
+&nbsp;            // System.out.println(&quot;Waiting to receive event from server...&quot;);
+<b class="nc">&nbsp;            ev = (GenericEvent) in.readObject();</b>
+&nbsp;            // System.out.println(&quot;Received: &quot; + ev.msgOutput() + &quot; from server&quot;);
+<b class="nc">&nbsp;        }catch(IOException e){</b>
+<b class="nc">&nbsp;            throw new RemoteException(&quot;Can&#39;t receive event from client&quot;, e);</b>
+<b class="nc">&nbsp;        }catch(ClassNotFoundException e){</b>
+<b class="nc">&nbsp;            throw new RemoteException(&quot;Can&#39;t deserialize event from client&quot;, e);</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        return ev;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Method to close the socket connection.
+&nbsp;     * @throws RemoteException exception thrown in remote connections.
+&nbsp;     */
+&nbsp;    public void close() throws RemoteException{
+&nbsp;        try {
+<b class="nc">&nbsp;            socket.close();</b>
+<b class="nc">&nbsp;        } catch (IOException e) {</b>
+<b class="nc">&nbsp;            throw new RuntimeException(&quot;Can&#39;t close socket&quot;, e);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-07-03 15:07</div>
+</div>
+</body>
+</html>

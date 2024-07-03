@@ -1,0 +1,194 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > Logger</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.Controller</a>
+</div>
+
+<h1>Coverage Summary for Class: Logger (it.polimi.ingsw.Controller)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Logger</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/7)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">Logger$MockitoMock$1349394900</td>
+  </tr>
+  <tr>
+    <td class="name">Logger$MockitoMock$1349394900$auxiliary$2XmnyvTk</td>
+  </tr>
+  <tr>
+    <td class="name">Logger$MockitoMock$1349394900$auxiliary$qf7l1UBt</td>
+  </tr>
+  <tr>
+    <td class="name">Logger$MockitoMock$1349394900$auxiliary$TXpGKgxa</td>
+  </tr>
+  <tr>
+    <td class="name">Logger$MockitoMock$1349394900$auxiliary$wg6OvqXW</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/7)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw.Controller;
+&nbsp;
+&nbsp;import it.polimi.ingsw.Events.GenericEvent;
+&nbsp;
+&nbsp;import java.io.PrintStream;
+&nbsp;
+&nbsp;/**
+&nbsp; * Class that prints on the server the most important operations such as sending/receiving events
+&nbsp; * or some warning/failure.
+&nbsp; */
+&nbsp;public class Logger{
+&nbsp;    /**
+&nbsp;     * Object to print on System.out.
+&nbsp;     */
+<b class="nc">&nbsp;    private final PrintStream out = new PrintStream(System.out, true);</b>
+&nbsp;    /**
+&nbsp;     * Object to print on System.err.
+&nbsp;     */
+<b class="nc">&nbsp;    private final PrintStream outErr = new PrintStream(System.err, true);</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Constructor
+&nbsp;     *
+&nbsp;     */
+<b class="nc">&nbsp;    public Logger() {}</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Method for adding an event to the logger.
+&nbsp;     * @param event the handled event
+&nbsp;     * @param s the severity of the event
+&nbsp;     */
+&nbsp;    public void addLog(GenericEvent event, Severity s){
+<b class="nc">&nbsp;        if(event == null){}</b>
+<b class="nc">&nbsp;        else if(s == Severity.FAILURE)   outErr.println(&quot;[FAILURE] &quot; + event.nickname + &quot;&#39;s &quot; + event.getClass().getName() + &quot; event: &quot; + event.msgOutput() + &quot;\n&quot;);</b>
+&nbsp;        else{
+<b class="nc">&nbsp;            out.println(&quot;[&quot; + s + &quot;] &quot; + event.nickname + &quot;&#39;s &quot; + event.getClass().getName().split(&quot;\\.&quot;)[event.getClass().getName().split(&quot;\\.&quot;).length - 1] + &quot;.&quot;);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Method for adding a string to the logger.
+&nbsp;     * @param message the message to be added in the log
+&nbsp;     * @param s the severity of the message
+&nbsp;     */
+&nbsp;    public void addLog(String message, Severity s){
+<b class="nc">&nbsp;        out.println(&quot;[&quot; + s + &quot;] &quot; + message);</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-07-03 15:07</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,251 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > HandView</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.ModelView</a>
+</div>
+
+<h1>Coverage Summary for Class: HandView (it.polimi.ingsw.ModelView)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">HandView</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    66,7%
+  </span>
+  <span class="absValue">
+    (2/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    4,3%
+  </span>
+  <span class="absValue">
+    (3/70)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    10,6%
+  </span>
+  <span class="absValue">
+    (5/47)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw.ModelView;
+&nbsp;
+&nbsp;import it.polimi.ingsw.Model.Card;
+&nbsp;import it.polimi.ingsw.Model.Hand;
+&nbsp;import it.polimi.ingsw.Model.PlayableCard;
+&nbsp;import it.polimi.ingsw.Model.StartingCard;
+&nbsp;
+&nbsp;import java.io.Serializable;
+&nbsp;
+&nbsp;/**
+&nbsp; * Represent the hand of a player in a certain moment
+&nbsp; */
+&nbsp;public class HandView implements Serializable {
+&nbsp;
+&nbsp;    /**
+&nbsp;     * the margin for the grid of played cards.
+&nbsp;     */
+&nbsp;    public static final int GRID_MARGIN = 2;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * the player&#39;s hand cards
+&nbsp;     */
+&nbsp;    public final PlayableCard[] handCards;
+&nbsp;    /**
+&nbsp;     * the player&#39;s played cards
+&nbsp;     */
+&nbsp;    public final Card[][] playedCards;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Constructor that works like a clone method
+&nbsp;     * @param hand the player&#39;s hand
+&nbsp;     */
+<b class="fc">&nbsp;    public HandView(Hand hand){</b>
+<b class="fc">&nbsp;        this.handCards=hand.getHandCards().clone();</b>
+<b class="fc">&nbsp;        this.playedCards= subMatrix(hand.getDisplayedCards().clone());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * method to restrict the matrix to its minimum (up to a margin) in terms of size.
+&nbsp;     * Also add a card with negative id in the position where its possible to play a card.
+&nbsp;     * @param matrix the matrix before
+&nbsp;     * @return the restricted matrix
+&nbsp;     */
+&nbsp;    private static Card[][] subMatrix(Card[][] matrix) {
+&nbsp;
+<b class="pc">&nbsp;        if(matrix != null &amp;&amp; matrix[40] != null &amp;&amp; matrix[40][40] == null)</b>
+<b class="fc">&nbsp;            return null;</b>
+&nbsp;
+<b class="nc">&nbsp;        int n = matrix.length;</b>
+<b class="nc">&nbsp;        int minRow = n, maxRow = -1, minColumn = n, maxColumn = -1;</b>
+&nbsp;
+<b class="nc">&nbsp;        for (int i = 0; i &lt; n; i++) {</b>
+<b class="nc">&nbsp;            for (int j = 0; j &lt; n; j++) {</b>
+<b class="nc">&nbsp;                if (matrix[i][j] != null) {</b>
+<b class="nc">&nbsp;                    if (i &lt; minRow)    minRow    = i;</b>
+<b class="nc">&nbsp;                    if (i &gt; maxRow)    maxRow    = i;</b>
+<b class="nc">&nbsp;                    if (j &lt; minColumn) minColumn = j;</b>
+<b class="nc">&nbsp;                    if (j &gt; maxColumn) maxColumn = j;</b>
+&nbsp;                }
+&nbsp;            }
+&nbsp;        }
+&nbsp;
+&nbsp;        // Renormalization of pathological cases:
+&nbsp;        // if the margins are too big, it simply rescales the min and max of rows and columns.
+<b class="nc">&nbsp;        if(minRow    - GRID_MARGIN &lt; 0)  minRow    =      GRID_MARGIN;</b>
+<b class="nc">&nbsp;        if(minColumn - GRID_MARGIN &lt; 0)  minColumn =      GRID_MARGIN;</b>
+<b class="nc">&nbsp;        if(maxRow    + GRID_MARGIN &gt; 80) maxRow    = 80 - GRID_MARGIN;</b>
+<b class="nc">&nbsp;        if(maxColumn + GRID_MARGIN &gt; 80) maxColumn = 80 - GRID_MARGIN;</b>
+&nbsp;
+&nbsp;        // Calcola la dimensione della sotto-matrice quadrata
+<b class="nc">&nbsp;        int maxUsedSpace = Math.max(Math.abs(maxRow - minRow), Math.abs(maxColumn - minColumn)) + 1;</b>
+&nbsp;        int size;
+&nbsp;
+<b class="nc">&nbsp;        if(maxUsedSpace &gt; 81)   size = 81;</b>
+<b class="nc">&nbsp;        else                    size = 2 * GRID_MARGIN + maxUsedSpace;</b>
+&nbsp;
+&nbsp;        // Estrai la sotto-matrice quadrata
+<b class="nc">&nbsp;        Card[][] subMatrix = new Card[size][size];</b>
+&nbsp;
+<b class="nc">&nbsp;        for (int i = minRow - GRID_MARGIN; i &lt;= maxRow + GRID_MARGIN; i++) {</b>
+<b class="nc">&nbsp;            for (int j = minColumn - GRID_MARGIN; j &lt;= maxColumn + GRID_MARGIN; j++) {</b>
+&nbsp;                // If the current element is null, it checks possible adjacent cards and, if it finds at least one,
+&nbsp;                // it marks this position with yellow, else with black.
+<b class="nc">&nbsp;                if(matrix[i][j] == null){</b>
+<b class="nc">&nbsp;                    if(checkNear(matrix, i, j)){</b>
+<b class="nc">&nbsp;                        subMatrix[i - (minRow - GRID_MARGIN)][j - (minColumn - GRID_MARGIN)]</b>
+&nbsp;                                = new StartingCard(-1);
+&nbsp;                    }
+&nbsp;                }
+&nbsp;                else{
+<b class="nc">&nbsp;                    subMatrix[i - (minRow - GRID_MARGIN)][j - (minColumn - GRID_MARGIN)] = matrix[i][j];</b>
+&nbsp;                }
+&nbsp;            }
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        return subMatrix;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * checks if the position can accept a play card following the game rules
+&nbsp;     * @param playedCards the matirx of played cards
+&nbsp;     * @param x the row-coordinates of the position
+&nbsp;     * @param y the column-coordinates of the position
+&nbsp;     * @return a boolean representing the result of the method
+&nbsp;     */
+&nbsp;    private static boolean checkNear(Card[][] playedCards, int x, int y){
+<b class="nc">&nbsp;        boolean hasNear = false;</b>
+<b class="nc">&nbsp;        if(x-1 &gt;= 0 &amp;&amp; y-1 &gt;= 0 &amp;&amp; playedCards[x-1][y-1] != null){</b>
+<b class="nc">&nbsp;            if(playedCards[x-1][y-1].getCorners()[3].getPosition() != null)</b>
+<b class="nc">&nbsp;                hasNear = true;</b>
+&nbsp;            else
+<b class="nc">&nbsp;                return false;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if(x-1 &gt;= 0 &amp;&amp; y+1 &lt;= 80 &amp;&amp; playedCards[x-1][y+1] != null){</b>
+<b class="nc">&nbsp;            if(playedCards[x-1][y+1].getCorners()[2].getPosition() != null)</b>
+<b class="nc">&nbsp;                hasNear = true;</b>
+&nbsp;            else
+<b class="nc">&nbsp;                return false;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if(x+1 &lt;= 80 &amp;&amp; y-1 &gt;= 0 &amp;&amp; playedCards[x+1][y-1] != null){</b>
+<b class="nc">&nbsp;            if(playedCards[x+1][y-1].getCorners()[1].getPosition() != null)</b>
+<b class="nc">&nbsp;                hasNear = true;</b>
+&nbsp;            else
+<b class="nc">&nbsp;                return false;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if(x+1 &lt;= 80 &amp;&amp; y+1 &lt;= 80 &amp;&amp; playedCards[x+1][y+1] != null){</b>
+<b class="nc">&nbsp;            if(playedCards[x+1][y+1].getCorners()[0].getPosition() != null)</b>
+<b class="nc">&nbsp;                hasNear = true;</b>
+&nbsp;            else
+<b class="nc">&nbsp;                return false;</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        return hasNear;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-07-03 15:07</div>
+</div>
+</body>
+</html>

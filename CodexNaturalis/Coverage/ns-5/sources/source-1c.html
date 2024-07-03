@@ -1,0 +1,171 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > SetTokenColorRequest</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.Events</a>
+</div>
+
+<h1>Coverage Summary for Class: SetTokenColorRequest (it.polimi.ingsw.Events)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">SetTokenColorRequest</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    33,3%
+  </span>
+  <span class="absValue">
+    (1/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/24)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    14,3%
+  </span>
+  <span class="absValue">
+    (2/14)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw.Events;
+&nbsp;
+&nbsp;import it.polimi.ingsw.Model.TokenColor;
+&nbsp;
+&nbsp;import java.util.ArrayList;
+&nbsp;
+&nbsp;/**
+&nbsp; * Event that represent the model request to choose the color of the token of the player
+&nbsp; */
+&nbsp;public class SetTokenColorRequest extends GenericRequest{
+&nbsp;    /**
+&nbsp;     * the list of available colors
+&nbsp;     */
+&nbsp;    public final ArrayList&lt;TokenColor&gt; availableColors;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Constructor
+&nbsp;     * @param nickname the player that receives the action
+&nbsp;     * @param availableColors the list of available colors
+&nbsp;     */
+&nbsp;    public SetTokenColorRequest(String nickname, ArrayList&lt;TokenColor&gt; availableColors) {
+<b class="fc">&nbsp;        super(&quot;Choose token color from these:&quot;, nickname);</b>
+<b class="fc">&nbsp;        this.availableColors = availableColors;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Getter for the second part of the event message in a cli friendly format
+&nbsp;     * @return the message
+&nbsp;     */
+&nbsp;    public String msgOutput2() {
+&nbsp;
+<b class="nc">&nbsp;        String s = &quot;\n&quot;;</b>
+<b class="nc">&nbsp;        String colorReset = &quot;\u001B[0m&quot;;</b>
+&nbsp;
+<b class="nc">&nbsp;        if(availableColors.contains(TokenColor.RED))        s = s + &quot;\u001B[91m&quot; + &quot;(1) for RED\n&quot; + colorReset;</b>
+<b class="nc">&nbsp;        if(availableColors.contains(TokenColor.YELLOW))     s = s + &quot;\u001B[93m&quot; + &quot;(2) for YELLOW\n&quot; + colorReset;</b>
+<b class="nc">&nbsp;        if(availableColors.contains(TokenColor.GREEN))      s = s + &quot;\u001B[92m&quot; + &quot;(3) for GREEN\n&quot; + colorReset;</b>
+<b class="nc">&nbsp;        if(availableColors.contains(TokenColor.BLUE))       s = s + &quot;\u001B[94m&quot; + &quot;(4) for BLUE\n&quot; + colorReset;</b>
+&nbsp;
+<b class="nc">&nbsp;        return s;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * checks if the choice is valid
+&nbsp;     * @param n the index of the chosen color
+&nbsp;     * @return the outcome of the check
+&nbsp;     */
+&nbsp;    public boolean choiceIsValid(int n){
+<b class="nc">&nbsp;        if(n == 1 &amp;&amp; availableColors.contains(TokenColor.RED))      return true;</b>
+<b class="nc">&nbsp;        if(n == 2 &amp;&amp; availableColors.contains(TokenColor.YELLOW))   return true;</b>
+<b class="nc">&nbsp;        if(n == 3 &amp;&amp; availableColors.contains(TokenColor.GREEN))    return true;</b>
+<b class="nc">&nbsp;        if(n == 4 &amp;&amp; availableColors.contains(TokenColor.BLUE))     return true;</b>
+<b class="nc">&nbsp;        else                                                        return false;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-07-03 15:07</div>
+</div>
+</body>
+</html>

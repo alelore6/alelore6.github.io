@@ -1,0 +1,139 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > PlayCardResponse</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.Events</a>
+</div>
+
+<h1>Coverage Summary for Class: PlayCardResponse (it.polimi.ingsw.Events)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">PlayCardResponse</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw.Events;
+&nbsp;
+&nbsp;import it.polimi.ingsw.Model.Card;
+&nbsp;
+&nbsp;/**
+&nbsp; * Event that represent the response to a request to play a card
+&nbsp; */
+&nbsp;public class PlayCardResponse extends GenericResponse{
+&nbsp;    /**
+&nbsp;     * the card chosen that will be played
+&nbsp;     */
+&nbsp;    public final Card card;
+&nbsp;    /**
+&nbsp;     * the x-position in the matrix of displayed cards of the player where the card will be played
+&nbsp;     */
+&nbsp;    public final int posX;
+&nbsp;    /**
+&nbsp;     * the y-position in the matrix of displayed cards of the player where the card will be played
+&nbsp;     */
+&nbsp;    public final int posY;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Constructor
+&nbsp;     * @param nickname the player that sends the event
+&nbsp;     * @param card the chosen card
+&nbsp;     * @param posX the chosen x-position where the card will be played
+&nbsp;     * @param posY the chosen y-position where the card will be played
+&nbsp;     */
+&nbsp;    public PlayCardResponse(String nickname, Card card, int posX, int posY){
+<b class="nc">&nbsp;        super(&quot;Card and position chosen!&quot;,nickname);</b>
+<b class="nc">&nbsp;        this.card = card;</b>
+<b class="nc">&nbsp;        this.posX = posX;</b>
+<b class="nc">&nbsp;        this.posY = posY;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-07-03 15:07</div>
+</div>
+</body>
+</html>

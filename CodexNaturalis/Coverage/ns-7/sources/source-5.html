@@ -1,0 +1,450 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > PersonalPanel</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.Graphical</a>
+</div>
+
+<h1>Coverage Summary for Class: PersonalPanel (it.polimi.ingsw.Graphical)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">PersonalPanel</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/38)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/93)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">PersonalPanel$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">PersonalPanel$2</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/7)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/11)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/42)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/104)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw.Graphical;
+&nbsp;import it.polimi.ingsw.Model.Player;
+&nbsp;import it.polimi.ingsw.Model.StartingCard;
+&nbsp;import it.polimi.ingsw.ModelView.PlayerView;
+&nbsp;import it.polimi.ingsw.View.GUI;
+&nbsp;
+&nbsp;import javax.imageio.ImageIO;
+&nbsp;import javax.swing.*;
+&nbsp;import javax.swing.border.LineBorder;
+&nbsp;import java.awt.*;
+&nbsp;import java.awt.event.ActionEvent;
+&nbsp;import java.awt.event.ActionListener;
+&nbsp;import java.awt.image.BufferedImage;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.ArrayList;
+&nbsp;
+&nbsp;/**
+&nbsp; * Class that represent the panel of the player that owns the frame
+&nbsp; */
+&nbsp;public class PersonalPanel extends JSplitPane {
+&nbsp;    /**
+&nbsp;     * nickname of the owner of the frame
+&nbsp;     */
+&nbsp;    private final String nickname;
+&nbsp;    /**
+&nbsp;     * the scroll pane that contains the player&#39;s played cards
+&nbsp;     */
+&nbsp;    private final PlayerPanel playerPanel;
+&nbsp;    /**
+&nbsp;     * indicates the chosen card to play from the hand
+&nbsp;     */
+&nbsp;    private int choice;
+&nbsp;    /**
+&nbsp;     * list of buttons that make the play
+&nbsp;     */
+&nbsp;    private final ArrayList&lt;JButton&gt; playButtons;
+&nbsp;    /**
+&nbsp;     * list of JLabel containing the images of the hand cards
+&nbsp;     */
+&nbsp;    private final ArrayList&lt;JLabel&gt; labels;
+&nbsp;    /**
+&nbsp;     * the id of the cards in the hand of the player
+&nbsp;     */
+<b class="nc">&nbsp;    private final int[] cardsID= new int[3];</b>
+&nbsp;    /**
+&nbsp;     * keep traces of the flipping actions on the hand cards
+&nbsp;     */
+<b class="nc">&nbsp;    private final boolean[] isFacedown= new boolean[3];</b>
+&nbsp;    /**
+&nbsp;     * represent the chosen card to play from the hand
+&nbsp;     */
+&nbsp;    private JLabel selectedLabel;
+&nbsp;    /**
+&nbsp;     * indicates whether it&#39;s the player&#39;s turn to play
+&nbsp;     */
+<b class="nc">&nbsp;    private boolean playing = false;</b>
+&nbsp;    /**
+&nbsp;     * the image for empty card slot
+&nbsp;     */
+<b class="nc">&nbsp;    private ImageIcon possiblePlayImage =null;</b>
+&nbsp;    /**
+&nbsp;     * lock for the synchronization of the play actions
+&nbsp;     */
+&nbsp;    private final Object lock;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Constructor: creates a split pane with the player&#39;s played cards and his hand cards
+&nbsp;     * @param playerView the player info based on which the panel is build
+&nbsp;     * @param lock lock for the synchronization of the play actions
+&nbsp;     */
+&nbsp;    PersonalPanel(PlayerView playerView, Object lock) {
+<b class="nc">&nbsp;        super(JSplitPane.HORIZONTAL_SPLIT);</b>
+<b class="nc">&nbsp;        this.nickname = playerView.nickname;</b>
+<b class="nc">&nbsp;        this.lock = lock;</b>
+<b class="nc">&nbsp;        this.playButtons = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;        this.labels = new ArrayList&lt;&gt;();</b>
+&nbsp;
+&nbsp;        try {
+<b class="nc">&nbsp;            BufferedImage img =ImageIO.read(this.getClass().getClassLoader().getResource(&quot;assets/images/other/possible_play_image.png&quot;));</b>
+<b class="nc">&nbsp;            possiblePlayImage= new ImageIcon(img.getScaledInstance(300, 180, Image.SCALE_DEFAULT));</b>
+<b class="nc">&nbsp;        } catch (IOException e) {</b>
+<b class="nc">&nbsp;            throw new RuntimeException(e);</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        JPanel leftPanel = new JPanel(new BorderLayout());</b>
+<b class="nc">&nbsp;        this.playerPanel= new PlayerPanel(playerView, true);</b>
+<b class="nc">&nbsp;        leftPanel.add(playerPanel, BorderLayout.CENTER);</b>
+&nbsp;
+<b class="nc">&nbsp;        JPanel rightPanel = new JPanel();</b>
+<b class="nc">&nbsp;        rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));</b>
+<b class="nc">&nbsp;        for (int i = 1; i &lt;= 4; i++) {</b>
+<b class="nc">&nbsp;            JPanel imagePanel = new JPanel(new GridBagLayout());</b>
+<b class="nc">&nbsp;            GridBagConstraints gbc = new GridBagConstraints();</b>
+<b class="nc">&nbsp;            gbc.insets = new Insets(2, 2, 2, 2);</b>
+&nbsp;
+<b class="nc">&nbsp;            JLabel label = new JLabel();</b>
+<b class="nc">&nbsp;            if(i==1) {</b>
+<b class="nc">&nbsp;                if(playerView.objectiveCard!=null) label.setIcon(getImageIcon(GUI.getCardPath(playerView.objectiveCard.getID(), false)));</b>
+<b class="nc">&nbsp;                else label.setIcon(possiblePlayImage);</b>
+&nbsp;            }
+&nbsp;            else{
+<b class="nc">&nbsp;                if(playerView.hand.handCards[i-2]!=null) label.setIcon(getImageIcon(GUI.getCardPath(playerView.hand.handCards[i-2].getID(), false)));</b>
+<b class="nc">&nbsp;                else label.setIcon(possiblePlayImage);</b>
+&nbsp;            }
+&nbsp;
+<b class="nc">&nbsp;            gbc.gridx = 0;</b>
+<b class="nc">&nbsp;            gbc.gridy = 0;</b>
+<b class="nc">&nbsp;            gbc.gridheight = 2;</b>
+<b class="nc">&nbsp;            imagePanel.add(label, gbc);</b>
+&nbsp;
+<b class="nc">&nbsp;            if (i &gt; 1 &amp;&amp; playerView.hand.handCards[i-2]!=null) {</b>
+&nbsp;                //carte della mano
+<b class="nc">&nbsp;                cardsID[i-2]=playerView.hand.handCards[i-2].getID();</b>
+<b class="nc">&nbsp;                isFacedown[i-2]=false;</b>
+<b class="nc">&nbsp;                labels.add(label);</b>
+&nbsp;                // Creazione e aggiunta del bottone Flip
+<b class="nc">&nbsp;                JButton flipButton = new JButton(&quot;Flip&quot;);</b>
+<b class="nc">&nbsp;                final int index = i-2;</b>
+&nbsp;
+<b class="nc">&nbsp;                flipButton.addActionListener(new ActionListener() {</b>
+&nbsp;                    @Override
+&nbsp;                    public void actionPerformed(ActionEvent e) {
+<b class="nc">&nbsp;                        if(cardsID[index]&lt;0) return;</b>
+<b class="nc">&nbsp;                        isFacedown[index] = !isFacedown[index];</b>
+&nbsp;                        ///playerView.hand.handCards[index].isFacedown=isFacedown[index];
+<b class="nc">&nbsp;                        label.setIcon(getImageIcon(GUI.getCardPath(cardsID[index], isFacedown[index])));</b>
+&nbsp;                    }
+&nbsp;                });
+<b class="nc">&nbsp;                gbc.gridx = 1;</b>
+<b class="nc">&nbsp;                gbc.gridy = 0;</b>
+<b class="nc">&nbsp;                gbc.gridheight = 1;</b>
+<b class="nc">&nbsp;                imagePanel.add(flipButton, gbc);</b>
+&nbsp;
+&nbsp;                // Creazione e aggiunta del bottone Play
+<b class="nc">&nbsp;                JButton playButton = new JButton(&quot;Play&quot;);</b>
+<b class="nc">&nbsp;                playButton.addActionListener(new ActionListener() {</b>
+&nbsp;                    @Override
+&nbsp;                    public void actionPerformed(ActionEvent e) {
+<b class="nc">&nbsp;                        choice = index;</b>
+&nbsp;                        //System.out.println(&quot;You have chosen card N. &quot;+ (choice+1)+ &quot; ID: &quot;+cardsID[choice]);
+<b class="nc">&nbsp;                        if (selectedLabel != null) {</b>
+<b class="nc">&nbsp;                            selectedLabel.setBorder(null);</b>
+&nbsp;                        }
+<b class="nc">&nbsp;                        selectedLabel = label;</b>
+<b class="nc">&nbsp;                        selectedLabel.setBorder(new LineBorder(Color.GREEN, 4));</b>
+<b class="nc">&nbsp;                        confirmPlay();</b>
+&nbsp;                    }
+&nbsp;                });
+<b class="nc">&nbsp;                playButtons.add(playButton);</b>
+<b class="nc">&nbsp;                gbc.gridy = 1;</b>
+<b class="nc">&nbsp;                imagePanel.add(playButton, gbc);</b>
+&nbsp;            }
+&nbsp;
+<b class="nc">&nbsp;            rightPanel.add(imagePanel);</b>
+<b class="nc">&nbsp;            rightPanel.add(Box.createVerticalStrut(5)); // Riduce lo spazio verticale tra le carte</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        hidePlayButton();</b>
+<b class="nc">&nbsp;        add(leftPanel, JSplitPane.LEFT);</b>
+<b class="nc">&nbsp;        add(rightPanel, JSplitPane.RIGHT);</b>
+&nbsp;
+<b class="nc">&nbsp;        setDividerLocation(820); // Imposta la posizione iniziale del divisore</b>
+&nbsp;
+&nbsp;        // Impostazione della larghezza minima del pannello
+<b class="nc">&nbsp;        rightPanel.setMinimumSize(new Dimension(390, 300));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * show the play buttons next to the cards to allow the selection
+&nbsp;     */
+&nbsp;    private void showPlayButton() {
+<b class="nc">&nbsp;        int i=0;</b>
+<b class="nc">&nbsp;        for(JButton b : playButtons){</b>
+<b class="nc">&nbsp;            if(cardsID[i]&gt;0) b.setVisible(true);</b>
+<b class="nc">&nbsp;            i++;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * hide the play button next to the cards when it&#39;s not the player&#39;s turn
+&nbsp;     */
+&nbsp;    private void hidePlayButton() {
+<b class="nc">&nbsp;        for(JButton b : playButtons){</b>
+<b class="nc">&nbsp;            b.setVisible(false);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * load the cards image
+&nbsp;     * @param path the path to the image
+&nbsp;     * @return the card image
+&nbsp;     */
+&nbsp;    private ImageIcon getImageIcon(String path) {
+<b class="nc">&nbsp;        BufferedImage img = null;</b>
+&nbsp;        try {
+<b class="nc">&nbsp;            img = ImageIO.read(this.getClass().getClassLoader().getResource(path));</b>
+<b class="nc">&nbsp;        } catch (IOException e) {</b>
+<b class="nc">&nbsp;            throw new RuntimeException(e);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        return new ImageIcon(img.getScaledInstance(300, 180, Image.SCALE_DEFAULT));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Getter for play action wrapped in a card component class
+&nbsp;     * @return the card component representing the play
+&nbsp;     */
+&nbsp;    public CardComponent getPlayChoice() {
+<b class="nc">&nbsp;        CardComponent c=new CardComponent(new StartingCard(choice),playerPanel.getPlayPosition().getRow()-playerPanel.getCenterRow(), playerPanel.getPlayPosition().getCol()-playerPanel.getCenterCol(),0);</b>
+<b class="nc">&nbsp;        c.setFlipped(isFacedown[choice]);</b>
+<b class="nc">&nbsp;        return c;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * allows the player to confirm the play action through a confirm dialog after checking both position and hand are chosen.
+&nbsp;     * Also check that it&#39;s the player&#39;s turn with the playing attribute
+&nbsp;     */
+&nbsp;    private void confirmPlay(){
+<b class="nc">&nbsp;        if (playing){</b>
+<b class="nc">&nbsp;            CardComponent c=playerPanel.getPlayPosition();</b>
+<b class="nc">&nbsp;            if(selectedLabel!=null &amp;&amp; c!=null){</b>
+<b class="nc">&nbsp;                int i=JOptionPane.showConfirmDialog(this,&quot;Confirm the play of the card N. &quot;+choice+1+&quot; in the position: &quot; + c.getRow()+&quot;,&quot;+c.getCol()+ &quot; ?\n&quot;);</b>
+<b class="nc">&nbsp;                if(i==0) {//la giocata viene confermata</b>
+<b class="nc">&nbsp;                    hidePlayButton();</b>
+<b class="nc">&nbsp;                    selectedLabel.setBorder(new LineBorder(Color.RED, 4));</b>
+<b class="nc">&nbsp;                    synchronized (lock){lock.notifyAll();}</b>
+&nbsp;                }
+<b class="nc">&nbsp;            } else JOptionPane.showMessageDialog(this,&quot;Remember to select a position where to play the card, then click on the chosen card play button&quot;);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Updates the panel with the new info. Also calls the update method on his player panel.
+&nbsp;     * @param playerView the updated player info
+&nbsp;     * @param playing indicates whether it&#39;s the player&#39;s turn. If true calls the show play button method.
+&nbsp;     */
+&nbsp;    void update(PlayerView playerView, boolean playing ) {
+<b class="nc">&nbsp;        this.playing=playing;</b>
+<b class="nc">&nbsp;        if (playing) {</b>
+<b class="nc">&nbsp;            showPlayButton();</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if(playerView==null) return;</b>
+&nbsp;
+<b class="nc">&nbsp;        if (selectedLabel!=null) selectedLabel.setBorder(null);</b>
+<b class="nc">&nbsp;        for (int i=0; i&lt;3; i++) {</b>
+&nbsp;            //Aggiorno le carte nella mano
+<b class="nc">&nbsp;            if(playerView.hand.handCards[i]==null){</b>
+<b class="nc">&nbsp;                cardsID[i]=-1;</b>
+<b class="nc">&nbsp;                isFacedown[i]=false;</b>
+<b class="nc">&nbsp;                labels.get(i).setIcon(possiblePlayImage);</b>
+&nbsp;            }
+&nbsp;            else {
+<b class="nc">&nbsp;                if (cardsID[i]!=playerView.hand.handCards[i].getID()){</b>
+<b class="nc">&nbsp;                    cardsID[i]=playerView.hand.handCards[i].getID();</b>
+<b class="nc">&nbsp;                    isFacedown[i]=false;</b>
+<b class="nc">&nbsp;                    labels.get(i).setIcon(getImageIcon(GUI.getCardPath(cardsID[i],isFacedown[i])));</b>
+&nbsp;                }
+&nbsp;            }
+&nbsp;        }
+&nbsp;        //aggiorno le carte giocate
+<b class="nc">&nbsp;        playerPanel.update(playerView);</b>
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-07-03 15:07</div>
+</div>
+</body>
+</html>

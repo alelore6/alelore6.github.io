@@ -1,0 +1,160 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > WrongPlayException</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.Exceptions</a>
+</div>
+
+<h1>Coverage Summary for Class: WrongPlayException (it.polimi.ingsw.Exceptions)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">WrongPlayException</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    75%
+  </span>
+  <span class="absValue">
+    (9/12)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (10/10)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw.Exceptions;
+&nbsp;
+&nbsp;import it.polimi.ingsw.Model.Card;
+&nbsp;import it.polimi.ingsw.Model.Player;
+&nbsp;
+&nbsp;/**
+&nbsp; * Exception that is thrown if the play is not valid
+&nbsp; * contains the information about the play
+&nbsp; */
+&nbsp;public class WrongPlayException extends Throwable{
+&nbsp;    /**
+&nbsp;     * the player that makes the play
+&nbsp;     */
+&nbsp;    public final Player player;
+&nbsp;    /**
+&nbsp;     * message that will be sent to the client describing the cause of the exception
+&nbsp;     */
+&nbsp;    public final String message;
+&nbsp;    /**
+&nbsp;     * the card that should have been played
+&nbsp;     */
+&nbsp;    public final Card card;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Constructor
+&nbsp;     * @param player the player that causes the exception
+&nbsp;     * @param x the x-axis coordinate where the card cant be played
+&nbsp;     * @param y the y-axis coordinate where the card cant be played
+&nbsp;     * negative values for x and y represent specific types of error
+&nbsp;     * @param card the card that cant be played
+&nbsp;     */
+&nbsp;    public WrongPlayException(Player player,int x,int y, Card card){
+<b class="fc">&nbsp;        super(&quot;Wrong play : try again&quot;);</b>
+<b class="fc">&nbsp;        this.player=player;</b>
+<b class="fc">&nbsp;        this.card=card;</b>
+<b class="pc">&nbsp;        if (x==-1 &amp;&amp; y==-1){</b>
+<b class="fc">&nbsp;            message= &quot;Error: the card cant be found in the hand of the player&quot;;</b>
+<b class="pc">&nbsp;        } else if (x==-2 &amp;&amp; y==-2) {</b>
+<b class="fc">&nbsp;            message= &quot;Error: the card doesnt overlap any corner&quot;;</b>
+<b class="pc">&nbsp;        } else if (x==-3 &amp;&amp; y==-3) {</b>
+<b class="fc">&nbsp;            message=&quot;Error: the player doesnt have enough resources to play that card&quot;;</b>
+<b class="fc">&nbsp;        } else message= &quot;Error: the card cant be played in the position: &quot; + (x - 40) + &quot;, &quot; + (y - 40);</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-07-03 15:07</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,435 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > ServerImpl</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.Distributed</a>
+</div>
+
+<h1>Coverage Summary for Class: ServerImpl (it.polimi.ingsw.Distributed)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ServerImpl</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/11)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/34)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/86)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">ServerImpl$MockitoMock$138751160</td>
+  </tr>
+  <tr>
+    <td class="name">ServerImpl$MockitoMock$138751160$auxiliary$0hfMOGDx</td>
+  </tr>
+  <tr>
+    <td class="name">ServerImpl$MockitoMock$138751160$auxiliary$2ZwmReJL</td>
+  </tr>
+  <tr>
+    <td class="name">ServerImpl$MockitoMock$138751160$auxiliary$68g359DB</td>
+  </tr>
+  <tr>
+    <td class="name">ServerImpl$MockitoMock$138751160$auxiliary$88RVghvI</td>
+  </tr>
+  <tr>
+    <td class="name">ServerImpl$MockitoMock$138751160$auxiliary$BMj4hDhC</td>
+  </tr>
+  <tr>
+    <td class="name">ServerImpl$MockitoMock$138751160$auxiliary$OxG2c8eV</td>
+  </tr>
+  <tr>
+    <td class="name">ServerImpl$MockitoMock$138751160$auxiliary$RAtuezt1</td>
+  </tr>
+  <tr>
+    <td class="name">ServerImpl$MockitoMock$138751160$auxiliary$RtyyEf95</td>
+  </tr>
+  <tr>
+    <td class="name">ServerImpl$MockitoMock$138751160$auxiliary$T69YpWoV</td>
+  </tr>
+  <tr>
+    <td class="name">ServerImpl$MockitoMock$138751160$auxiliary$vZrcRcY7</td>
+  </tr>
+  <tr>
+    <td class="name">ServerImpl$MockitoMock$138751160$auxiliary$xw5RWRtT</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/11)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/34)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/86)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw.Distributed;
+&nbsp;
+&nbsp;import it.polimi.ingsw.Controller.Controller;
+&nbsp;import it.polimi.ingsw.Controller.Logger;
+&nbsp;import it.polimi.ingsw.Controller.Severity;
+&nbsp;import it.polimi.ingsw.Distributed.Middleware.ClientSkeleton;
+&nbsp;import it.polimi.ingsw.Events.*;
+&nbsp;import it.polimi.ingsw.Listeners.ModelViewListener;
+&nbsp;import it.polimi.ingsw.ServerApp;
+&nbsp;
+&nbsp;import java.rmi.RemoteException;
+&nbsp;import java.rmi.server.UnicastRemoteObject;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.HashMap;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;import static java.lang.Thread.sleep;
+&nbsp;
+&nbsp;/**
+&nbsp; * Class representing a server instance.
+&nbsp; */
+&nbsp;public class ServerImpl extends UnicastRemoteObject implements Server{
+&nbsp;
+&nbsp;    /**
+&nbsp;     * The server application.
+&nbsp;     */
+&nbsp;    private final ServerApp serverApp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Attribute that counts how many FinalRankings the server has sent.
+&nbsp;     */
+<b class="nc">&nbsp;    private volatile int endSent = 0;</b>
+&nbsp;    /**
+&nbsp;     * List of players to be deleted from the main list.
+&nbsp;     */
+<b class="nc">&nbsp;    private ArrayList&lt;String&gt; toDelete = new ArrayList&lt;&gt;();</b>
+&nbsp;    /**
+&nbsp;     * Attribute representing how often the server pings the clients (in milliseconds).
+&nbsp;     */
+&nbsp;    public static final int PING_INTERVAL = 3000;
+&nbsp;    /**
+&nbsp;     * The controller of MVC pattern.
+&nbsp;     */
+<b class="nc">&nbsp;    public final Controller controller = new Controller(this);</b>
+&nbsp;    /**
+&nbsp;     * The logger.
+&nbsp;     */
+&nbsp;    public Logger logger;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This lock allows serializing the incoming events from possible multiple clients, e.g.:
+&nbsp;     * if two clients connect at almost the same time, only one (the first) will have the NumPlayerRequest event.
+&nbsp;     */
+<b class="nc">&nbsp;    private Object lock_update = new Object();</b>
+&nbsp;    /**
+&nbsp;     * This lock allows the synchronization of the endSent attribute incrementation.
+&nbsp;     */
+<b class="nc">&nbsp;    private Object lock_end = new Object();</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Hash map that links a nickname to its specific client instance. Notice that, in case of
+&nbsp;     * a disconnection and then a rejoining, the particular instance changes.
+&nbsp;     */
+<b class="nc">&nbsp;    private final HashMap&lt;String, Client&gt; clients = new HashMap&lt;&gt;();</b>
+&nbsp;    /**
+&nbsp;     * List of nicknames that have been disconnected from the game.
+&nbsp;     */
+<b class="nc">&nbsp;    public final List&lt;String&gt; disconnectedClients = new ArrayList&lt;&gt;();</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Constructor with the default RMI port.
+&nbsp;     * @param serverApp the server application that starts the server
+&nbsp;     * @param logger the logger of the app
+&nbsp;     * @throws RemoteException default rmi exception
+&nbsp;     */
+&nbsp;    public ServerImpl(ServerApp serverApp, Logger logger) throws RemoteException {
+<b class="nc">&nbsp;        super();</b>
+<b class="nc">&nbsp;        this.serverApp = serverApp;</b>
+<b class="nc">&nbsp;        this.logger = logger;</b>
+<b class="nc">&nbsp;        pong();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Method to pong the RMI clients
+&nbsp;     * @see it.polimi.ingsw.ClientApp
+&nbsp;     */
+<b class="nc">&nbsp;    public void ping(){}</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Method to register a client in the game.
+&nbsp;     * @param client the client that is registering
+&nbsp;     * @throws RemoteException default rmi exception
+&nbsp;     */
+&nbsp;    public void register(Client client) throws RemoteException{
+<b class="nc">&nbsp;        boolean isReconnected = false;</b>
+&nbsp;
+<b class="nc">&nbsp;        synchronized(clients){</b>
+&nbsp;            // Initialize of a client
+<b class="nc">&nbsp;            String oldNickname = client.getNickname();</b>
+&nbsp;
+<b class="nc">&nbsp;            String temp = oldNickname;</b>
+&nbsp;
+<b class="nc">&nbsp;            while(clients.containsKey(temp)){</b>
+&nbsp;                // An identical nickname has been found and adds a sequential number at the end of the nickname.
+<b class="nc">&nbsp;                temp = temp + &quot;.&quot; + clients.size();</b>
+&nbsp;            }
+&nbsp;
+<b class="nc">&nbsp;            synchronized(disconnectedClients){</b>
+<b class="nc">&nbsp;                if(disconnectedClients.contains(client.getNickname()))</b>
+<b class="nc">&nbsp;                    isReconnected = true;</b>
+&nbsp;                else
+<b class="nc">&nbsp;                    clients.put(temp, client);</b>
+<b class="nc">&nbsp;            }</b>
+&nbsp;
+&nbsp;            // if MALEDETTO (RIP)
+<b class="nc">&nbsp;            if(!(client instanceof ClientSkeleton) &amp;&amp; !isReconnected)</b>
+<b class="nc">&nbsp;                System.out.println(temp + &quot; is connected with RMI.&quot;);</b>
+&nbsp;
+&nbsp;            ModelViewListener listener;
+&nbsp;
+<b class="nc">&nbsp;            synchronized(controller.getMVListeners()){</b>
+&nbsp;                // If the client is not rejoining, but it&#39;s joining for the first time
+<b class="nc">&nbsp;                if(controller.getMVListenerByNickname(temp) == null)</b>
+<b class="nc">&nbsp;                     listener = new ModelViewListener(this, client);</b>
+<b class="nc">&nbsp;                else listener = controller.getMVListenerByNickname(client.getNickname());</b>
+&nbsp;
+<b class="nc">&nbsp;                if(isReconnected){</b>
+&nbsp;                    // This starts the handle event
+<b class="nc">&nbsp;                    controller.addTempMVL(listener);</b>
+<b class="nc">&nbsp;                    listener.addEvent(new ReconnectionRequest(client.getNickname()));</b>
+&nbsp;                }
+&nbsp;                else{
+&nbsp;                    // This starts the handle event
+<b class="nc">&nbsp;                    if(!controller.getMVListeners().contains(listener))</b>
+<b class="nc">&nbsp;                        controller.addMVListener(listener);</b>
+&nbsp;
+<b class="nc">&nbsp;                    client.setNickname(temp);</b>
+<b class="nc">&nbsp;                    clients.replace(temp, client);</b>
+<b class="nc">&nbsp;                    listener.nickname = temp;</b>
+&nbsp;                }
+<b class="nc">&nbsp;            }</b>
+<b class="nc">&nbsp;            if(!isReconnected)  controller.addPlayerToLobby(temp, listener, oldNickname);</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Method to ping RMI clients and check their connection state.
+&nbsp;     */
+&nbsp;    private void pong(){
+&nbsp;        // Thread for periodic controls.
+<b class="nc">&nbsp;        new Thread(() -&gt; {</b>
+&nbsp;            while (true) {
+<b class="nc">&nbsp;                synchronized (clients){</b>
+<b class="nc">&nbsp;                    synchronized(toDelete){</b>
+<b class="nc">&nbsp;                        for (String nickname : clients.keySet()) {</b>
+<b class="nc">&nbsp;                            if(!(clients.get(nickname) instanceof ClientSkeleton)){</b>
+&nbsp;                                try {
+<b class="nc">&nbsp;                                    clients.get(nickname).ping();</b>
+<b class="nc">&nbsp;                                } catch (RemoteException e) {</b>
+<b class="nc">&nbsp;                                    disconnectPlayer(nickname);</b>
+&nbsp;                                }
+&nbsp;                            }
+&nbsp;                        }
+<b class="nc">&nbsp;                        for(int i = 0; i &lt; toDelete.size(); i++){</b>
+<b class="nc">&nbsp;                            clients.remove(toDelete.get(i));</b>
+<b class="nc">&nbsp;                            toDelete.remove(i);</b>
+&nbsp;                        }
+<b class="nc">&nbsp;                    }</b>
+<b class="nc">&nbsp;                }</b>
+&nbsp;
+&nbsp;                try {
+<b class="nc">&nbsp;                    sleep(PING_INTERVAL);</b>
+<b class="nc">&nbsp;                } catch (InterruptedException e) {</b>
+<b class="nc">&nbsp;                    e.printStackTrace();</b>
+&nbsp;                }
+&nbsp;            }
+<b class="nc">&nbsp;        }).start();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Method to disconnect a player from the server.
+&nbsp;     * @param nickname the nickname of the player that has disconnected
+&nbsp;     */
+&nbsp;    public void disconnectPlayer(String nickname){
+<b class="nc">&nbsp;        System.err.println(nickname + &quot; is disconnected.&quot;);</b>
+&nbsp;
+<b class="nc">&nbsp;        toDelete.add(nickname);</b>
+&nbsp;
+<b class="nc">&nbsp;        synchronized(disconnectedClients){</b>
+<b class="nc">&nbsp;            if(controller.getGame().isStarted)</b>
+<b class="nc">&nbsp;                disconnectedClients.add(nickname);</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;
+<b class="nc">&nbsp;        ModelViewListener listener = controller.getMVListenerByNickname(nickname);</b>
+&nbsp;
+<b class="nc">&nbsp;        if(listener != null) listener.stop();</b>
+&nbsp;
+<b class="nc">&nbsp;        synchronized (controller.getMVListeners()){</b>
+<b class="nc">&nbsp;            controller.getMVListeners().remove(listener);</b>
+<b class="nc">&nbsp;            if(controller.getMVListeners().size() == 0) controller.getGame().isFinished = true;</b>
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        controller.disconnectPlayer(nickname);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Method to update the server with respect to the incoming event.
+&nbsp;     * @param client the sender of the event
+&nbsp;     * @param event the received event
+&nbsp;     * @throws RemoteException default rmi exception
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void update(Client client, GenericEvent event) throws RemoteException{
+&nbsp;        // If a client is connected with RMI.
+<b class="nc">&nbsp;        if(!(client instanceof ClientSkeleton))</b>
+&nbsp;
+<b class="nc">&nbsp;            logger.addLog(event, Severity.RECEIVED);</b>
+<b class="nc">&nbsp;        synchronized(lock_update){</b>
+<b class="nc">&nbsp;            if(event instanceof ClientRegister){</b>
+<b class="nc">&nbsp;                client.setNickname(((ClientRegister) event).getNickname());</b>
+<b class="nc">&nbsp;                register(client);</b>
+&nbsp;            }
+&nbsp;            else{
+<b class="nc">&nbsp;                if(event instanceof ReconnectionResponse)</b>
+<b class="nc">&nbsp;                    ((ReconnectionResponse) event).client = client;</b>
+&nbsp;
+&nbsp;                //client has responded to a request to modify the model
+<b class="nc">&nbsp;                controller.updateModel(event, client.getNickname());</b>
+&nbsp;            }
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Getter for the clients hash map.
+&nbsp;     * @return the hashmap of clients and their nicknames
+&nbsp;     */
+&nbsp;    public HashMap&lt;String, Client&gt; getClients(){
+<b class="nc">&nbsp;        return clients;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Method to increment the attribute &#39;endSent&#39; by one.
+&nbsp;     */
+&nbsp;    public void notifyEndSent(){
+&nbsp;        // If I synchronize this method, it simply doesn&#39;t work properly:
+&nbsp;        // at the end the server and the clients don&#39;t close properly.
+<b class="nc">&nbsp;        synchronized (lock_end){</b>
+<b class="nc">&nbsp;            endSent++;</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Getter for the attribute &#39;endSent&#39;.
+&nbsp;     * @return the number of game over event that has been sent
+&nbsp;     */
+&nbsp;    public int getEndSent() {
+<b class="nc">&nbsp;        return endSent;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Method to stop the server.
+&nbsp;     */
+&nbsp;    public synchronized void restart(){
+&nbsp;
+&nbsp;        // System.exit(0);
+&nbsp;
+<b class="nc">&nbsp;        serverApp.stop();</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-07-03 15:07</div>
+</div>
+</body>
+</html>

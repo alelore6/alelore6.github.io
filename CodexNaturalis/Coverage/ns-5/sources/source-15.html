@@ -1,0 +1,191 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > PlayCardRequest</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.Events</a>
+</div>
+
+<h1>Coverage Summary for Class: PlayCardRequest (it.polimi.ingsw.Events)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">PlayCardRequest</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    16,7%
+  </span>
+  <span class="absValue">
+    (1/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    18,2%
+  </span>
+  <span class="absValue">
+    (2/11)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw.Events;
+&nbsp;
+&nbsp;import it.polimi.ingsw.Model.Card;
+&nbsp;import it.polimi.ingsw.Model.CurrentResources;
+&nbsp;import it.polimi.ingsw.Model.PlayableCard;
+&nbsp;import it.polimi.ingsw.ModelView.GameView;
+&nbsp;import it.polimi.ingsw.ModelView.PlayerView;
+&nbsp;import it.polimi.ingsw.ModelView.TableCenterView;
+&nbsp;
+&nbsp;/**
+&nbsp; * Event that represent the model request to play a card to a player
+&nbsp; */
+&nbsp;public class PlayCardRequest extends GenericRequest {
+&nbsp;    /**
+&nbsp;     * the game info at the moment of the request
+&nbsp;     */
+&nbsp;    public final GameView gameView;
+&nbsp;    /**
+&nbsp;     * Constructor
+&nbsp;     * @param nickname the player that receives the event
+&nbsp;     * @param gameView the game info at the moment of the event
+&nbsp;     */
+&nbsp;    public PlayCardRequest(String nickname, GameView gameView){
+<b class="fc">&nbsp;        super(&quot;Now it&#39;s time to play a card. Choose a card from your hand and a position where the card will be played.\n&quot;,nickname);</b>
+<b class="fc">&nbsp;        this.gameView = gameView;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Getter for the player view of the receiver of the event
+&nbsp;     * @param nickname the player nickname
+&nbsp;     * @return the player info
+&nbsp;     */
+&nbsp;    public PlayerView getPlayerView(String nickname) {
+<b class="nc">&nbsp;        return gameView.getPlayerViewByNickname(nickname);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Getter for the table center view
+&nbsp;     * @return the table center view
+&nbsp;     */
+&nbsp;    public TableCenterView getTableView() {
+<b class="nc">&nbsp;        return gameView.tableCenterView;</b>
+&nbsp;    }
+&nbsp;    /**
+&nbsp;     * Getter for the event message in a cli friendly format
+&nbsp;     * @return the message
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public String msgOutput(){
+<b class="nc">&nbsp;        String s = super.msgOutput() + &quot;Select a card:\n&quot;;</b>
+&nbsp;
+<b class="nc">&nbsp;        for(int i = 0; i &lt; 3; i++){</b>
+<b class="nc">&nbsp;            if(getPlayerView(nickname).hand.handCards[i] != null){</b>
+<b class="nc">&nbsp;                s = s + &quot;(&quot; + (i+1) + &quot;)&quot; + &quot;: &quot; + String.valueOf(getPlayerView(nickname).hand.handCards[i].getID()) + &quot;\n&quot;;</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        return s;</b>
+&nbsp;    }
+&nbsp;    /**
+&nbsp;     * Getter for the second part of the event message in a cli friendly format
+&nbsp;     * @return the message
+&nbsp;     */
+&nbsp;    public String msgOutput2(){
+<b class="nc">&nbsp;        return &quot;Enter (1) if you want the card faced up, (2) if faced down: &quot;;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Getter for the third part of the event message in a cli friendly format
+&nbsp;     * @return the message
+&nbsp;     */
+&nbsp;    public String msgOutput3(){
+<b class="nc">&nbsp;        return &quot;Now enter the two coordinates (first row, then column) where the card will be placed (look at the grid for help): &quot;;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-07-03 15:07</div>
+</div>
+</body>
+</html>

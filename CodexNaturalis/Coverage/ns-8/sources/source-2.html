@@ -1,0 +1,353 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > ModelViewListener</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.Listeners</a>
+</div>
+
+<h1>Coverage Summary for Class: ModelViewListener (it.polimi.ingsw.Listeners)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ModelViewListener</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/20)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">ModelViewListener$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/28)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/35)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">ModelViewListener$MockitoMock$1272709550</td>
+  </tr>
+  <tr>
+    <td class="name">ModelViewListener$MockitoMock$1272709550$auxiliary$6hccfODX</td>
+  </tr>
+  <tr>
+    <td class="name">ModelViewListener$MockitoMock$1272709550$auxiliary$Im77Dsbg</td>
+  </tr>
+  <tr>
+    <td class="name">ModelViewListener$MockitoMock$1272709550$auxiliary$IS4mpsd0</td>
+  </tr>
+  <tr>
+    <td class="name">ModelViewListener$MockitoMock$1272709550$auxiliary$MeXs0sif</td>
+  </tr>
+  <tr>
+    <td class="name">ModelViewListener$MockitoMock$1272709550$auxiliary$MzHcuW1d</td>
+  </tr>
+  <tr>
+    <td class="name">ModelViewListener$MockitoMock$1272709550$auxiliary$WJVBcnj0</td>
+  </tr>
+  <tr>
+    <td class="name">ModelViewListener$MockitoMock$1272709550$auxiliary$xNXVtKQl</td>
+  </tr>
+  <tr>
+    <td class="name">ModelViewListener$MockitoMock$1272709550$auxiliary$zrjvVaqA</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/36)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/55)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw.Listeners;
+&nbsp;
+&nbsp;import it.polimi.ingsw.Controller.Severity;
+&nbsp;import it.polimi.ingsw.Distributed.*;
+&nbsp;import it.polimi.ingsw.Distributed.Middleware.ClientSkeleton;
+&nbsp;import it.polimi.ingsw.Events.*;
+&nbsp;
+&nbsp;import java.rmi.RemoteException;
+&nbsp;import java.util.LinkedList;
+&nbsp;import java.util.Queue;
+&nbsp;
+&nbsp;/**
+&nbsp; * Listener from model to view, i.e., server to client.
+&nbsp; */
+&nbsp;public class ModelViewListener extends Listener {
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Attribute containing the last request sent.
+&nbsp;     */
+&nbsp;    private GenericRequest lastRequest;
+&nbsp;    /**
+&nbsp;     * Attribute representing the number of requests sent without the corresponding response.
+&nbsp;     * In order for the listener to send a new request, this must be zero.
+&nbsp;     */
+<b class="nc">&nbsp;    private int requestEventIndex = 0;</b>
+&nbsp;    /**
+&nbsp;     * The client associated with the listener.
+&nbsp;     */
+&nbsp;    private final Client client;
+&nbsp;    /**
+&nbsp;     * The nickname of the user associated with the listener.
+&nbsp;     */
+&nbsp;    public String nickname;
+&nbsp;    /**
+&nbsp;     * The list of chat messages.
+&nbsp;     */
+<b class="nc">&nbsp;    private final Queue&lt;ChatMessage&gt; chatMessages = new LinkedList&lt;ChatMessage&gt;();</b>
+&nbsp;    /**
+&nbsp;     * The server bound to this specific listener.
+&nbsp;     * The listener will pass the information to the server which will likewise, pass it to the client
+&nbsp;     */
+&nbsp;    private final ServerImpl server;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Constructor
+&nbsp;     *
+&nbsp;     * Class that represents the listener situated between the Model and the View.
+&nbsp;     * This listener will receive updates from the model and will pass them to the specific view, which will be updated aswell.
+&nbsp;     * @param server the server that will receive the updates from this listener
+&nbsp;     * @param client the client that sends the updates to this listener
+&nbsp;     * @throws RemoteException default rmi exception
+&nbsp;     */
+<b class="nc">&nbsp;    public ModelViewListener(ServerImpl server, Client client) throws RemoteException {</b>
+<b class="nc">&nbsp;        this.server = server;</b>
+<b class="nc">&nbsp;        this.client = client;</b>
+<b class="nc">&nbsp;        this.nickname = client.getNickname();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * method override from abstract super class Listener
+&nbsp;     * It will pass it to the server and then if the event was indeed received correctly,
+&nbsp;     * it will finally remove it from the queue.
+&nbsp;     * @throws RemoteException remote exception for RMI connection
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void handleEvent() throws RemoteException {
+<b class="nc">&nbsp;        new Thread(){</b>
+&nbsp;            @Override
+&nbsp;            public void run() {
+<b class="nc">&nbsp;                while(running) {</b>
+<b class="nc">&nbsp;                    synchronized (lock_queue) {</b>
+&nbsp;
+<b class="nc">&nbsp;                        if(!chatMessages.isEmpty()) {</b>
+&nbsp;                            try {
+<b class="nc">&nbsp;                                if(!(client instanceof ClientSkeleton)) server.logger.addLog(&quot;CHAT&quot;, Severity.SENDING);</b>
+<b class="nc">&nbsp;                                client.update(chatMessages.poll());</b>
+<b class="nc">&nbsp;                                if(!(client instanceof ClientSkeleton)) server.logger.addLog(&quot;CHAT&quot;, Severity.SENT);</b>
+<b class="nc">&nbsp;                            } catch (RemoteException e) {</b>
+<b class="nc">&nbsp;                                throw new RuntimeException(e);</b>
+&nbsp;                            }
+&nbsp;                        }
+<b class="nc">&nbsp;                        if(ack != null){</b>
+&nbsp;                            try {
+<b class="nc">&nbsp;                                client.update(ack);</b>
+&nbsp;
+<b class="nc">&nbsp;                                if(!ack.ok){</b>
+<b class="nc">&nbsp;                                    client.update(lastRequest);</b>
+&nbsp;
+<b class="nc">&nbsp;                                    requestEventIndex++;</b>
+&nbsp;                                }
+<b class="nc">&nbsp;                            } catch (RemoteException e) {</b>
+<b class="nc">&nbsp;                                throw new RuntimeException(e);</b>
+&nbsp;                            }
+<b class="nc">&nbsp;                            requestEventIndex--;</b>
+<b class="nc">&nbsp;                            ack = null;</b>
+&nbsp;                        }
+<b class="nc">&nbsp;                        else if(!getEventQueue().isEmpty()){</b>
+<b class="nc">&nbsp;                            GenericEvent currentEvent = getEventQueue().poll(); //remove and return the first queue element</b>
+&nbsp;
+&nbsp;                            try{
+&nbsp;
+<b class="nc">&nbsp;                                if (requestEventIndex == 0 || currentEvent instanceof ServerMessage) {</b>
+<b class="nc">&nbsp;                                    if (currentEvent instanceof GenericRequest) {</b>
+<b class="nc">&nbsp;                                        lastRequest = (GenericRequest) currentEvent;</b>
+<b class="nc">&nbsp;                                        requestEventIndex++;</b>
+&nbsp;                                    }
+&nbsp;
+<b class="nc">&nbsp;                                    if(!(client instanceof ClientSkeleton)){</b>
+<b class="nc">&nbsp;                                        server.logger.addLog(currentEvent, Severity.SENDING);</b>
+&nbsp;
+<b class="nc">&nbsp;                                        client.update(currentEvent);</b>
+&nbsp;
+<b class="nc">&nbsp;                                        server.logger.addLog(currentEvent, Severity.SENT);</b>
+&nbsp;                                    }
+<b class="nc">&nbsp;                                    else client.update(currentEvent);</b>
+&nbsp;
+<b class="nc">&nbsp;                                    if(currentEvent instanceof FinalRankings) ModelViewListener.this.stop();</b>
+<b class="nc">&nbsp;                                    else if(currentEvent instanceof ErrorJoinLobby) server.controller.deleteClient(client);</b>
+&nbsp;                                }
+&nbsp;                                else{
+<b class="nc">&nbsp;                                    getEventQueue().addFirst(currentEvent);</b>
+&nbsp;                                }
+<b class="nc">&nbsp;                            }catch(RemoteException e) {</b>
+<b class="nc">&nbsp;                                if(!(currentEvent instanceof FinalRankings)) System.err.println(&quot;Can&#39;t communicate with &quot; + nickname + &quot;.&quot;);</b>
+&nbsp;                            }
+&nbsp;                        }
+<b class="nc">&nbsp;                    }</b>
+&nbsp;                }
+&nbsp;            }
+<b class="nc">&nbsp;        }.start();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Method to add a chat message to the specific list.
+&nbsp;     * @param message the received chat message
+&nbsp;     */
+&nbsp;    public void addChatMessage(ChatMessage message) {
+<b class="nc">&nbsp;        synchronized (lock_queue) {</b>
+<b class="nc">&nbsp;            chatMessages.add(message);</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Method to stop the running threads.
+&nbsp;     */
+&nbsp;    public void stop(){
+<b class="nc">&nbsp;        running = false;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Method to handle the event to be sent to the corresponding client.
+&nbsp;     * @param event event to be handled.
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public synchronized void addEvent(GenericEvent event) {
+&nbsp;        // This is for stopping the check for 0/1 remaining player situation.
+<b class="nc">&nbsp;        if(event instanceof FinalRankings)</b>
+<b class="nc">&nbsp;            server.controller.getGame().stop();</b>
+&nbsp;
+<b class="nc">&nbsp;        synchronized (lock_queue) {</b>
+<b class="nc">&nbsp;            if(event instanceof AckResponse)        ack = (AckResponse) event;</b>
+<b class="nc">&nbsp;            else if(event instanceof ChatMessage)   chatMessages.add((ChatMessage) event);</b>
+<b class="nc">&nbsp;            else if(event instanceof ServerMessage) getEventQueue().addFirst(event);</b>
+<b class="nc">&nbsp;            else                                    getEventQueue().add(event);</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-07-03 15:07</div>
+</div>
+</body>
+</html>

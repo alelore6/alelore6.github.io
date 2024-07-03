@@ -1,0 +1,163 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > ObjectiveCard2</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.Model</a>
+</div>
+
+<h1>Coverage Summary for Class: ObjectiveCard2 (it.polimi.ingsw.Model)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ObjectiveCard2</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (3/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (4/4)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">ObjectiveCard2$MockitoMock$1117294955</td>
+  </tr>
+  <tr>
+    <td class="name">ObjectiveCard2$MockitoMock$1117294955$auxiliary$2ZHlHD1t</td>
+  </tr>
+  <tr>
+    <td class="name">ObjectiveCard2$MockitoMock$1117294955$auxiliary$m6tMn6Ga</td>
+  </tr>
+  <tr>
+    <td class="name">ObjectiveCard2$MockitoMock$1117294955$auxiliary$po2yW2Q0</td>
+  </tr>
+  <tr>
+    <td class="name">ObjectiveCard2$MockitoMock$1117294955$auxiliary$rD92c2eL</td>
+  </tr>
+  <tr>
+    <td class="name">ObjectiveCard2$MockitoMock$1117294955$auxiliary$Ui0auYFO</td>
+  </tr>
+  <tr>
+    <td class="name">ObjectiveCard2$MockitoMock$1117294955$auxiliary$vM0RJIZm</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (3/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (4/4)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw.Model;
+&nbsp;
+&nbsp;import java.util.HashMap;
+&nbsp;import java.util.Map;
+&nbsp;
+&nbsp;/**
+&nbsp; * ObjectiveCard2 represents the second type of objective, those that add points to your score if the number of resources required is present on your game board.
+&nbsp; */
+<b class="fc">&nbsp;public class ObjectiveCard2 extends ObjectiveCard {</b>
+&nbsp;    /**
+&nbsp;     * reqMap is a map that holds the required resources and their corresponding points values.
+&nbsp;     */
+<b class="fc">&nbsp;    private Map&lt;Resource, Integer&gt; reqMap = new HashMap&lt;Resource, Integer&gt;();</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * getReqMap is the getter to know about the value of points bonus of an objective card associated with its resource requirements.
+&nbsp;     * @return the value of points bonus of an objective card associated with its resource requirements.
+&nbsp;     */
+&nbsp;    public Map&lt;Resource, Integer&gt; getReqMap() {
+<b class="fc">&nbsp;        return reqMap;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     *  addReqMap adds to a resource  its corresponding value of points bonus.
+&nbsp;     * @param resource the resource required to be added.
+&nbsp;     * @param value value of points that the satisfaction of requirements bestow to the score of a player.
+&nbsp;     */
+&nbsp;    public void addReqMap(Resource resource, int value){
+<b class="fc">&nbsp;        reqMap.put(resource, value);</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-07-03 15:07</div>
+</div>
+</body>
+</html>

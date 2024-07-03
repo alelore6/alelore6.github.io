@@ -1,0 +1,377 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > PlayedCardsPanel</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.Graphical</a>
+</div>
+
+<h1>Coverage Summary for Class: PlayedCardsPanel (it.polimi.ingsw.Graphical)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">PlayedCardsPanel</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/40)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/74)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">PlayedCardsPanel$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/10)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/10)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/46)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/84)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw.Graphical;
+&nbsp;
+&nbsp;import it.polimi.ingsw.Model.Card;
+&nbsp;import it.polimi.ingsw.Model.ResourceCard;
+&nbsp;import it.polimi.ingsw.Model.StartingCard;
+&nbsp;import it.polimi.ingsw.View.GUI;
+&nbsp;import javax.imageio.ImageIO;
+&nbsp;import javax.swing.*;
+&nbsp;import java.awt.*;
+&nbsp;import java.awt.event.MouseAdapter;
+&nbsp;import java.awt.event.MouseEvent;
+&nbsp;import java.awt.image.BufferedImage;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.Comparator;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;/**
+&nbsp; * the panel that contains all the played cards of the player
+&nbsp; */
+&nbsp;class PlayedCardsPanel extends JPanel {
+&nbsp;    /**
+&nbsp;     * the value that determines the overlapping of the images
+&nbsp;     */
+<b class="nc">&nbsp;    private final int overlapOffset = 50;</b>
+&nbsp;    /**
+&nbsp;     * the list of the cards info contained in the panel
+&nbsp;     */
+&nbsp;    private final List&lt;CardComponent&gt; cardComponents;
+&nbsp;    /**
+&nbsp;     * image that indicates a position where it&#39;s possible to play a card
+&nbsp;     */
+<b class="nc">&nbsp;    private BufferedImage possiblePlayImage =null;</b>
+&nbsp;    /**
+&nbsp;     * the selected possible play where a card will be played
+&nbsp;     */
+<b class="nc">&nbsp;    private CardComponent selectedCard=null;</b>
+<b class="nc">&nbsp;    private int center_row=1;</b>
+<b class="nc">&nbsp;    private int center_col=1;</b>
+<b class="nc">&nbsp;    private boolean playing=false;</b>
+<b class="nc">&nbsp;    private int numCards=0;</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Constructor where the cards are positioned for the first time
+&nbsp;     * @param matrix the player&#39;s played cards
+&nbsp;     * @param playing boolean that represent if the panel is contained in a personal panel or not. If true selection actions will be allowed
+&nbsp;     */
+<b class="nc">&nbsp;    public PlayedCardsPanel(Card[][] matrix, boolean playing) {</b>
+<b class="nc">&nbsp;        this.playing= playing;</b>
+<b class="nc">&nbsp;        this.cardComponents = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;        setBackground(Color.decode(&quot;#d9dbc1&quot;));</b>
+<b class="nc">&nbsp;        setLayout(null); // Layout manager nullo per posizionamento assoluto</b>
+&nbsp;
+&nbsp;        //carico immagine per possible-plays
+&nbsp;        try {
+<b class="nc">&nbsp;            possiblePlayImage =ImageIO.read(this.getClass().getClassLoader().getResource(&quot;assets/images/other/possible_play_image.png&quot;));</b>
+<b class="nc">&nbsp;        } catch (IOException e) {</b>
+<b class="nc">&nbsp;            throw new RuntimeException(e);</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        if (matrix==null) return;</b>
+<b class="nc">&nbsp;        int row = matrix.length;</b>
+<b class="nc">&nbsp;        int col= matrix[0].length;</b>
+&nbsp;
+&nbsp;        //prendo le carte nella matrice e le trasformo in card component
+<b class="nc">&nbsp;        for (int i = 0; i &lt; row; i++) {</b>
+<b class="nc">&nbsp;            for (int j = 0; j &lt; col; j++) {</b>
+<b class="nc">&nbsp;                if (matrix[i][j] != null) {</b>
+<b class="nc">&nbsp;                    if(matrix[i][j] instanceof StartingCard &amp;&amp; matrix[i][j].getID()&gt;0){</b>
+<b class="nc">&nbsp;                        center_row=i;</b>
+<b class="nc">&nbsp;                        center_col=j;</b>
+&nbsp;                    }
+<b class="nc">&nbsp;                    CardComponent c=new CardComponent(matrix[i][j], i, j,matrix[i][j].getPlayOrder());</b>
+<b class="nc">&nbsp;                    if (c.getCardID()!=-1) {</b>
+<b class="nc">&nbsp;                        c.setImage(getImage(GUI.getCardPath(matrix[i][j].getID(), matrix[i][j].isFacedown)));</b>
+<b class="nc">&nbsp;                        numCards++;</b>
+&nbsp;                    }
+<b class="nc">&nbsp;                    cardComponents.add(c);</b>
+&nbsp;                }
+&nbsp;            }
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        if(playing){</b>
+&nbsp;            //per i click per scegliere la posizione dove giocare
+<b class="nc">&nbsp;            addMouseListener(new MouseAdapter() {</b>
+&nbsp;                @Override
+&nbsp;                public void mouseClicked(MouseEvent e) {
+<b class="nc">&nbsp;                    Point clickPoint = e.getPoint();</b>
+<b class="nc">&nbsp;                    for (CardComponent c : cardComponents) {</b>
+<b class="nc">&nbsp;                        int x = c.getCol() * (250 - overlapOffset);</b>
+<b class="nc">&nbsp;                        int y = c.getRow() * (150 - overlapOffset);</b>
+<b class="nc">&nbsp;                        Rectangle imageBounds = new Rectangle(x, y, 250, 150);</b>
+<b class="nc">&nbsp;                        if (imageBounds.contains(clickPoint)) {</b>
+<b class="nc">&nbsp;                            if(c.getCardID()==-1){</b>
+&nbsp;                                //System.out.println(&quot;position chosen: &quot;+ (c.getRow()-center_row)+&quot;,&quot;+(c.getCol()-center_col));
+<b class="nc">&nbsp;                                selectedCard = c;</b>
+<b class="nc">&nbsp;                                repaint();</b>
+&nbsp;                            }
+&nbsp;                            break;
+&nbsp;                        }
+&nbsp;                    }
+&nbsp;                }
+&nbsp;            });
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * update the panel adding the new cards
+&nbsp;     * @param matrix the player&#39;s played cards
+&nbsp;     */
+&nbsp;    void update(Card[][] matrix){
+<b class="nc">&nbsp;        int row =matrix.length;</b>
+<b class="nc">&nbsp;        int col=matrix[0].length;</b>
+<b class="nc">&nbsp;        removeAll(); // Rimuove tutti i componenti presenti nel JPanel</b>
+<b class="nc">&nbsp;        cardComponents.clear();</b>
+<b class="nc">&nbsp;        for (int i = 0; i &lt; row; i++) {</b>
+<b class="nc">&nbsp;            for (int j = 0; j &lt; col; j++) {</b>
+<b class="nc">&nbsp;                if (matrix[i][j]!=null &amp;&amp; matrix[i][j] instanceof StartingCard &amp;&amp; matrix[i][j].getID()&gt;0) {</b>
+<b class="nc">&nbsp;                    center_row = i;</b>
+<b class="nc">&nbsp;                    center_col = j;</b>
+&nbsp;                }
+&nbsp;                //le nuove carte vengono aggiunte
+<b class="nc">&nbsp;                if (matrix[i][j] != null) {</b>
+<b class="nc">&nbsp;                    CardComponent c=new CardComponent(matrix[i][j], i, j,matrix[i][j].getPlayOrder());</b>
+<b class="nc">&nbsp;                    if(c.getCardID()!=-1) {</b>
+<b class="nc">&nbsp;                        c.setImage(getImage(GUI.getCardPath(matrix[i][j].getID(), matrix[i][j].isFacedown)));</b>
+<b class="nc">&nbsp;                        numCards++;</b>
+&nbsp;                    }
+<b class="nc">&nbsp;                    cardComponents.add(c);</b>
+&nbsp;                }
+&nbsp;            }
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        selectedCard=null;</b>
+<b class="nc">&nbsp;        revalidate();</b>
+<b class="nc">&nbsp;        repaint();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Load the image
+&nbsp;     * @param path the path to the image
+&nbsp;     * @return the image
+&nbsp;     */
+&nbsp;    private BufferedImage getImage(String path) {
+&nbsp;        try {
+<b class="nc">&nbsp;            return ImageIO.read(this.getClass().getClassLoader().getResource(path));</b>
+<b class="nc">&nbsp;        } catch (IOException e) {</b>
+<b class="nc">&nbsp;            throw new RuntimeException(e);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * draws the cards on the panel in order based on the positionOrder attribute in cardComponent.
+&nbsp;     * Allows the overlapping corners.
+&nbsp;     * @param g the &lt;code&gt;Graphics&lt;/code&gt; object to protect
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    protected void paintComponent(Graphics g) {
+<b class="nc">&nbsp;        super.paintComponent(g);</b>
+&nbsp;        // Ordina i componenti per ordine di posizionamento
+<b class="nc">&nbsp;        cardComponents.sort(Comparator.comparingInt(CardComponent::getPositionOrder));</b>
+&nbsp;
+<b class="nc">&nbsp;        for (CardComponent c : cardComponents) {</b>
+<b class="nc">&nbsp;            int x = c.getCol() * (250 - overlapOffset);</b>
+<b class="nc">&nbsp;            int y = c.getRow() * (150 - overlapOffset);</b>
+<b class="nc">&nbsp;            if(c.getCardID()==-1 &amp;&amp; playing) g.drawImage(possiblePlayImage, x, y, 250, 150, null);</b>
+<b class="nc">&nbsp;            else g.drawImage(c.getImage(), x, y, 250, 150, null);</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        if (selectedCard != null) {</b>
+<b class="nc">&nbsp;            g.setColor(Color.GREEN);</b>
+<b class="nc">&nbsp;            g.drawRect(selectedCard.getCol()* (250 - overlapOffset), selectedCard.getRow()* (150 - overlapOffset), 250, 150);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * makes the preferred size of the panel variable based on the cards played
+&nbsp;     * @return the preferred dimension
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public Dimension getPreferredSize() {
+<b class="nc">&nbsp;        if (!cardComponents.isEmpty()) {</b>
+<b class="nc">&nbsp;            int maxRow = cardComponents.stream().mapToInt(CardComponent::getRow).max().orElse(0);</b>
+<b class="nc">&nbsp;            int maxCol = cardComponents.stream().mapToInt(CardComponent::getCol).max().orElse(0);</b>
+<b class="nc">&nbsp;            int componentWidth = 250;</b>
+<b class="nc">&nbsp;            int componentHeight = 150;</b>
+<b class="nc">&nbsp;            int preferredWidth = (maxCol + 1) * (componentWidth - overlapOffset) + overlapOffset;</b>
+<b class="nc">&nbsp;            int preferredHeight = (maxRow + 1) * (componentHeight - overlapOffset) + overlapOffset;</b>
+<b class="nc">&nbsp;            return new Dimension(preferredWidth, preferredHeight);</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;            return new Dimension(800, 600); // Default size</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * getter for the selected possible play
+&nbsp;     * @return the card component that describes the selected image on the panel
+&nbsp;     */
+&nbsp;    CardComponent getSelectedPosition() {
+<b class="nc">&nbsp;        return selectedCard;</b>
+&nbsp;    }
+&nbsp;    /**
+&nbsp;     * getter for the center row in the matrix of played cards
+&nbsp;     * @return the center row index
+&nbsp;     */
+&nbsp;    int getCenter_row() {
+<b class="nc">&nbsp;        return center_row;</b>
+&nbsp;    }
+&nbsp;    /**
+&nbsp;     * getter for the center column in the matrix of played cards
+&nbsp;     * @return the center column index
+&nbsp;     */
+&nbsp;    int getCenter_col() {
+<b class="nc">&nbsp;        return center_col;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-07-03 15:07</div>
+</div>
+</body>
+</html>

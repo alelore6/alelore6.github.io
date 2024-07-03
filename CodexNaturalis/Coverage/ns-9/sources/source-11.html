@@ -1,0 +1,154 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > Resource</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.Model</a>
+</div>
+
+<h1>Coverage Summary for Class: Resource (it.polimi.ingsw.Model)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Resource</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (3/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (7/7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    93,3%
+  </span>
+  <span class="absValue">
+    (14/15)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw.Model;
+&nbsp;
+&nbsp;import it.polimi.ingsw.View.TUI;
+&nbsp;
+&nbsp;import java.io.Serializable;
+&nbsp;
+&nbsp;/**
+&nbsp; * Resource is an enumeration that represents all kind of resources tha can be used in the game. Each value of the enum represents a specific resource.
+&nbsp; * It implements Serializable to allow the transmission through a network.
+&nbsp; * When toString method is called on a Resource object, it returns the resource name colored based on the resource type.
+&nbsp; */
+<b class="fc">&nbsp;public enum Resource implements Serializable {</b>
+<b class="fc">&nbsp;    FUNGI,</b>
+<b class="fc">&nbsp;    PLANT,</b>
+<b class="fc">&nbsp;    INSECT,</b>
+<b class="fc">&nbsp;    ANIMAL,</b>
+<b class="fc">&nbsp;    QUILL,</b>
+<b class="fc">&nbsp;    INKWELL,</b>
+<b class="fc">&nbsp;    MANUSCRIPT;</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * toString method is used to print on a line of code the resource overriding its original method.
+&nbsp;     * @return null.
+&nbsp;     */
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public String toString(){
+<b class="pc">&nbsp;        switch(this){</b>
+<b class="fc">&nbsp;            case FUNGI -&gt; {return TUI.setColorForString(&quot;RED&quot;, &quot;FUNGI&quot;, false);}</b>
+<b class="fc">&nbsp;            case PLANT -&gt; {return TUI.setColorForString(&quot;GREEN&quot;, &quot;PLANT&quot;, false);}</b>
+<b class="fc">&nbsp;            case INSECT -&gt; {return TUI.setColorForString(&quot;PURPLE&quot;, &quot;INSECT&quot;, false);}</b>
+<b class="fc">&nbsp;            case ANIMAL -&gt; {return TUI.setColorForString(&quot;BLUE&quot;, &quot;ANIMAL&quot;, false);}</b>
+<b class="fc">&nbsp;            case QUILL, INKWELL, MANUSCRIPT -&gt; {return TUI.setColorForString(&quot;YELLOW&quot;, super.toString(), false);}</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        return null;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-07-03 15:07</div>
+</div>
+</body>
+</html>

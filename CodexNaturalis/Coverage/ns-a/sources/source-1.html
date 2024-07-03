@@ -1,0 +1,167 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > GameView</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.ModelView</a>
+</div>
+
+<h1>Coverage Summary for Class: GameView (it.polimi.ingsw.ModelView)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">GameView</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    50%
+  </span>
+  <span class="absValue">
+    (1/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    33,3%
+  </span>
+  <span class="absValue">
+    (2/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    60%
+  </span>
+  <span class="absValue">
+    (6/10)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw.ModelView;
+&nbsp;
+&nbsp;import it.polimi.ingsw.Model.Game;
+&nbsp;
+&nbsp;import java.io.Serializable;
+&nbsp;import java.util.ArrayList;
+&nbsp;
+&nbsp;/**
+&nbsp; * represent the game info in a certain moment like a screenshot. Used to send infos through the net
+&nbsp; */
+&nbsp;public class GameView implements Serializable {
+&nbsp;    /**
+&nbsp;     * the list of player and theirs info
+&nbsp;     */
+&nbsp;    public final ArrayList&lt;PlayerView&gt; players;
+&nbsp;    /**
+&nbsp;     * the number of players in the game
+&nbsp;     */
+&nbsp;    public final int numPlayers;
+&nbsp;    /**
+&nbsp;     * the table center info
+&nbsp;     */
+&nbsp;    public final TableCenterView tableCenterView;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Constructor that works like a clone method
+&nbsp;     * @param model the game
+&nbsp;     */
+<b class="fc">&nbsp;    public GameView(Game model) {</b>
+<b class="fc">&nbsp;        this.numPlayers = model.getNumPlayers();</b>
+<b class="fc">&nbsp;        this.players = new ArrayList&lt;PlayerView&gt;();</b>
+<b class="fc">&nbsp;        for(int i=0;i&lt;numPlayers;i++){</b>
+<b class="fc">&nbsp;            players.add(new PlayerView(model.players.get(i)));</b>
+&nbsp;        }
+<b class="fc">&nbsp;        this.tableCenterView = new TableCenterView(model.tablecenter);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * getter for a specific player&#39;s info
+&nbsp;     * @param nickname the nickname of the player
+&nbsp;     * @return the player&#39;s info
+&nbsp;     */
+&nbsp;    public PlayerView getPlayerViewByNickname(String nickname){
+<b class="nc">&nbsp;        for(int i=0;i&lt;players.size();i++){</b>
+<b class="nc">&nbsp;            if(players.get(i).nickname.equals(nickname)){</b>
+<b class="nc">&nbsp;                return players.get(i);</b>
+&nbsp;            }
+&nbsp;        }
+<b class="nc">&nbsp;        throw new RuntimeException(&quot;Player not found&quot;);</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-07-03 15:07</div>
+</div>
+</body>
+</html>

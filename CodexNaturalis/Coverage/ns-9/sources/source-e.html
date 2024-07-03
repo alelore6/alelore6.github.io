@@ -1,0 +1,168 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > PlayableCard</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.Model</a>
+</div>
+
+<h1>Coverage Summary for Class: PlayableCard (it.polimi.ingsw.Model)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">PlayableCard</td>
+<td class="coverageStat">
+  <span class="percent">
+    50%
+  </span>
+  <span class="absValue">
+    (1/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    66,7%
+  </span>
+  <span class="absValue">
+    (2/3)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">PlayableCard$MockitoMock$1867054883</td>
+  </tr>
+  <tr>
+    <td class="name">PlayableCard$MockitoMock$1867054883$auxiliary$0flGIoKy</td>
+  </tr>
+  <tr>
+    <td class="name">PlayableCard$MockitoMock$1867054883$auxiliary$2v4CuRx0</td>
+  </tr>
+  <tr>
+    <td class="name">PlayableCard$MockitoMock$1867054883$auxiliary$ANWctI42</td>
+  </tr>
+  <tr>
+    <td class="name">PlayableCard$MockitoMock$1867054883$auxiliary$fTSRIeW3</td>
+  </tr>
+  <tr>
+    <td class="name">PlayableCard$MockitoMock$1867054883$auxiliary$n4NJ1udN</td>
+  </tr>
+  <tr>
+    <td class="name">PlayableCard$MockitoMock$1867054883$auxiliary$q0amyMKs</td>
+  </tr>
+  <tr>
+    <td class="name">PlayableCard$MockitoMock$1867054883$auxiliary$vyZ3ZmVi</td>
+  </tr>
+  <tr>
+    <td class="name">PlayableCard$MockitoMock$1867054883$auxiliary$Wz5Jh2RP</td>
+  </tr>
+  <tr>
+    <td class="name">PlayableCard$MockitoMock$1867054883$auxiliary$XE1zRZHQ</td>
+  </tr>
+  <tr>
+    <td class="name">PlayableCard$MockitoMock$1867054883$auxiliary$zxBMrMLO</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    50%
+  </span>
+  <span class="absValue">
+    (1/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    66,7%
+  </span>
+  <span class="absValue">
+    (2/3)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw.Model;
+&nbsp;
+&nbsp;/**
+&nbsp; * Playable Card is an abstract class that represents only playable cards so only gold and resource cards.
+&nbsp; * It implements Card because it exploits all methods of that class.
+&nbsp; */
+<b class="fc">&nbsp;public abstract class PlayableCard extends Card{</b>
+&nbsp;    /**
+&nbsp;     * points is an integer that represents all points values of gold cards (Ed.Note resource cards don&#39;t have points bonus).
+&nbsp;     */
+&nbsp;    protected int points;
+&nbsp;    /**
+&nbsp;     * isChecked is an attribute that which is used to see if they have been counted in the objective bonus assessment of positions.
+&nbsp;     */
+<b class="fc">&nbsp;    protected int isChecked = 0;</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * getPoints is a getter to obtain points of gold cards (Ed.Note resource cards don&#39;t have points bonus).
+&nbsp;     * @return number of points of the card.
+&nbsp;     */
+&nbsp;    public int getPoints(){
+<b class="nc">&nbsp;        return points;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-07-03 15:07</div>
+</div>
+</body>
+</html>

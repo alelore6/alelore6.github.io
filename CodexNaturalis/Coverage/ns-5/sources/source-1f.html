@@ -1,0 +1,138 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > StartTurn</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.Events</a>
+</div>
+
+<h1>Coverage Summary for Class: StartTurn (it.polimi.ingsw.Events)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">StartTurn</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (4/4)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw.Events;
+&nbsp;
+&nbsp;import it.polimi.ingsw.ModelView.GameView;
+&nbsp;
+&nbsp;/**
+&nbsp; * Event that represent the notification that it&#39;s the turn of a player
+&nbsp; */
+&nbsp;public class StartTurn extends GenericEvent{
+&nbsp;    /**
+&nbsp;     * the color of the player whose turn is starting
+&nbsp;     */
+&nbsp;    public final String color;
+&nbsp;    /**
+&nbsp;     * the player whose turn is starting
+&nbsp;     */
+&nbsp;    public final String turnPlayer;
+&nbsp;    /**
+&nbsp;     * the game info at the moment of the event
+&nbsp;     */
+&nbsp;    public final GameView gameView;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Constructor
+&nbsp;     * @param color the color of the player
+&nbsp;     * @param turnPlayer the player whose turn is starting
+&nbsp;     * @param gameView the game info
+&nbsp;     */
+&nbsp;    public StartTurn(String turnPlayer, String color, GameView gameView){
+<b class="fc">&nbsp;        super(&quot;It&#39;s &quot; + turnPlayer + &quot;&#39;s turn!&quot;, &quot;every one&quot;);</b>
+<b class="fc">&nbsp;        this.color = color;</b>
+<b class="fc">&nbsp;        this.turnPlayer = turnPlayer;</b>
+<b class="fc">&nbsp;        this.gameView = gameView;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-07-03 15:07</div>
+</div>
+</body>
+</html>

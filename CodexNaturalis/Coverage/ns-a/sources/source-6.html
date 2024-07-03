@@ -1,0 +1,158 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > TokenView</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.ModelView</a>
+</div>
+
+<h1>Coverage Summary for Class: TokenView (it.polimi.ingsw.ModelView)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">TokenView</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (8/8)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw.ModelView;
+&nbsp;
+&nbsp;import it.polimi.ingsw.Model.Token;
+&nbsp;import it.polimi.ingsw.Model.TokenColor;
+&nbsp;
+&nbsp;import java.io.Serializable;
+&nbsp;
+&nbsp;/**
+&nbsp; * Represent a player&#39;s token info in a certain moment
+&nbsp; */
+&nbsp;public class TokenView implements Serializable {
+&nbsp;    /**
+&nbsp;     * The nickname associated with the token.
+&nbsp;     */
+&nbsp;    public final String nickname;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * the color of the token
+&nbsp;     */
+&nbsp;    public final TokenColor color;
+&nbsp;    /**
+&nbsp;     * the position of the token on the scoretrack
+&nbsp;     */
+&nbsp;    public final int position;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Constructor that works like a clone method
+&nbsp;     * @param token the player&#39;s token
+&nbsp;     */
+<b class="fc">&nbsp;    public TokenView(Token token) {</b>
+<b class="fc">&nbsp;        if (token != null) {</b>
+<b class="fc">&nbsp;            color = token.getColor();</b>
+<b class="fc">&nbsp;            position= token.getScoreTrackPos();</b>
+<b class="fc">&nbsp;            this.nickname = token.getPlayer().getNickname();</b>
+&nbsp;        }
+&nbsp;        else {
+<b class="fc">&nbsp;            color = null;</b>
+<b class="fc">&nbsp;            position = -1;</b>
+<b class="fc">&nbsp;            nickname = null;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-07-03 15:07</div>
+</div>
+</body>
+</html>

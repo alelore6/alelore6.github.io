@@ -1,0 +1,839 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > TableCenterPanel</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.Graphical</a>
+</div>
+
+<h1>Coverage Summary for Class: TableCenterPanel (it.polimi.ingsw.Graphical)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">TableCenterPanel</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/20)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/94)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/245)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">TableCenterPanel$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/21)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">TableCenterPanel$2</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/23)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/102)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/268)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw.Graphical;
+&nbsp;
+&nbsp;import it.polimi.ingsw.Model.*;
+&nbsp;import it.polimi.ingsw.ModelView.GameView;
+&nbsp;import it.polimi.ingsw.View.GUI;
+&nbsp;
+&nbsp;import javax.imageio.ImageIO;
+&nbsp;import javax.swing.*;
+&nbsp;import java.awt.*;
+&nbsp;import java.awt.image.BufferedImage;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.awt.Dimension;
+&nbsp;import java.util.HashMap;
+&nbsp;
+&nbsp;import static it.polimi.ingsw.Model.TokenColor.*;
+&nbsp;
+&nbsp;/**
+&nbsp; * The panel where the game takes place, you can see both decks (Gold Deck and Resource Deck) and all the  four cards on the floor from where, when the time is right, you can draw, the score track ,as well as  the two community objective cards.
+&nbsp; * It extends JSplitPane to be able to divide the screen between card section and score track section.
+&nbsp; */
+&nbsp;public class TableCenterPanel extends JSplitPane {
+&nbsp;    /**
+&nbsp;     * the game view gives all the required information about the game in any exact moment.
+&nbsp;     */
+&nbsp;    private GameView gameView;
+&nbsp;    /**
+&nbsp;     * the list of token colors in the game
+&nbsp;     */
+<b class="nc">&nbsp;    private final ArrayList&lt;TokenColor&gt; chosenColor = new ArrayList&lt;&gt;();</b>
+&nbsp;    /**
+&nbsp;     * card labels is an array of labels associated to each card spot  associated to a JLabel to visualize through the layout manager each card image that lands on the spot.
+&nbsp;     */
+&nbsp;    private final ArrayList&lt;JLabel&gt; cardLabels;
+&nbsp;    /**
+&nbsp;     * deck labels is an array of two labels associated to each deck spot associated with a JLabel to visualize through the layout manager each deck peek card image.
+&nbsp;     */
+&nbsp;    private final JLabel[] deckLabels;
+&nbsp;    /**
+&nbsp;     * An array  of integers that keeps track of the IDs of the cards present in the central spots of the table.
+&nbsp;     */
+&nbsp;    private final int[] cardsID;
+&nbsp;    /**
+&nbsp;     * an encoding of the draw choice of a player.
+&nbsp;     */
+&nbsp;    private int drawChoice;
+&nbsp;    /**
+&nbsp;     * a boolean that sets when is the time to draw for each player.
+&nbsp;     */
+<b class="nc">&nbsp;    private boolean drawing = false;</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * list of draw buttons
+&nbsp;     */
+&nbsp;    private ArrayList&lt;JButton&gt; drawButtons;
+&nbsp;    /**
+&nbsp;     * PossiblePlayImage is an image used as a placeholder for spaces where there are no cards available, setting a default image to improve the game&#39;s user interface and maintaining visual coherence.
+&nbsp;     */
+<b class="nc">&nbsp;    private ImageIcon possiblePlayImage = null;</b>
+&nbsp;    /**
+&nbsp;     * DrawLock is used as a synchronization mechanism to ensure that draw card operations in the game are performed in a safe and coordinated manner, preventing potential concurrency issues in a multithreaded environment.
+&nbsp;     */
+&nbsp;    private final Object drawLock;
+&nbsp;    /**
+&nbsp;     * tokenImages is an array of images representing every token.
+&nbsp;     */
+&nbsp;    private Image[] tokenImages;
+&nbsp;    /**
+&nbsp;     * CENTER_X is the center abscissa of right panel.
+&nbsp;     */
+<b class="nc">&nbsp;    private  int CENTER_X = 0;</b>
+&nbsp;    /**
+&nbsp;     * CENTER_Y is the center ordinate of right panel.
+&nbsp;     */
+<b class="nc">&nbsp;    private  int CENTER_Y = 0;</b>
+&nbsp;    /**
+&nbsp;     * START_X is the abscissa where token get drawn,unless being moved by other methods.
+&nbsp;     */
+<b class="nc">&nbsp;    private static int START_X = 100;</b>
+&nbsp;    /**
+&nbsp;     *START_Y is the ordinate where tokens get drawn,unless being moved by other methods.
+&nbsp;     */
+<b class="nc">&nbsp;    private static int START_Y = 100;</b>
+&nbsp;    /**
+&nbsp;     * tokenXCoord is a mapping od token colors to their respective abscissas coordinates.
+&nbsp;     */
+<b class="nc">&nbsp;    private final HashMap&lt;TokenColor, Integer&gt; tokenXCoords = new HashMap&lt;TokenColor, Integer&gt;();</b>
+&nbsp;    /**
+&nbsp;     * tokenYCoord is a mapping od token colors to their respective ordinates coordinates.
+&nbsp;     */
+<b class="nc">&nbsp;    private final HashMap&lt;TokenColor, Integer&gt; tokenYCoords = new HashMap&lt;TokenColor, Integer&gt;();</b>
+&nbsp;    ;
+&nbsp;    /**
+&nbsp;     * TableCenterPanel constructor builds a new Table Center Panel, configures the interface of the central panel of the game, dividing the space into two main sections (left and right panel)for managing decks and cards, and for viewing the game table with all the tokens required. Initializes the necessary resources, manages panel layouts and sets default images and buttons for user interactions.
+&nbsp;     * @param gameView game view associated with all information that TableCenterPanel needs to be created and exploited.
+&nbsp;     * @param drawLock the lock object used for synchronization when drawing.
+&nbsp;     */
+&nbsp;
+&nbsp;    public TableCenterPanel(GameView gameView, Object drawLock) {
+<b class="nc">&nbsp;        super(JSplitPane.HORIZONTAL_SPLIT);</b>
+<b class="nc">&nbsp;        this.gameView = gameView;</b>
+<b class="nc">&nbsp;        this.drawLock = drawLock;</b>
+<b class="nc">&nbsp;        this.cardLabels = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;        this.deckLabels = new JLabel[2];</b>
+<b class="nc">&nbsp;        this.cardsID = new int[4];</b>
+&nbsp;
+<b class="nc">&nbsp;        this.tokenImages = new Image[5];</b>
+<b class="nc">&nbsp;        this.drawButtons = new ArrayList&lt;&gt;();</b>
+&nbsp;
+<b class="nc">&nbsp;        for(int i = 0; i &lt; gameView.numPlayers; i++){</b>
+<b class="nc">&nbsp;            chosenColor.add(gameView.players.get(i).token.color);</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        for(TokenColor c : chosenColor){</b>
+<b class="nc">&nbsp;            tokenXCoords.put(c, START_X);</b>
+<b class="nc">&nbsp;            tokenYCoords.put(c, START_Y);</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        for(String nickname : gameView.tableCenterView.scoreTrack.points.keySet()){</b>
+<b class="nc">&nbsp;            setNewTokenCoordinates(gameView.tableCenterView.scoreTrack.points.get(nickname), gameView.getPlayerViewByNickname(nickname).token.color);</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        try {
+<b class="nc">&nbsp;            BufferedImage img = ImageIO.read(this.getClass().getClassLoader().getResource(&quot;assets/images/other/possible_play_image.png&quot;));</b>
+<b class="nc">&nbsp;            possiblePlayImage = new ImageIcon(img.getScaledInstance(300, 180, Image.SCALE_DEFAULT));</b>
+&nbsp;
+<b class="nc">&nbsp;            for(int i = 0; i &lt; 4; i++){</b>
+<b class="nc">&nbsp;                if(chosenColor.contains(RED))    tokenImages[0] = ImageIO.read(this.getClass().getClassLoader().getResource(&quot;assets/images/tokens/CODEX_pion_rouge.png&quot;));</b>
+<b class="nc">&nbsp;                if(chosenColor.contains(YELLOW)) tokenImages[1] = ImageIO.read(this.getClass().getClassLoader().getResource(&quot;assets/images/tokens/CODEX_pion_jaune.png&quot;));</b>
+<b class="nc">&nbsp;                if(chosenColor.contains(GREEN))  tokenImages[2] = ImageIO.read(this.getClass().getClassLoader().getResource(&quot;assets/images/tokens/CODEX_pion_vert.png&quot;));</b>
+<b class="nc">&nbsp;                if(chosenColor.contains(BLUE))   tokenImages[3] = ImageIO.read(this.getClass().getClassLoader().getResource(&quot;assets/images/tokens/CODEX_pion_bleu.png&quot;));</b>
+&nbsp;            }
+<b class="nc">&nbsp;        } catch (IOException e) {</b>
+<b class="nc">&nbsp;            throw new RuntimeException(e);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        this.setLeftComponent(createLeftPanel());</b>
+<b class="nc">&nbsp;        this.setRightComponent(createRightPanel());</b>
+&nbsp;
+<b class="nc">&nbsp;        this.setDividerLocation(800);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * CreateRightPanel generates the right panel that will compose the Table Center Panel, drawing the score track image where in position 0 all tokens will be generated ready to be used to track each player score.
+&nbsp;     * @return the right panel complete of all its features.
+&nbsp;     */
+&nbsp;    public JPanel createRightPanel() {
+<b class="nc">&nbsp;        ImageIcon img = new ImageIcon(this.getClass().getClassLoader().getResource(&quot;assets/images/plateau/plateau.png&quot;));</b>
+<b class="nc">&nbsp;        int originalWidth = img.getIconWidth();</b>
+<b class="nc">&nbsp;        int originalHeight = img.getIconHeight();</b>
+<b class="nc">&nbsp;        int width = 900;</b>
+<b class="nc">&nbsp;        int height = 700;</b>
+<b class="nc">&nbsp;        double widthProportion = (double) width / originalWidth;</b>
+<b class="nc">&nbsp;        double heightProportion = (double) height / originalHeight;</b>
+<b class="nc">&nbsp;        double proportion = Math.min(widthProportion, heightProportion);</b>
+&nbsp;
+<b class="nc">&nbsp;        double finalWidth = proportion * originalWidth;</b>
+<b class="nc">&nbsp;        double finalHeight = proportion * originalHeight;</b>
+&nbsp;
+<b class="nc">&nbsp;        Image imgResized = img.getImage().getScaledInstance((int) finalWidth, (int) finalHeight, Image.SCALE_DEFAULT);</b>
+<b class="nc">&nbsp;        ImageIcon resizedIcon = new ImageIcon(imgResized);</b>
+<b class="nc">&nbsp;        JPanel rightPanel = new JPanel() {</b>
+&nbsp;            @Override
+&nbsp;            protected void paintComponent(Graphics g) {
+<b class="nc">&nbsp;                super.paintComponent(g);</b>
+<b class="nc">&nbsp;                int x = (int) ((getWidth() - finalWidth) / 2);</b>
+<b class="nc">&nbsp;                int y = (int) ((getHeight() - finalHeight) / 2);</b>
+<b class="nc">&nbsp;                CENTER_X = getWidth()/2;</b>
+<b class="nc">&nbsp;                CENTER_Y = getHeight()/2;</b>
+&nbsp;
+<b class="nc">&nbsp;                g.drawImage(resizedIcon.getImage(), x, y, null);</b>
+&nbsp;
+<b class="nc">&nbsp;                for (int i = 0; i &lt; chosenColor.size(); i++) {</b>
+&nbsp;
+<b class="nc">&nbsp;                    TokenColor color = null;</b>
+<b class="nc">&nbsp;                    Image image = null;</b>
+&nbsp;
+<b class="nc">&nbsp;                    switch(chosenColor.get(i)){</b>
+&nbsp;                        case RED -&gt; {
+<b class="nc">&nbsp;                            color = RED;</b>
+<b class="nc">&nbsp;                            image = tokenImages[0];</b>
+&nbsp;                        }
+&nbsp;                        case YELLOW -&gt; {
+<b class="nc">&nbsp;                            color = YELLOW;</b>
+<b class="nc">&nbsp;                            image = tokenImages[1];</b>
+&nbsp;                        }
+&nbsp;                        case GREEN -&gt; {
+<b class="nc">&nbsp;                            color = GREEN;</b>
+<b class="nc">&nbsp;                            image = tokenImages[2];</b>
+&nbsp;                        }
+&nbsp;                        case BLUE -&gt; {
+<b class="nc">&nbsp;                            color = BLUE;</b>
+<b class="nc">&nbsp;                            image = tokenImages[3];</b>
+&nbsp;                        }
+&nbsp;                    }
+&nbsp;
+<b class="nc">&nbsp;                    if(image != null)</b>
+<b class="nc">&nbsp;                        g.drawImage(image, CENTER_X+tokenXCoords.get(color), CENTER_Y+tokenYCoords.get(color), 30, 30, this);</b>
+&nbsp;                }
+&nbsp;            }
+&nbsp;        };
+<b class="nc">&nbsp;        rightPanel.setMinimumSize(new Dimension(390, 300));</b>
+&nbsp;        /**
+&nbsp;         *
+&nbsp;         */
+<b class="nc">&nbsp;        return rightPanel;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * setNewTokenCoordinates update the position of a token on the score track after getTokenCordinates indicates where a token must land on score track.
+&nbsp;     * @param position actual position of  token.
+&nbsp;     * @param color color of the token that must move.
+&nbsp;     */
+&nbsp;    private void setNewTokenCoordinates(int position, TokenColor color){
+&nbsp;
+<b class="nc">&nbsp;        int[] finalCoordinates = getTokenCoordinates(position, color);</b>
+&nbsp;
+<b class="nc">&nbsp;        tokenXCoords.replace(color, finalCoordinates[0]);</b>
+<b class="nc">&nbsp;        tokenYCoords.replace(color, finalCoordinates[1]);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     *  getTokenCoordinates displays each token position on the score track separating even the position of each different token in the same value in score track.
+&nbsp;     * @param position actual position of a token.
+&nbsp;     * @param color color of the token that must move.
+&nbsp;     * @return new position of the token after a score change.
+&nbsp;     */
+&nbsp;    private int[] getTokenCoordinates(int position, TokenColor color){
+<b class="nc">&nbsp;        int X_OFFSET = 0;</b>
+<b class="nc">&nbsp;        int Y_OFFSET = 0;</b>
+<b class="nc">&nbsp;        int final_x = 0;</b>
+<b class="nc">&nbsp;        int final_y = 0;</b>
+<b class="nc">&nbsp;        final int radius = 10;</b>
+&nbsp;
+<b class="nc">&nbsp;        switch(color){</b>
+&nbsp;            case RED :
+<b class="nc">&nbsp;                X_OFFSET = 1;</b>
+<b class="nc">&nbsp;                Y_OFFSET = -1;</b>
+&nbsp;                break;
+&nbsp;
+&nbsp;            case YELLOW :
+<b class="nc">&nbsp;                X_OFFSET = -1;</b>
+<b class="nc">&nbsp;                Y_OFFSET = -1;</b>
+&nbsp;                break;
+&nbsp;
+&nbsp;            case GREEN :
+<b class="nc">&nbsp;                X_OFFSET = 1;</b>
+<b class="nc">&nbsp;                Y_OFFSET = 1;</b>
+&nbsp;                break;
+&nbsp;
+&nbsp;            case BLUE :
+<b class="nc">&nbsp;                X_OFFSET = -1;</b>
+<b class="nc">&nbsp;                Y_OFFSET = 1;</b>
+&nbsp;                break;
+&nbsp;
+&nbsp;            default:
+&nbsp;                break;
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        switch (position){</b>
+&nbsp;            case 0 :
+<b class="nc">&nbsp;                final_x = -98;</b>
+<b class="nc">&nbsp;                final_y = 286;</b>
+&nbsp;                break;
+&nbsp;
+&nbsp;            case 1 :
+<b class="nc">&nbsp;                final_x = -15;</b>
+<b class="nc">&nbsp;                final_y = 286;</b>
+&nbsp;                break;
+&nbsp;
+&nbsp;            case 2 :
+<b class="nc">&nbsp;                final_x = 68;</b>
+<b class="nc">&nbsp;                final_y = 286;</b>
+&nbsp;              break;
+&nbsp;            case 3 :
+<b class="nc">&nbsp;             final_x = 110;</b>
+<b class="nc">&nbsp;                final_y = 211;</b>
+&nbsp;                break;
+&nbsp;
+&nbsp;            case 4 :
+<b class="nc">&nbsp;                final_x=27;</b>
+<b class="nc">&nbsp;                final_y= 211;</b>
+&nbsp;               break;
+&nbsp;            case 5 :
+<b class="nc">&nbsp;                final_x = -56;</b>
+<b class="nc">&nbsp;                final_y = 211;</b>
+&nbsp;             break;
+&nbsp;            case 6 :
+<b class="nc">&nbsp;                final_x = -139;</b>
+<b class="nc">&nbsp;                final_y = 211;</b>
+&nbsp;                break;
+&nbsp;            case 7 :
+<b class="nc">&nbsp;                final_x =-139;</b>
+<b class="nc">&nbsp;                final_y = 135;</b>
+&nbsp;                break;
+&nbsp;            case 8 :
+<b class="nc">&nbsp;                final_x = -56;</b>
+<b class="nc">&nbsp;                final_y = 135;</b>
+&nbsp;                break;
+&nbsp;            case 9 :
+<b class="nc">&nbsp;                final_x = 27;</b>
+<b class="nc">&nbsp;                final_y = 135;</b>
+&nbsp;                break;
+&nbsp;            case 10 :
+<b class="nc">&nbsp;                final_x = 110;</b>
+<b class="nc">&nbsp;                final_y = 135;</b>
+&nbsp;                break;
+&nbsp;            case 11 :
+<b class="nc">&nbsp;                final_x = 110;</b>
+<b class="nc">&nbsp;                final_y = 60;</b>
+&nbsp;                break;
+&nbsp;            case 12 :
+<b class="nc">&nbsp;                final_x = 27;</b>
+<b class="nc">&nbsp;                final_y = 60;</b>
+&nbsp;                break;
+&nbsp;            case 13 :
+<b class="nc">&nbsp;                final_x = -56;</b>
+<b class="nc">&nbsp;                final_y = 60;</b>
+&nbsp;                break;
+&nbsp;            case 14 :
+<b class="nc">&nbsp;                final_x = -139;</b>
+<b class="nc">&nbsp;                final_y = 60;</b>
+&nbsp;                break;
+&nbsp;            case 15 :
+<b class="nc">&nbsp;                final_x = -139;</b>
+<b class="nc">&nbsp;                final_y = -15;</b>
+&nbsp;                break;
+&nbsp;            case 16 :
+<b class="nc">&nbsp;                final_x = -56;</b>
+<b class="nc">&nbsp;                final_y = -15;</b>
+&nbsp;                break;
+&nbsp;            case 17 :
+<b class="nc">&nbsp;                final_x = 27;</b>
+<b class="nc">&nbsp;                final_y = -15;</b>
+&nbsp;                break;
+&nbsp;            case 18 :
+<b class="nc">&nbsp;                final_x = 110;</b>
+<b class="nc">&nbsp;                final_y = -15;</b>
+&nbsp;                break;
+&nbsp;            case 19 :
+<b class="nc">&nbsp;                final_x = 110;</b>
+<b class="nc">&nbsp;                final_y = -90;</b>
+&nbsp;                break;
+&nbsp;            case 20 :
+<b class="nc">&nbsp;                final_x = -15;</b>
+<b class="nc">&nbsp;                final_y = -129;</b>
+&nbsp;                break;
+&nbsp;            case 21 :
+<b class="nc">&nbsp;                final_x =-139 ;</b>
+<b class="nc">&nbsp;                final_y = -90;</b>
+&nbsp;                break;
+&nbsp;            case 22 :
+<b class="nc">&nbsp;               final_x = -139;</b>
+<b class="nc">&nbsp;               final_y = -166;</b>
+&nbsp;              break;
+&nbsp;            case 23 :
+<b class="nc">&nbsp;                final_x = -139;</b>
+<b class="nc">&nbsp;                final_y = -242;</b>
+&nbsp;                break;
+&nbsp;            case 24:
+<b class="nc">&nbsp;                final_x = -90;</b>
+<b class="nc">&nbsp;                final_y = -304;</b>
+&nbsp;                break;
+&nbsp;            case 25 :
+<b class="nc">&nbsp;                final_x = -14;</b>
+<b class="nc">&nbsp;                final_y = -314;</b>
+&nbsp;                break;
+&nbsp;            case 26 :
+<b class="nc">&nbsp;                final_x = 61;</b>
+<b class="nc">&nbsp;                final_y = -302;</b>
+&nbsp;                break;
+&nbsp;            case 27 :
+<b class="nc">&nbsp;                final_x = 108;</b>
+<b class="nc">&nbsp;                final_y = -242;</b>
+&nbsp;                break;
+&nbsp;            case 28 :
+<b class="nc">&nbsp;                final_x = 109;</b>
+<b class="nc">&nbsp;                final_y = -166;</b>
+&nbsp;                break;
+&nbsp;            case 29 :
+<b class="nc">&nbsp;                final_x = -13;</b>
+<b class="nc">&nbsp;                final_y = -225;</b>
+&nbsp;                break;
+&nbsp;
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        final_x += X_OFFSET * radius;</b>
+<b class="nc">&nbsp;        final_y += Y_OFFSET * radius;</b>
+&nbsp;
+<b class="nc">&nbsp;        return new int[]{final_x, final_y};</b>
+&nbsp;    }
+&nbsp;    /**
+&nbsp;     * createLeftPanel method is crucial for creating the left panel of the game table in the TableCenterPanel class. It manages the organization and addition of card decks, center cards and objective cards, as well as management of draw buttons.
+&nbsp;     * @return left panel
+&nbsp;     */
+&nbsp;    private JPanel createLeftPanel() {
+<b class="nc">&nbsp;        JPanel leftPanel = new JPanel();</b>
+<b class="nc">&nbsp;        leftPanel.setLayout(new GridLayout(4, 1, 10, 10));</b>
+&nbsp;
+&nbsp;        // Decks
+<b class="nc">&nbsp;        addDeck(leftPanel, &quot;Gold Deck&quot;, gameView.tableCenterView.topGoldCardColor, 0);</b>
+<b class="nc">&nbsp;        addDeck(leftPanel, &quot;Resource Deck&quot;, gameView.tableCenterView.topResourceCardColor, 1);</b>
+&nbsp;
+<b class="nc">&nbsp;        for (int i = 0; i &lt; 4; i++) {</b>
+<b class="nc">&nbsp;            if (gameView.tableCenterView.centerCards[i] != null) {</b>
+<b class="nc">&nbsp;                addCardSpot(leftPanel, i, gameView.tableCenterView.centerCards[i].getID());</b>
+&nbsp;            } else {
+<b class="nc">&nbsp;                addCardSpot(leftPanel, i, -1);</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        if (gameView.tableCenterView.objCards[0] != null) {</b>
+<b class="nc">&nbsp;            addObjectiveCardSpot(leftPanel, &quot;Objective Card 1&quot;, gameView.tableCenterView.objCards[0].getID());</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;            addObjectiveCardSpot(leftPanel, &quot;Objective Card 1&quot;, -1);</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        if (gameView.tableCenterView.objCards[1] != null) {</b>
+<b class="nc">&nbsp;            addObjectiveCardSpot(leftPanel, &quot;Objective Card 2&quot;, gameView.tableCenterView.objCards[1].getID());</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;            addObjectiveCardSpot(leftPanel, &quot;Objective Card 2&quot;, -1);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        leftPanel.setMinimumSize(new Dimension(800, 300));</b>
+<b class="nc">&nbsp;        hideDrawButton();</b>
+<b class="nc">&nbsp;        return leftPanel;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * addObjectiveCardSpot adds a spot for an objective card, displaying the card icon or a placeholder if there is no card.
+&nbsp;     * @param panel panel that contains sub-panels, to which card panel will be added.
+&nbsp;     * @param title title of ObjectiveCardSPot
+&nbsp;     * @param cardID ID of ObjectiveCard
+&nbsp;     */
+&nbsp;    private void addObjectiveCardSpot(JPanel panel, String title, int cardID) {
+<b class="nc">&nbsp;        JPanel cardPanel = new JPanel();</b>
+<b class="nc">&nbsp;        cardPanel.setLayout(new BorderLayout());</b>
+<b class="nc">&nbsp;        cardPanel.setBorder(BorderFactory.createTitledBorder(title));</b>
+&nbsp;
+<b class="nc">&nbsp;        JLabel cardLabel = new JLabel();</b>
+<b class="nc">&nbsp;        if (cardID &gt; 0) {</b>
+<b class="nc">&nbsp;            cardLabel.setIcon(getImageIcon(GUI.getCardPath(cardID, false), 0, 0));</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;            cardLabel.setIcon(possiblePlayImage);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        cardPanel.add(cardLabel, BorderLayout.CENTER);</b>
+&nbsp;
+&nbsp;
+<b class="nc">&nbsp;        panel.add(cardPanel);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * addDeck creates deck panel with a title , and add it to the panel: it adds a deck of cards with the top card icon and a button to draw cards from that deck.
+&nbsp;     * @param panel panel that contains sub-panels, to which deck panel will be added.
+&nbsp;     * @param title title of deck panel border
+&nbsp;     * @param cardColor the color of the back of the card to be displayed.
+&nbsp;     * @param deckIndex index of deck, used tp determine the card color ID and array index for labels and buttons.
+&nbsp;     */
+&nbsp;    public void addDeck(JPanel panel, String title, CardColor cardColor, int deckIndex) {
+<b class="nc">&nbsp;        JPanel deckPanel = new JPanel();</b>
+<b class="nc">&nbsp;        deckPanel.setLayout(new BorderLayout());</b>
+<b class="nc">&nbsp;        deckPanel.setBorder(BorderFactory.createTitledBorder(title));</b>
+&nbsp;
+<b class="nc">&nbsp;        JLabel deckLabel = new JLabel();</b>
+&nbsp;        try{
+<b class="nc">&nbsp;            int colorId = getCardColorId(cardColor,deckIndex==0);</b>
+<b class="nc">&nbsp;            deckLabel.setIcon(getImageIcon(GUI.getCardPath(colorId, true), 0, 0));</b>
+&nbsp;        }
+<b class="nc">&nbsp;        catch(IllegalArgumentException e){</b>
+<b class="nc">&nbsp;            deckLabel.setIcon(possiblePlayImage);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        deckLabels[deckIndex] = deckLabel;</b>
+<b class="nc">&nbsp;        deckPanel.add(deckLabel, BorderLayout.CENTER);</b>
+&nbsp;
+<b class="nc">&nbsp;        JButton drawButton = new JButton(&quot;Draw&quot;);</b>
+<b class="nc">&nbsp;        drawButton.setPreferredSize(new Dimension(75, 10));</b>
+<b class="nc">&nbsp;        final int index=deckIndex==0? 6: 5;</b>
+&nbsp;
+<b class="nc">&nbsp;        drawButton.addActionListener(e -&gt; {</b>
+<b class="nc">&nbsp;            drawCard(index);</b>
+&nbsp;        });
+<b class="nc">&nbsp;        drawButtons.add(drawButton);</b>
+<b class="nc">&nbsp;        deckPanel.add(drawButton, BorderLayout.EAST);</b>
+<b class="nc">&nbsp;        panel.add(deckPanel);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * addCardSpot creates a card panel and adds a spot for each central card, displaying the card icon or a placeholder if there is no card, and includes a button to draw the card.
+&nbsp;     * @param panel panel that contains sub-panels, to which card panel will be added.
+&nbsp;     * @param index index of card spot to determine
+&nbsp;     * @param cardID IDs of cards
+&nbsp;     */
+&nbsp;    private void addCardSpot(JPanel panel, int index, int cardID) {
+<b class="nc">&nbsp;        JPanel cardPanel = new JPanel();</b>
+<b class="nc">&nbsp;        cardPanel.setLayout(new BorderLayout());</b>
+<b class="nc">&nbsp;        cardPanel.setBorder(BorderFactory.createTitledBorder(&quot;Card &quot; + (index + 1)));</b>
+&nbsp;
+<b class="nc">&nbsp;        JLabel cardLabel = new JLabel();</b>
+<b class="nc">&nbsp;        if (cardID &gt; 0) {</b>
+<b class="nc">&nbsp;            cardLabel.setIcon(getImageIcon(GUI.getCardPath(cardID, false), 0, 0));</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;            cardLabel.setIcon(possiblePlayImage);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        cardLabels.add(cardLabel);</b>
+<b class="nc">&nbsp;        cardsID[index] = cardID;</b>
+<b class="nc">&nbsp;        cardPanel.add(cardLabel, BorderLayout.CENTER);</b>
+&nbsp;
+<b class="nc">&nbsp;        JButton drawButton = new JButton(&quot;Draw&quot;);</b>
+<b class="nc">&nbsp;        drawButton.setPreferredSize(new Dimension(80, 1));</b>
+<b class="nc">&nbsp;        drawButton.addActionListener(e -&gt; {</b>
+<b class="nc">&nbsp;            drawCard(index + 1);</b>
+&nbsp;        });
+<b class="nc">&nbsp;        drawButtons.add(drawButton);</b>
+<b class="nc">&nbsp;        cardPanel.add(drawButton, BorderLayout.EAST);</b>
+<b class="nc">&nbsp;        panel.add(cardPanel);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * getImageIcon method loads an image from the specified path into the application&#39;s classpath, resizes it to the desired size, and returns it as an ImageIcon.
+&nbsp;     * This method is useful for managing card images and other graphic assets in the game GUI
+&nbsp;     * @param path the file path to the image resource.
+&nbsp;     * @param scaleX the width to which the image should be scaled.
+&nbsp;     * @param scaleY the height to which the image should be scaled.
+&nbsp;     * @return ImageIcon scaled.
+&nbsp;     */
+&nbsp;    private ImageIcon getImageIcon(String path, int scaleX, int scaleY) {
+<b class="nc">&nbsp;        BufferedImage img = null;</b>
+&nbsp;        try {
+<b class="nc">&nbsp;            img = ImageIO.read(this.getClass().getClassLoader().getResource(path));</b>
+<b class="nc">&nbsp;        } catch (IOException e) {</b>
+<b class="nc">&nbsp;            throw new RuntimeException(e);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        return new ImageIcon(img.getScaledInstance(300, 180, Image.SCALE_SMOOTH));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * drawCard method handles the selection of a card to draw, updating the internal state to reflect the user&#39;s choice,
+&nbsp;     * hiding the draw buttons, and notifying any waiting threads that a draw action has completed.
+&nbsp;     * @param spotID ID of the spot where the draw action must be done.
+&nbsp;     */
+&nbsp;    private void drawCard(int spotID) {
+<b class="nc">&nbsp;        if (drawing) {</b>
+<b class="nc">&nbsp;            this.drawChoice = spotID;</b>
+<b class="nc">&nbsp;            hideDrawButton();</b>
+<b class="nc">&nbsp;            synchronized (drawLock) {</b>
+<b class="nc">&nbsp;                drawLock.notifyAll();</b>
+<b class="nc">&nbsp;            }</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * getDrawChoice is used to encode player choice to obtain the index of the player&#39;s drawing choice, allowing the system to react based on this choice.
+&nbsp;     * @return encode of the draw choice of a generic player.
+&nbsp;     */
+&nbsp;    public int getDrawChoice() {
+<b class="nc">&nbsp;        return drawChoice;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * UpdateCard  update the card spot information after a draw, to replace the drawn card with a new one.
+&nbsp;     */
+&nbsp;    private void updateCards() {
+<b class="nc">&nbsp;        for (int i = 0; i &lt; 4; i++) {</b>
+<b class="nc">&nbsp;            if (gameView.tableCenterView.centerCards[i] == null) {</b>
+<b class="nc">&nbsp;                cardLabels.get(i).setIcon(possiblePlayImage);</b>
+<b class="nc">&nbsp;                cardsID[i] = -1;</b>
+<b class="nc">&nbsp;            } else if (cardsID[i] != gameView.tableCenterView.centerCards[i].getID()) {</b>
+<b class="nc">&nbsp;                cardsID[i] = gameView.tableCenterView.centerCards[i].getID();</b>
+<b class="nc">&nbsp;                cardLabels.get(i).setIcon(getImageIcon(GUI.getCardPath(cardsID[i], false), 0, 0));</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * UpdateDeck  update the deck spot information after a draw, to replace the drawn card with a new one.
+&nbsp;     */
+&nbsp;    private void updateDeck() {
+<b class="nc">&nbsp;        for (int i = 0; i &lt; 2; i++) {</b>
+&nbsp;            CardColor deckCardColor;
+<b class="nc">&nbsp;            if (i == 0) {</b>
+<b class="nc">&nbsp;                deckCardColor = gameView.tableCenterView.topGoldCardColor;</b>
+&nbsp;            } else {
+<b class="nc">&nbsp;                deckCardColor = gameView.tableCenterView.topResourceCardColor;</b>
+&nbsp;            }
+&nbsp;            try{
+<b class="nc">&nbsp;                int colorId = getCardColorId(deckCardColor, i==0);</b>
+<b class="nc">&nbsp;                deckLabels[i].setIcon(getImageIcon(GUI.getCardPath(colorId, true), 0, 0));</b>
+&nbsp;            }
+<b class="nc">&nbsp;            catch (IllegalArgumentException e ){</b>
+<b class="nc">&nbsp;                deckLabels[i].setIcon(possiblePlayImage);</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * showDrawButton shows draw button to make them usable.
+&nbsp;     */
+&nbsp;    public void showDrawButton() {
+<b class="nc">&nbsp;        int i=0;</b>
+<b class="nc">&nbsp;        for (JButton button : drawButtons) {</b>
+<b class="nc">&nbsp;            if(i&lt;2 || cardsID[i-2]&gt;0) button.setVisible(true);</b>
+<b class="nc">&nbsp;            i++;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * hideDrawButton hides draw button to make them unusable.
+&nbsp;     */
+&nbsp;    private void hideDrawButton() {
+<b class="nc">&nbsp;        for (JButton button : drawButtons) {</b>
+<b class="nc">&nbsp;            button.setVisible(false);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Update method update the entire Tabel Center Panel to keep playing without have to create each time a new panel.
+&nbsp;     * @param gameView the game info
+&nbsp;     * @param drawing boolean to know
+&nbsp;     */
+&nbsp;    public void update(GameView gameView, boolean drawing) {
+<b class="nc">&nbsp;        this.gameView = gameView;</b>
+<b class="nc">&nbsp;        this.drawing = drawing;</b>
+<b class="nc">&nbsp;        updateDeck();</b>
+<b class="nc">&nbsp;        updateCards();</b>
+&nbsp;
+<b class="nc">&nbsp;        for(String nickname : gameView.tableCenterView.scoreTrack.points.keySet()){</b>
+<b class="nc">&nbsp;            setNewTokenCoordinates(gameView.tableCenterView.scoreTrack.points.get(nickname), gameView.getPlayerViewByNickname(nickname).token.color);</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        if (drawing) {</b>
+<b class="nc">&nbsp;            showDrawButton();</b>
+&nbsp;        }
+<b class="nc">&nbsp;        revalidate();</b>
+<b class="nc">&nbsp;        repaint();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * getCardColorId method is essential for mapping card colors to their respective numeric IDs, taking into account whether the cards are gold or resource to facilitate card image retrieval.
+&nbsp;     * @param color all type of colors of all cards.
+&nbsp;     * @param gold a boolean to distinguish gold card from resource card
+&nbsp;     * @return ID encode of a cord from its color and type.
+&nbsp;     */
+&nbsp;    public static int getCardColorId(CardColor color,boolean gold) {
+<b class="nc">&nbsp;        int id=0;</b>
+<b class="nc">&nbsp;        switch (color) {</b>
+&nbsp;            case RED:
+<b class="nc">&nbsp;                id=1; break;</b>
+&nbsp;            case GREEN:
+<b class="nc">&nbsp;                id=11; break;</b>
+&nbsp;            case PURPLE:
+<b class="nc">&nbsp;                id=31; break;</b>
+&nbsp;            case BLUE:
+<b class="nc">&nbsp;                id=21; break;</b>
+&nbsp;            default:
+<b class="nc">&nbsp;                throw new IllegalArgumentException(&quot;Unknown CardColor: &quot; + color);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (gold) return id+40;</b>
+<b class="nc">&nbsp;        else return id;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;}
+&nbsp;
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-07-03 15:07</div>
+</div>
+</body>
+</html>

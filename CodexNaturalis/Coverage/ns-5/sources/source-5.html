@@ -1,0 +1,164 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > ChooseObjectiveRequest</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.Events</a>
+</div>
+
+<h1>Coverage Summary for Class: ChooseObjectiveRequest (it.polimi.ingsw.Events)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ChooseObjectiveRequest</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    33,3%
+  </span>
+  <span class="absValue">
+    (1/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    37,5%
+  </span>
+  <span class="absValue">
+    (3/8)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw.Events;
+&nbsp;
+&nbsp;import it.polimi.ingsw.Model.ObjectiveCard;
+&nbsp;
+&nbsp;/**
+&nbsp; * event that represent the model request to choose between 2 objective card.
+&nbsp; */
+&nbsp;public class ChooseObjectiveRequest extends GenericRequest {
+&nbsp;    /**
+&nbsp;     * the first objective card
+&nbsp;     */
+&nbsp;    public  final ObjectiveCard objCard1;
+&nbsp;    /**
+&nbsp;     * the second objective card
+&nbsp;     */
+&nbsp;    public  final ObjectiveCard objCard2;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Constructor
+&nbsp;     * @param objCard1 the first objective card
+&nbsp;     * @param objCard2 the second objective card
+&nbsp;     * @param nickname the receiver of the event
+&nbsp;     */
+&nbsp;    public ChooseObjectiveRequest(ObjectiveCard objCard1, ObjectiveCard objCard2, String nickname){
+<b class="fc">&nbsp;        super(&quot;Choose your secret objective card from these two:&quot;, nickname);</b>
+<b class="fc">&nbsp;        this.objCard1 = objCard1;</b>
+<b class="fc">&nbsp;        this.objCard2 = objCard2;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Getter for the chosen card
+&nbsp;     * @param n 1 for the first card, 2 for the second card, else null
+&nbsp;     * @return the chosen card
+&nbsp;     */
+&nbsp;    public ObjectiveCard getChosenCard(int n){
+<b class="nc">&nbsp;        if(n == 1)  return objCard1;</b>
+<b class="nc">&nbsp;        if(n == 2)  return objCard2;</b>
+<b class="nc">&nbsp;        else        return     null;</b>
+&nbsp;    }
+&nbsp;    /**
+&nbsp;     * Getter for the second part of the event message in a cli friendly format
+&nbsp;     * @return the message
+&nbsp;     */
+&nbsp;    public String msgOutput2(){
+<b class="nc">&nbsp;        return  &quot;\nInsert (1) for card number &quot; + objCard1.getID()</b>
+<b class="nc">&nbsp;                + &quot; or insert (2) for card number &quot; + objCard2.getID() + &quot;: &quot;;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-07-03 15:07</div>
+</div>
+</body>
+</html>

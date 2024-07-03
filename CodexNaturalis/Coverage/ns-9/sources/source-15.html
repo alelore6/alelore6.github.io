@@ -1,0 +1,162 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > StartingCard</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.Model</a>
+</div>
+
+<h1>Coverage Summary for Class: StartingCard (it.polimi.ingsw.Model)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">StartingCard</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/3)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">StartingCard$MockitoMock$1596392905</td>
+  </tr>
+  <tr>
+    <td class="name">StartingCard$MockitoMock$1596392905$auxiliary$D4SLGve4</td>
+  </tr>
+  <tr>
+    <td class="name">StartingCard$MockitoMock$1596392905$auxiliary$idSKWsCU</td>
+  </tr>
+  <tr>
+    <td class="name">StartingCard$MockitoMock$1596392905$auxiliary$Jrki2D7Q</td>
+  </tr>
+  <tr>
+    <td class="name">StartingCard$MockitoMock$1596392905$auxiliary$NYy6ZX6i</td>
+  </tr>
+  <tr>
+    <td class="name">StartingCard$MockitoMock$1596392905$auxiliary$RPcDipWk</td>
+  </tr>
+  <tr>
+    <td class="name">StartingCard$MockitoMock$1596392905$auxiliary$TufgYT1w</td>
+  </tr>
+  <tr>
+    <td class="name">StartingCard$MockitoMock$1596392905$auxiliary$wQGmXfqm</td>
+  </tr>
+  <tr>
+    <td class="name">StartingCard$MockitoMock$1596392905$auxiliary$ycP9gr5W</td>
+  </tr>
+  <tr>
+    <td class="name">StartingCard$MockitoMock$1596392905$auxiliary$ZIB0QQ7b</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/3)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw.Model;
+&nbsp;
+&nbsp;/**
+&nbsp; * StartingCard is the class that represents the starting cards, that with all the playable cards creates the game board.
+&nbsp; * It extends Card because it uses some of the methods and attributes of that class.
+&nbsp; */
+&nbsp;public class StartingCard extends Card{
+&nbsp;    /**
+&nbsp;     * resources represents all resources of starting cards, it is an array because for certain starting cards there are more than one resource only in the center.
+&nbsp;     */
+&nbsp;    public Resource[] resource;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Constructor that creates a fake starting card to let the view know where a card can be played and where a card can&#39;t be played.
+&nbsp;     * @param fake_ID a fake starting card used just to create the spot where a real card can be placed.
+&nbsp;     */
+<b class="nc">&nbsp;    public StartingCard(int fake_ID) {</b>
+<b class="nc">&nbsp;        this.ID = fake_ID;</b>
+<b class="nc">&nbsp;        this.playOrder=100;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-07-03 15:07</div>
+</div>
+</body>
+</html>

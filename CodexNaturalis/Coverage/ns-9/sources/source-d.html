@@ -1,0 +1,249 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > ObjectiveDeck</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.Model</a>
+</div>
+
+<h1>Coverage Summary for Class: ObjectiveDeck (it.polimi.ingsw.Model)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ObjectiveDeck</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (4/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    68,2%
+  </span>
+  <span class="absValue">
+    (15/22)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    88,2%
+  </span>
+  <span class="absValue">
+    (30/34)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">ObjectiveDeck$MockitoMock$1108337133</td>
+  </tr>
+  <tr>
+    <td class="name">ObjectiveDeck$MockitoMock$1108337133$auxiliary$0IakjuOG</td>
+  </tr>
+  <tr>
+    <td class="name">ObjectiveDeck$MockitoMock$1108337133$auxiliary$7n8Qic2D</td>
+  </tr>
+  <tr>
+    <td class="name">ObjectiveDeck$MockitoMock$1108337133$auxiliary$fUve58Vq</td>
+  </tr>
+  <tr>
+    <td class="name">ObjectiveDeck$MockitoMock$1108337133$auxiliary$IRzf2J3c</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (4/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    68,2%
+  </span>
+  <span class="absValue">
+    (15/22)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    88,2%
+  </span>
+  <span class="absValue">
+    (30/34)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw.Model;
+&nbsp;
+&nbsp;import com.google.gson.Gson;
+&nbsp;
+&nbsp;import java.io.*;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.Collections;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;/**
+&nbsp; * ObjectiveDeck is the class that represents the Deck that contains all the objective cards.
+&nbsp; * As opposed to the other deck classes, it doesn&#39;t implement Deck class because it returns  a Card, but ObjectiveCard doesn&#39;t extend Card.
+&nbsp; */
+<b class="fc">&nbsp;public class ObjectiveDeck {</b>
+&nbsp;    /**
+&nbsp;     * NCards is the integer to track the number of cards of the objective deck.
+&nbsp;     */
+&nbsp;    private int NCards;
+&nbsp;    /**
+&nbsp;     *The cards field represents the main deck of all 16 objective cards in the ObjectiveDeck class.
+&nbsp;     */
+<b class="fc">&nbsp;    private ObjectiveCard[] cards = new ObjectiveCard[16];</b>
+&nbsp;    /**
+&nbsp;     * temp_deck1 is an array that memorizes objective card type 1 loaded from JSON.
+&nbsp;     */
+&nbsp;    private ObjectiveCard1[] temp_deck1;
+&nbsp;    /**
+&nbsp;     * temp_deck2 is an array that memorizes objective card type 2 loaded from JSON.
+&nbsp;     */
+&nbsp;    private ObjectiveCard2[] temp_deck2;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Constructor initializes number of cards, load cards data from JSON,deserializes JSON data into arrays of ObjectiveCard1 and ObjectiveCard 2 objects.
+&nbsp;     * Then initialize resource maps for ObjectiveCard2, prepares and shuffles the main deck of cards with the loaded cards.
+&nbsp;     */
+<b class="fc">&nbsp;    public ObjectiveDeck() {</b>
+<b class="fc">&nbsp;        NCards = 16;</b>
+&nbsp;
+&nbsp;        try {
+<b class="fc">&nbsp;            InputStream inputStream1 = getClass().getClassLoader().getResourceAsStream(&quot;assets/data/objective_cards_1.json&quot;);</b>
+<b class="fc">&nbsp;            InputStream inputStream2 = getClass().getClassLoader().getResourceAsStream(&quot;assets/data/objective_cards_2.json&quot;);</b>
+<b class="pc">&nbsp;            if (inputStream1 == null || inputStream2 == null) {</b>
+<b class="nc">&nbsp;                throw new FileNotFoundException(&quot;File not found!&quot;);</b>
+&nbsp;            }
+<b class="fc">&nbsp;            Reader reader1 = new InputStreamReader(inputStream1);</b>
+<b class="fc">&nbsp;            Reader reader2 = new InputStreamReader(inputStream2);</b>
+&nbsp;
+<b class="fc">&nbsp;            Gson gson = new Gson();</b>
+&nbsp;
+<b class="fc">&nbsp;            temp_deck1 = gson.fromJson(reader1, ObjectiveCard1[].class);</b>
+<b class="fc">&nbsp;            temp_deck2 = gson.fromJson(reader2, ObjectiveCard2[].class);</b>
+&nbsp;
+<b class="fc">&nbsp;            for(ObjectiveCard2 card : temp_deck2){</b>
+<b class="fc">&nbsp;                for (Resource resource : Resource.values()) {</b>
+<b class="fc">&nbsp;                    if(!card.getReqMap().containsKey(resource))</b>
+<b class="fc">&nbsp;                        card.addReqMap(resource, 0);</b>
+&nbsp;                }
+&nbsp;            }
+&nbsp;
+<b class="nc">&nbsp;        } catch (IOException e) {</b>
+<b class="nc">&nbsp;            System.err.println(&quot;Error with JSON.&quot;);</b>
+&nbsp;        }
+&nbsp;
+<b class="pc">&nbsp;        assert temp_deck1 != null;</b>
+<b class="pc">&nbsp;        assert temp_deck2 != null;</b>
+&nbsp;
+<b class="fc">&nbsp;        List&lt;ObjectiveCard&gt; cardList = new ArrayList&lt;&gt;();</b>
+&nbsp;
+&nbsp;        // 8 is the number of the objective&#39;s type x cards. (x == 1 or 2)
+<b class="fc">&nbsp;        for(int i = 0; i &lt; 8; i++){</b>
+<b class="fc">&nbsp;            cardList.add(temp_deck1[i]);</b>
+<b class="fc">&nbsp;            cardList.add(temp_deck2[i]);</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        Collections.shuffle(cardList);</b>
+<b class="fc">&nbsp;        cardList.toArray(cards);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Draw method is used to draw to allow to have it in the hand of the player who carries it out.
+&nbsp;     * @return one of the cards loaded from JSON
+&nbsp;     */
+&nbsp;    public ObjectiveCard draw(){
+<b class="pc">&nbsp;        if (NCards == 0) {</b>
+<b class="nc">&nbsp;            throw new RuntimeException(); //SHOULDN&#39;T NEVER HAPPEN</b>
+&nbsp;        }
+&nbsp;        else{
+<b class="fc">&nbsp;            NCards--;</b>
+&nbsp;
+<b class="fc">&nbsp;            ObjectiveCard temp = cards[NCards];</b>
+&nbsp;
+&nbsp;            // the resize of the array is an overkill
+<b class="fc">&nbsp;            cards[NCards] = null;</b>
+&nbsp;
+&nbsp;            // I supposed the drawn card is the one available with the highest index.
+<b class="fc">&nbsp;            return temp;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    public int getNCards(){
+<b class="fc">&nbsp;        return NCards;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-07-03 15:07</div>
+</div>
+</body>
+</html>

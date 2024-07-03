@@ -1,0 +1,517 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > GUI</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.View</a>
+</div>
+
+<h1>Coverage Summary for Class: GUI (it.polimi.ingsw.View)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">GUI</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/10)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/16)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/40)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">GUI$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/73)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/115)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">GUI$2</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/13)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/89)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/156)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw.View;
+&nbsp;
+&nbsp;import it.polimi.ingsw.Distributed.ClientImpl;
+&nbsp;import it.polimi.ingsw.Events.*;
+&nbsp;import it.polimi.ingsw.Graphical.CardComponent;
+&nbsp;import it.polimi.ingsw.Graphical.ImageDialog;
+&nbsp;import it.polimi.ingsw.Graphical.MainFrame;
+&nbsp;import it.polimi.ingsw.Model.*;
+&nbsp;
+&nbsp;import javax.swing.*;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.concurrent.*;
+&nbsp;
+&nbsp;import static java.lang.String.valueOf;
+&nbsp;
+&nbsp;/**
+&nbsp; * Represent the logic behind the connection between the server and the client&#39;s  graphic interface
+&nbsp; */
+&nbsp;public class GUI extends UI{
+&nbsp;    /**
+&nbsp;     * the frame that contains the GUI
+&nbsp;     */
+&nbsp;    private MainFrame f;
+&nbsp;    /**
+&nbsp;     * lock for synchronizations
+&nbsp;     */
+<b class="nc">&nbsp;    private final Object lock=new Object();</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Constructor: calls the constructor of the mainFrame class
+&nbsp;     * @param client the owner of the GUI
+&nbsp;     */
+&nbsp;    public GUI(ClientImpl client) {
+<b class="nc">&nbsp;        super(client);</b>
+<b class="nc">&nbsp;        f = new MainFrame(this);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * method that allows the player to set his nickname creating an event that is handled in the run method.
+&nbsp;     * This method is blocking that means that until the player enter his nickname everything will be waiting (see also run method).
+&nbsp;     * @return the player&#39;s nickname
+&nbsp;     */
+&nbsp;    public String chooseNickname() {
+<b class="nc">&nbsp;        update(new ChooseNickname(&quot;message&quot;,&quot;everyone&quot;));</b>
+&nbsp;
+<b class="nc">&nbsp;        ExecutorService executor = Executors.newSingleThreadExecutor();</b>
+&nbsp;        //thread with return parameter
+<b class="nc">&nbsp;        Callable&lt;String&gt; task = () -&gt; {</b>
+<b class="nc">&nbsp;            synchronized(lock) { lock.wait();}</b>
+&nbsp;            //System.out.println(&quot;Nickname: &quot;+nickname);
+<b class="nc">&nbsp;            return nickname;</b>
+&nbsp;        };
+&nbsp;
+&nbsp;        //start the thread and save his return in a future type
+<b class="nc">&nbsp;        Future&lt;String&gt; future = executor.submit(task);</b>
+&nbsp;
+&nbsp;        try {
+<b class="nc">&nbsp;            f.setNickname(future.get());</b>
+<b class="nc">&nbsp;            return future.get();</b>
+<b class="nc">&nbsp;        } catch (InterruptedException |ExecutionException  e) {</b>
+<b class="nc">&nbsp;            throw new RuntimeException(e);</b>
+&nbsp;        } finally {
+<b class="nc">&nbsp;            executor.shutdown();</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;    * method to print errors in the console
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void printErr(String s) {
+<b class="nc">&nbsp;        System.err.println(s);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * method to print messages in the console
+&nbsp;     * @param s the message to print
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void printOut(String s) {
+<b class="nc">&nbsp;        System.out.println(s);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * static method that build the path to an image based on the card info
+&nbsp;     * @param id the card id
+&nbsp;     * @param isFacedown the boolean representing if the card is showing his front or his back
+&nbsp;     * @return the path to the image of the card
+&nbsp;     */
+&nbsp;    public static String getCardPath(int id, boolean isFacedown) {
+&nbsp;        String idString;
+<b class="nc">&nbsp;        if (id &lt; 100) {</b>
+<b class="nc">&nbsp;            idString = valueOf(id);</b>
+<b class="nc">&nbsp;            idString = &quot;0&quot; + idString;</b>
+&nbsp;
+<b class="nc">&nbsp;            if (id &lt; 10) {</b>
+<b class="nc">&nbsp;                idString = &quot;0&quot; + idString;</b>
+&nbsp;            }
+&nbsp;        } else {
+<b class="nc">&nbsp;            idString = valueOf(id);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        return &quot;assets/images/cards/&quot; + (isFacedown ? &quot;back&quot; : &quot;front&quot;) + &quot;/&quot; + idString + &quot;.png&quot;;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * When an event is received from the server, it is added to the queue where it will be handled in the run method.
+&nbsp;     * Asynchronous event are handled directly from here.
+&nbsp;     * @param e the received event
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void update(GenericEvent e){
+<b class="nc">&nbsp;        if (e instanceof ChatMessage){ if(!e.nickname.equals(nickname))f.addChatMessage(e.nickname,e.getMessage());}</b>
+&nbsp;        else {
+<b class="nc">&nbsp;            if (e instanceof FinalRankings) {</b>
+<b class="nc">&nbsp;                f.addChatMessage(&quot;game&quot;, e.getMessage());</b>
+<b class="nc">&nbsp;                JOptionPane.showMessageDialog(f,&quot;Game Over&quot;);</b>
+<b class="nc">&nbsp;                notifyListener(new AckResponse(nickname, (FinalRankings) e));</b>
+&nbsp;            }
+<b class="nc">&nbsp;            else if(e instanceof EndGameTriggered){</b>
+<b class="nc">&nbsp;                    f.addChatMessage(&quot;game&quot;, e.getMessage());</b>
+<b class="nc">&nbsp;                    JOptionPane.showMessageDialog(f, e.getMessage());</b>
+&nbsp;            }
+<b class="nc">&nbsp;            else if( e instanceof  PlayerDisconnected) f.addChatMessage(&quot;game&quot;, e.getMessage());</b>
+<b class="nc">&nbsp;            else synchronized (inputEvents) {</b>
+<b class="nc">&nbsp;                    inputEvents.add(e);</b>
+&nbsp;                    //System.out.println(&quot;[DEBUG] received: &quot;+ e.getClass().getName());
+<b class="nc">&nbsp;            }</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * notify view-controller listener on a new chat message from this player
+&nbsp;     * @param message the text message
+&nbsp;     */
+&nbsp;    public void sendChatMessage(String message){
+<b class="nc">&nbsp;        listener.addEvent(new ChatMessage(message,nickname,null));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * notify view-controller listener on a new private chat message from this player
+&nbsp;     * @param message the text message
+&nbsp;     * @param nickname the receiver of the message
+&nbsp;     */
+<b class="nc">&nbsp;    public void sendPrivateChatMessage(String message, String nickname){listener.addEvent(new ChatMessage(message,this.nickname,nickname));}</b>
+&nbsp;    /**
+&nbsp;     * Represent the logic behind the client&#39;s user interface and his connection to the game.
+&nbsp;     * Here event are taken from the queue and handled based on their type
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void run() {
+&nbsp;
+<b class="nc">&nbsp;        Thread GUI = new Thread(){</b>
+&nbsp;            @Override
+&nbsp;            public void run(){
+<b class="nc">&nbsp;        while(running){</b>
+<b class="nc">&nbsp;                    synchronized (inputEvents) {</b>
+<b class="nc">&nbsp;                    if(inputEvents.isEmpty())   continue;}</b>
+<b class="nc">&nbsp;                    GenericEvent ev = inputEvents.poll();</b>
+&nbsp;                    // Ignore all other player&#39;s events
+<b class="nc">&nbsp;                    if(!ev.mustBeSentToAll &amp;&amp; !ev.nickname.equals(client.getNickname())) continue;</b>
+&nbsp;
+<b class="nc">&nbsp;                    int n=0;</b>
+<b class="nc">&nbsp;                    GenericEvent newEvent=null;</b>
+<b class="nc">&nbsp;                    String s=null;</b>
+<b class="nc">&nbsp;                    ArrayList&lt;Object&gt; possibilities=null;</b>
+<b class="nc">&nbsp;                    String message= ev.getMessage();</b>
+&nbsp;
+&nbsp;
+<b class="nc">&nbsp;                    switch(ev){</b>
+&nbsp;
+<b class="nc">&nbsp;                        case ChooseNickname e:</b>
+<b class="nc">&nbsp;                            synchronized(lock) {</b>
+<b class="nc">&nbsp;                                while (nickname == null || nickname.length() &lt; 4 || nickname.contains(&quot; &quot;)) {</b>
+<b class="nc">&nbsp;                                    nickname = f.showInputDialog(&quot;Choose nickname&quot;, &quot;Enter your nickname: \n At least 4 characters and no space allowed.&quot;, null);</b>
+&nbsp;                                }
+<b class="nc">&nbsp;                                lock.notifyAll();</b>
+<b class="nc">&nbsp;                            }</b>
+&nbsp;                            break;
+&nbsp;
+<b class="nc">&nbsp;                        case NumPlayersRequest e :</b>
+<b class="nc">&nbsp;                            possibilities = new ArrayList&lt;Object&gt;();</b>
+<b class="nc">&nbsp;                            possibilities.add(&quot;2&quot;);</b>
+<b class="nc">&nbsp;                            possibilities.add(&quot;3&quot;);</b>
+<b class="nc">&nbsp;                            possibilities.add(&quot;4&quot;);</b>
+<b class="nc">&nbsp;                            while(s==null) {</b>
+<b class="nc">&nbsp;                                s = f.showInputDialog(&quot;Number of players&quot;,message, possibilities.toArray());</b>
+&nbsp;                            }
+<b class="nc">&nbsp;                            newEvent = new NumPlayersResponse(Integer.parseInt(s) , client.getNickname());</b>
+<b class="nc">&nbsp;                            notifyListener(newEvent);</b>
+&nbsp;                            break;
+&nbsp;
+<b class="nc">&nbsp;                        case ChooseObjectiveRequest e :</b>
+&nbsp;                            try {
+<b class="nc">&nbsp;                                while(n==0){</b>
+<b class="nc">&nbsp;                                    ImageDialog dialog = new ImageDialog(f, message,getCardPath(e.objCard1.getID(),false), getCardPath(e.objCard2.getID(),false),false);</b>
+<b class="nc">&nbsp;                                    dialog.setVisible(true);</b>
+&nbsp;
+<b class="nc">&nbsp;                                    n= dialog.getChoice();</b>
+&nbsp;                                }
+<b class="nc">&nbsp;                            } catch (IOException ex) {</b>
+<b class="nc">&nbsp;                                printErr(&quot;Error: &quot; + ex.getMessage());</b>
+&nbsp;                            }
+<b class="nc">&nbsp;                            ObjectiveCard chosenCard= n==1?((ChooseObjectiveRequest) ev).objCard1 : ((ChooseObjectiveRequest) ev).objCard2;</b>
+<b class="nc">&nbsp;                            newEvent = new ChooseObjectiveResponse( chosenCard, client.getNickname());</b>
+<b class="nc">&nbsp;                            notifyListener(newEvent);</b>
+&nbsp;                            break;
+&nbsp;
+<b class="nc">&nbsp;                        case DrawCardRequest e :</b>
+<b class="nc">&nbsp;                            f.update(e.gameView, 2);</b>
+<b class="nc">&nbsp;                            JOptionPane.showMessageDialog(f, message);</b>
+<b class="nc">&nbsp;                            synchronized(f.getLock()) {</b>
+&nbsp;                                try {
+<b class="nc">&nbsp;                                    f.getLock().wait();</b>
+<b class="nc">&nbsp;                                } catch (InterruptedException ex) {</b>
+<b class="nc">&nbsp;                                    throw new RuntimeException(ex);</b>
+&nbsp;                                }
+<b class="nc">&nbsp;                            }</b>
+<b class="nc">&nbsp;                            newEvent = new DrawCardResponse( f.getDrawChoice(), client.getNickname());</b>
+<b class="nc">&nbsp;                            notifyListener(newEvent);</b>
+&nbsp;                            break;
+&nbsp;
+<b class="nc">&nbsp;                        case PlayCardRequest e :</b>
+<b class="nc">&nbsp;                            f.update(e.gameView, 1);</b>
+<b class="nc">&nbsp;                            synchronized(f.getLock()) {</b>
+&nbsp;                                try {
+<b class="nc">&nbsp;                                    f.getLock().wait();</b>
+<b class="nc">&nbsp;                                } catch (InterruptedException ex) {</b>
+<b class="nc">&nbsp;                                    throw new RuntimeException(ex);</b>
+&nbsp;                                }
+<b class="nc">&nbsp;                            }</b>
+<b class="nc">&nbsp;                            CardComponent card=f.getPlayChoice();</b>
+<b class="nc">&nbsp;                            if (card.isFlipped()) e.getPlayerView(e.nickname).hand.handCards[card.getCardID()].isFacedown=true;</b>
+<b class="nc">&nbsp;                            newEvent = new PlayCardResponse( client.getNickname(),e.getPlayerView(e.nickname).hand.handCards[card.getCardID()] ,card.getRow(),card.getCol());</b>
+<b class="nc">&nbsp;                            notifyListener(newEvent);</b>
+&nbsp;                            break;
+&nbsp;
+<b class="nc">&nbsp;                        case SetTokenColorRequest e :</b>
+<b class="nc">&nbsp;                            possibilities=new ArrayList&lt;Object&gt;();</b>
+<b class="nc">&nbsp;                            for(TokenColor c : e.availableColors){</b>
+<b class="nc">&nbsp;                                possibilities.add(c.name());</b>
+&nbsp;                            }
+<b class="nc">&nbsp;                            while(s==null) {</b>
+<b class="nc">&nbsp;                                s = f.showInputDialog(&quot;Choose token color&quot;,message, possibilities.toArray());</b>
+&nbsp;                            }
+<b class="nc">&nbsp;                            switch (TokenColor.valueOf(s)){</b>
+<b class="nc">&nbsp;                                case  TokenColor.RED-&gt; n=1;</b>
+<b class="nc">&nbsp;                                case TokenColor.YELLOW -&gt; n=2;</b>
+<b class="nc">&nbsp;                                case TokenColor.GREEN -&gt; n=3;</b>
+<b class="nc">&nbsp;                                case TokenColor.BLUE -&gt; n=4;</b>
+&nbsp;                            }
+<b class="nc">&nbsp;                            newEvent = new SetTokenColorResponse(n , client.getNickname());</b>
+<b class="nc">&nbsp;                            notifyListener(newEvent);</b>
+&nbsp;                            break;
+&nbsp;
+<b class="nc">&nbsp;                        case JoinLobby e :</b>
+<b class="nc">&nbsp;                            String addMsg= nickname.equals(e.getNewNickname()) ?&quot;\n Nickname: &quot;+ e.getNewNickname(): &quot;\nSince your nickname was already chosen, this is your assigned nickname: &quot;+e.getNewNickname();</b>
+<b class="nc">&nbsp;                            while(s==null || s.length()&lt;4 || s.contains(&quot; &quot;)) {</b>
+<b class="nc">&nbsp;                                s = f.showInputDialog(&quot;Set password&quot;,message+addMsg, null);</b>
+&nbsp;                            }
+<b class="nc">&nbsp;                            f.setNickname(e.getNewNickname());</b>
+<b class="nc">&nbsp;                            f.addChatMessage(&quot;game&quot;, &quot;You have joined the game. Waiting for other players to start the game.&quot;);</b>
+<b class="nc">&nbsp;                            newEvent = new SetPassword( e.getNewNickname(),s.trim());</b>
+<b class="nc">&nbsp;                            notifyListener(newEvent);</b>
+&nbsp;                            break;
+&nbsp;
+<b class="nc">&nbsp;                        case PlaceStartingCard e :</b>
+<b class="nc">&nbsp;                            n=0;</b>
+&nbsp;                            try {
+<b class="nc">&nbsp;                                while(n==0){</b>
+<b class="nc">&nbsp;                                    ImageDialog dialog = new ImageDialog(f, message,getCardPath(e.startingCard.getID(),false), getCardPath(e.startingCard.getID(),true),true);</b>
+<b class="nc">&nbsp;                                    dialog.setVisible(true);</b>
+&nbsp;
+<b class="nc">&nbsp;                                    n= dialog.getChoice();</b>
+&nbsp;                                }
+<b class="nc">&nbsp;                            } catch (IOException ex) {</b>
+<b class="nc">&nbsp;                                printErr(&quot;Error: &quot; + ex.getMessage());</b>
+&nbsp;                            }
+<b class="nc">&nbsp;                            if (n==2) e.startingCard.isFacedown=true; //rotate card</b>
+<b class="nc">&nbsp;                            notifyListener(e);</b>
+&nbsp;                            break;
+&nbsp;
+<b class="nc">&nbsp;                        case StartGame e:</b>
+&nbsp;                            //switch to game frame
+<b class="nc">&nbsp;                            JOptionPane.showMessageDialog(f, message);</b>
+&nbsp;                            break;
+<b class="nc">&nbsp;                        case StartTurn e:</b>
+&nbsp;                            //show message + update view
+<b class="nc">&nbsp;                            f.addChatMessage(&quot;game&quot;,&quot;Points: &quot;+e.gameView.tableCenterView.scoreTrack.points.toString());</b>
+<b class="nc">&nbsp;                            if(e.turnPlayer.equals(nickname)) JOptionPane.showMessageDialog(f, message);</b>
+<b class="nc">&nbsp;                            else f.addChatMessage(&quot;game&quot;, e.getMessage());</b>
+<b class="nc">&nbsp;                            f.update(e.gameView,0);</b>
+&nbsp;                            break;
+&nbsp;
+<b class="nc">&nbsp;                        case EndTurn e:</b>
+&nbsp;                            //show message + update view
+<b class="nc">&nbsp;                            f.addChatMessage(&quot;game&quot;, e.getMessage());</b>
+<b class="nc">&nbsp;                            f.update(e.gameView, 0);</b>
+&nbsp;                            break;
+&nbsp;
+<b class="nc">&nbsp;                        case TurnOrder e:</b>
+<b class="nc">&nbsp;                            f.addChatMessage(&quot;game&quot;, e.getMessage());</b>
+<b class="nc">&nbsp;                            f.reactStartGame(e.gameView);</b>
+&nbsp;
+&nbsp;                            break;
+&nbsp;
+<b class="nc">&nbsp;                        case ReconnectionRequest e:</b>
+<b class="nc">&nbsp;                            while(s==null || s.length()&lt;4 || s.contains(&quot; &quot;)) {</b>
+<b class="nc">&nbsp;                                s = f.showInputDialog(&quot;Reconnection&quot;,message, null);</b>
+&nbsp;                            }
+<b class="nc">&nbsp;                            newEvent = new ReconnectionResponse( client.getNickname(),s.trim());</b>
+<b class="nc">&nbsp;                            notifyListener(newEvent);</b>
+&nbsp;                            break;
+&nbsp;
+<b class="nc">&nbsp;                        case ErrorJoinLobby e:</b>
+<b class="nc">&nbsp;                            n=JOptionPane.showConfirmDialog(f,e.getMessage()+&quot;\nDo you want to try to connect again?&quot;);</b>
+<b class="nc">&nbsp;                            if (n == 0)  notifyListener(new ClientRegister(client));</b>
+<b class="nc">&nbsp;                            else        System.exit(1);</b>
+&nbsp;                            break;
+&nbsp;
+<b class="nc">&nbsp;                        case AckResponse e:</b>
+<b class="nc">&nbsp;                            if (e.receivedEvent instanceof PlayCardResponse || e.receivedEvent instanceof DrawCardResponse) {</b>
+<b class="nc">&nbsp;                                if(e.ok) f.update(e.gameView,0);</b>
+<b class="nc">&nbsp;                                else JOptionPane.showMessageDialog(f, message);</b>
+&nbsp;                            }
+&nbsp;//                            if(e.receivedEvent!=null)
+&nbsp;//                                System.out.println(&quot;Received ack for &quot;+ e.receivedEvent.getClass().getName());
+&nbsp;                            break;
+&nbsp;                        default:
+&nbsp;                            //do nothing
+&nbsp;                            break;
+&nbsp;                    }
+&nbsp;
+&nbsp;                }
+&nbsp;
+&nbsp;            }};
+<b class="nc">&nbsp;        GUI.start();</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-07-03 15:07</div>
+</div>
+</body>
+</html>

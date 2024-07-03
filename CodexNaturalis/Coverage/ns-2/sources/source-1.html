@@ -1,0 +1,651 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > Controller</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.Controller</a>
+</div>
+
+<h1>Coverage Summary for Class: Controller (it.polimi.ingsw.Controller)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Controller</td>
+<td class="coverageStat">
+  <span class="percent">
+    52,9%
+  </span>
+  <span class="absValue">
+    (9/17)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    17,3%
+  </span>
+  <span class="absValue">
+    (17/98)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    25,1%
+  </span>
+  <span class="absValue">
+    (46/183)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">Controller$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    50%
+  </span>
+  <span class="absValue">
+    (1/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    66,7%
+  </span>
+  <span class="absValue">
+    (4/6)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    57,9%
+  </span>
+  <span class="absValue">
+    (11/19)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    18%
+  </span>
+  <span class="absValue">
+    (18/100)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    26,5%
+  </span>
+  <span class="absValue">
+    (50/189)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw.Controller;
+&nbsp;
+&nbsp;import it.polimi.ingsw.Distributed.Client;
+&nbsp;import it.polimi.ingsw.Events.*;
+&nbsp;import it.polimi.ingsw.Exceptions.*;
+&nbsp;import it.polimi.ingsw.Listeners.ModelViewListener;
+&nbsp;import it.polimi.ingsw.Model.Game;
+&nbsp;import it.polimi.ingsw.Distributed.ServerImpl;
+&nbsp;import it.polimi.ingsw.Model.Player;
+&nbsp;
+&nbsp;import java.rmi.RemoteException;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.HashMap;
+&nbsp;
+&nbsp;/**
+&nbsp; * Class that represents the controller in the MVC pattern.
+&nbsp; * It handles the action of the players on the model.
+&nbsp; */
+<b class="fc">&nbsp;public class Controller {</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Hashmap that assigns a password to every player.
+&nbsp;     */
+<b class="fc">&nbsp;    private HashMap&lt;String, String&gt; passwords = new HashMap&lt;String, String&gt;();</b>
+&nbsp;    /**
+&nbsp;     * The server that handles the connections.
+&nbsp;     */
+&nbsp;    private final ServerImpl server;
+&nbsp;    /**
+&nbsp;     * The waiting lobby before the game starts.
+&nbsp;     */
+&nbsp;    private Lobby lobby;
+&nbsp;    /**
+&nbsp;     * The actual game. It represents the model in the MVC pattern.
+&nbsp;     */
+<b class="fc">&nbsp;    private Game model = null;</b>
+&nbsp;    /**
+&nbsp;     * The listeners that allow the exchange of information between the MVC pattern.
+&nbsp;     */
+<b class="fc">&nbsp;    private ArrayList&lt;ModelViewListener&gt; MVListeners     = new ArrayList&lt;ModelViewListener&gt;();</b>
+&nbsp;    /**
+&nbsp;     * The listeners of clients that are trying to log in.
+&nbsp;     */
+<b class="fc">&nbsp;    private ArrayList&lt;ModelViewListener&gt; tempMVListeners = new ArrayList&lt;ModelViewListener&gt;();</b>
+&nbsp;    /**
+&nbsp;     * Boolean that indicates if the creation of the lobby request has been sent.
+&nbsp;     */
+<b class="fc">&nbsp;    private boolean numPlayersRequestSent = false;</b>
+&nbsp;    /**
+&nbsp;     * Nickname that helps the controller to check if another one already exists.
+&nbsp;     */
+<b class="fc">&nbsp;    private String newNickname = null;</b>
+&nbsp;    /**
+&nbsp;     * Lock on the flux of the game.
+&nbsp;     */
+<b class="fc">&nbsp;    private final Object flux_lock = new Object();</b>
+<b class="fc">&nbsp;    private Integer wait=0;</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Constructor
+&nbsp;     * @param server the server that handles the connections.
+&nbsp;     */
+<b class="fc">&nbsp;    public Controller(ServerImpl server){</b>
+<b class="fc">&nbsp;        this.server = server;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Creates and starts the actual game.
+&nbsp;     */
+&nbsp;    void createGame() throws RemoteException{
+<b class="fc">&nbsp;        String[] temp = new String[lobby.getNumPlayers()];</b>
+<b class="fc">&nbsp;        lobby.getPlayers().toArray(temp);</b>
+<b class="fc">&nbsp;        model = new Game(lobby.getNumPlayers(), temp, MVListeners);</b>
+&nbsp;
+&nbsp;        // NOTIFY ALL LISTENERS OF STARTGAME EVENT
+<b class="fc">&nbsp;        sendEventToAll(new StartGame(&quot;every one&quot;, model.clone()));</b>
+<b class="fc">&nbsp;        new Thread(){</b>
+&nbsp;            @Override
+&nbsp;            public void run() {
+&nbsp;                while(true) {
+&nbsp;                    //wait for everyone to complete the start
+<b class="fc">&nbsp;                    synchronized (flux_lock){</b>
+<b class="pc">&nbsp;                        if (wait == lobby.getNumPlayers()) break;</b>
+<b class="fc">&nbsp;                    }</b>
+&nbsp;                }
+<b class="nc">&nbsp;                wait=0;</b>
+<b class="nc">&nbsp;                getGame().startGame();</b>
+&nbsp;            }
+<b class="fc">&nbsp;        }.start();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void createLobby(int numPlayers) throws RemoteException {
+<b class="fc">&nbsp;        synchronized(this){</b>
+<b class="fc">&nbsp;        this.lobby  = new Lobby();</b>
+<b class="fc">&nbsp;        lobby.setNumPlayers(numPlayers);}</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Creates the listener for the client that is trying to connect.
+&nbsp;     * If the lobby is empty, the number of players for the game must be set.
+&nbsp;     * Calls lobby.addPlayer() if lobby isn&#39;t full.
+&nbsp;     * Communicate the result of the action to the client through its listener.
+&nbsp;     * @param nickname the nickname of the player to add.
+&nbsp;     * @param mvListener the listener associated with the nickname
+&nbsp;     * @param oldNickname the old nickname of the user. It may be different from
+&nbsp;     *                    the actual one in case another equal one was found.
+&nbsp;     * @throws RemoteException default rmi exception
+&nbsp;     * @see Lobby
+&nbsp;     */
+&nbsp;    public void addPlayerToLobby(String nickname, ModelViewListener mvListener, String oldNickname) throws RemoteException {
+<b class="fc">&nbsp;        synchronized (this){</b>
+&nbsp;            // If the lobby is empty, the player decides its size.
+<b class="pc">&nbsp;            if (lobby == null &amp;&amp; !numPlayersRequestSent){</b>
+<b class="fc">&nbsp;                this.newNickname = nickname;</b>
+&nbsp;
+<b class="fc">&nbsp;                mvListener.addEvent(new NumPlayersRequest(&quot;every one&quot;));</b>
+<b class="fc">&nbsp;                numPlayersRequestSent = true;</b>
+&nbsp;            }
+&nbsp;            else{
+&nbsp;                // Checks the game hasn&#39;t started yet.
+<b class="pc">&nbsp;                if (model == null &amp;&amp; lobby!=null) {</b>
+<b class="pc">&nbsp;                    if(!lobby.addPlayer(nickname)) {</b>
+<b class="nc">&nbsp;                        server.logger.addLog(&quot;Can&#39;t add the player.&quot;, Severity.WARNING);</b>
+<b class="nc">&nbsp;                        mvListener.addEvent(new ErrorJoinLobby(nickname, lobby.getNumPlayers() == 0 ? 1 : 0));</b>
+&nbsp;                    }
+&nbsp;                    else {
+<b class="fc">&nbsp;                        mvListener.addEvent(new JoinLobby(oldNickname, nickname));</b>
+<b class="pc">&nbsp;                        if(lobby.getNumPlayers() != 0 &amp;&amp; lobby.getNumPlayers() == lobby.getPlayers().size()){</b>
+<b class="fc">&nbsp;                            createGame();</b>
+&nbsp;                        }
+&nbsp;                    }
+&nbsp;                }
+&nbsp;                // This is for rejoining a game
+<b class="pc">&nbsp;                else if(model != null){</b>
+<b class="fc">&nbsp;                    boolean isPresent = false;</b>
+<b class="fc">&nbsp;                    for(Player player : model.getPlayers()){</b>
+<b class="pc">&nbsp;                        if(player.getNickname().equals(nickname)){</b>
+<b class="nc">&nbsp;                            isPresent = true;</b>
+&nbsp;
+<b class="nc">&nbsp;                            model.rejoin(mvListener);</b>
+&nbsp;                        }
+&nbsp;                    }
+<b class="pc">&nbsp;                    if(!isPresent){</b>
+<b class="fc">&nbsp;                        server.logger.addLog(&quot;Can&#39;t add the player: the game has already started.&quot;, Severity.WARNING);</b>
+<b class="fc">&nbsp;                        mvListener.addEvent(new ErrorJoinLobby(oldNickname, 2));</b>
+&nbsp;                    }
+&nbsp;                }
+&nbsp;                else{
+<b class="nc">&nbsp;                    server.logger.addLog(&quot;Can&#39;t add the player: lobby isn&#39;t ready.&quot;, Severity.WARNING);</b>
+<b class="nc">&nbsp;                    mvListener.addEvent(new ErrorJoinLobby(oldNickname, 1));</b>
+&nbsp;                }
+&nbsp;            }
+<b class="fc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Getter for the game.
+&nbsp;     * @return the game
+&nbsp;     */
+&nbsp;    public Game getGame(){
+<b class="fc">&nbsp;        return this.model;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Receive an event from the client and acts on the model.
+&nbsp;     * @param event the event sent from the client
+&nbsp;     * @param nickname the player that sent the event
+&nbsp;     * @throws RemoteException default rmi exception
+&nbsp;     * @see GenericEvent
+&nbsp;     * @see Game
+&nbsp;     */
+&nbsp;    public void updateModel(GenericEvent event, String nickname) throws RemoteException {
+&nbsp;
+<b class="nc">&nbsp;            if(event instanceof NumPlayersResponse){</b>
+<b class="nc">&nbsp;                createLobby(((NumPlayersResponse) event).numPlayers);</b>
+<b class="nc">&nbsp;                getMVListenerByNickname(nickname).addEvent(new AckResponse(nickname, null, (GenericResponse) event, true));</b>
+&nbsp;                //the first player is added after creating the lobby
+<b class="nc">&nbsp;                if(!lobby.addPlayer(nickname)) {</b>
+<b class="nc">&nbsp;                    server.logger.addLog(&quot;Can&#39;t add the player&quot;, Severity.WARNING);</b>
+<b class="nc">&nbsp;                    getMVListenerByNickname(nickname).addEvent(new ErrorJoinLobby(nickname, 1));</b>
+&nbsp;                }
+&nbsp;                else {
+<b class="nc">&nbsp;                    String newNickname = null;</b>
+<b class="nc">&nbsp;                    if(this.newNickname != null){</b>
+<b class="nc">&nbsp;                        newNickname = this.newNickname;</b>
+<b class="nc">&nbsp;                        this.newNickname = null;</b>
+&nbsp;                    }
+<b class="nc">&nbsp;                    getMVListenerByNickname(nickname).addEvent(new JoinLobby(nickname, newNickname));</b>
+&nbsp;
+<b class="nc">&nbsp;                    if(lobby.getNumPlayers() != 0 &amp;&amp; lobby.getNumPlayers() == lobby.getPlayers().size()){</b>
+<b class="nc">&nbsp;                        createGame();</b>
+&nbsp;                    }
+&nbsp;                }
+&nbsp;            }
+<b class="nc">&nbsp;            else if(event instanceof ReconnectionResponse){</b>
+&nbsp;
+<b class="nc">&nbsp;                ModelViewListener l = null;</b>
+<b class="nc">&nbsp;                for(ModelViewListener listener : tempMVListeners){</b>
+<b class="nc">&nbsp;                    if(listener.nickname.equals(nickname)){</b>
+<b class="nc">&nbsp;                        l = listener;</b>
+<b class="nc">&nbsp;                        tempMVListeners.remove(listener);</b>
+&nbsp;                        break;
+&nbsp;                    }
+&nbsp;                }
+&nbsp;
+<b class="nc">&nbsp;                assert l != null;</b>
+&nbsp;
+<b class="nc">&nbsp;                if(model.isFinished){</b>
+<b class="nc">&nbsp;                    GenericResponse ack = new AckResponse(event.nickname, &quot;Can&#39;t rejoin: the game terminated.&quot;, (GenericResponse) event, false);</b>
+&nbsp;
+<b class="nc">&nbsp;                    l.addEvent(ack);</b>
+&nbsp;
+&nbsp;                    // wait until the ack is sent
+<b class="nc">&nbsp;                    while(!l.getPendingAck().equals(ack)){</b>
+&nbsp;                    }
+&nbsp;
+&nbsp;                    return;
+&nbsp;                }
+&nbsp;
+&nbsp;                // The password is correct.
+<b class="nc">&nbsp;                if(((ReconnectionResponse) event).getPassword().equals(passwords.get(nickname))){</b>
+<b class="nc">&nbsp;                    synchronized (server.disconnectedClients){</b>
+<b class="nc">&nbsp;                        server.disconnectedClients.remove(nickname);</b>
+<b class="nc">&nbsp;                    }</b>
+&nbsp;
+<b class="nc">&nbsp;                    sendEventToAll(new PlayerDisconnected(&quot;every one&quot;, nickname, MVListeners.size() + 1, true));</b>
+&nbsp;
+<b class="nc">&nbsp;                    synchronized (MVListeners){</b>
+<b class="nc">&nbsp;                        MVListeners.add(l);</b>
+<b class="nc">&nbsp;                    }</b>
+&nbsp;
+<b class="nc">&nbsp;                    l.addEvent(new AckResponse(nickname, null, (ReconnectionResponse) event, true));</b>
+&nbsp;
+<b class="nc">&nbsp;                    synchronized (model.OPLLock){</b>
+<b class="nc">&nbsp;                        model.OPLLock.notifyAll();</b>
+<b class="nc">&nbsp;                    }</b>
+&nbsp;
+<b class="nc">&nbsp;                    server.register(((ReconnectionResponse) event).client);</b>
+&nbsp;                }
+&nbsp;                else{
+<b class="nc">&nbsp;                    GenericResponse ack = new AckResponse(event.nickname, &quot;Can&#39;t rejoin: the password is incorrect.&quot;, (GenericResponse) event, false);</b>
+&nbsp;
+<b class="nc">&nbsp;                    l.addEvent(ack);</b>
+&nbsp;
+&nbsp;                    // wait until the ack is sent
+<b class="nc">&nbsp;                    while(!l.getPendingAck().equals(ack)){</b>
+&nbsp;                    }
+&nbsp;                }
+&nbsp;            }
+<b class="nc">&nbsp;            else if(event instanceof ChatMessage){</b>
+&nbsp;
+<b class="nc">&nbsp;                if(event.mustBeSentToAll)   sendEventToAll(event);</b>
+<b class="nc">&nbsp;                else if(server.getClients().containsKey(((ChatMessage) event).recipient))</b>
+<b class="nc">&nbsp;                    getMVListenerByNickname(((ChatMessage) event).recipient).addChatMessage((ChatMessage) event);</b>
+&nbsp;                else {
+<b class="nc">&nbsp;                    getMVListenerByNickname(nickname).addEvent(new ChatAck((ChatMessage) event, false));</b>
+&nbsp;                    return;
+&nbsp;                }
+&nbsp;
+<b class="nc">&nbsp;                getMVListenerByNickname(nickname).addEvent(new ChatAck((ChatMessage) event, true));</b>
+&nbsp;            }
+&nbsp;
+<b class="nc">&nbsp;            else if(event instanceof ChooseObjectiveResponse) {</b>
+<b class="nc">&nbsp;                getPlayerByNickname(nickname).chooseObjective(((ChooseObjectiveResponse) event).objectiveCard);</b>
+<b class="nc">&nbsp;                getMVListenerByNickname(nickname).addEvent(new AckResponse(nickname, null, (GenericResponse) event, true));</b>
+&nbsp;            }
+&nbsp;
+<b class="nc">&nbsp;            else if(event instanceof DrawCardResponse){</b>
+<b class="nc">&nbsp;                int chosenPosition = ((DrawCardResponse)event).position;</b>
+<b class="nc">&nbsp;                boolean isException = false;</b>
+&nbsp;                //If position between 1 and 4 the player draws from the centered cards in the table center.
+<b class="nc">&nbsp;                if(chosenPosition &lt;= 4){</b>
+&nbsp;                    try {
+&nbsp;                        //make the draw
+<b class="nc">&nbsp;                        getPlayerByNickname(nickname).getHand().DrawPositionedCard(model.getTablecenter().getCenterCards()[chosenPosition-1]);</b>
+&nbsp;                        // send ack
+<b class="nc">&nbsp;                        getMVListenerByNickname(nickname).addEvent(new AckResponse(nickname, (GenericResponse) event, model.clone()));</b>
+&nbsp;
+&nbsp;                        //getMVListenerByNickname(nickname).addEvent(new ReturnDrawCard(getPlayerByNickname(nickname).getHand().getHandCards().clone(),nickname));
+<b class="nc">&nbsp;                    } catch (isEmptyException e) {</b>
+&nbsp;                        //isException = true;
+<b class="nc">&nbsp;                        getMVListenerByNickname(nickname).addEvent(new AckResponse(nickname, e.getMessage(), (GenericResponse) event, false));</b>
+<b class="nc">&nbsp;                    }catch(HandFullException e2){</b>
+<b class="nc">&nbsp;                        model.turnPhase++;</b>
+<b class="nc">&nbsp;                        nextPlayer();</b>
+&nbsp;                    }
+&nbsp;                }
+&nbsp;                //else if position is 4 or 5 (exceeds the centered cards array) it means the player
+&nbsp;                //wants to draw either from the ResourceDeck or the GoldDeck
+&nbsp;
+<b class="nc">&nbsp;                else if(chosenPosition == 5){</b>
+&nbsp;                    try {
+<b class="nc">&nbsp;                        getPlayerByNickname(nickname).getHand().DrawFromDeck(model.getTablecenter().getResDeck());</b>
+<b class="nc">&nbsp;                        getMVListenerByNickname(nickname).addEvent(new AckResponse(nickname, (GenericResponse) event, model.clone()));</b>
+&nbsp;
+&nbsp;                        //getMVListenerByNickname(nickname).addEvent(new ReturnDrawCard(getPlayerByNickname(nickname).getHand().getHandCards().clone(),nickname));
+<b class="nc">&nbsp;                    } catch (isEmptyException e) {</b>
+<b class="nc">&nbsp;                        isException = true;</b>
+<b class="nc">&nbsp;                        getMVListenerByNickname(nickname).addEvent(new AckResponse(nickname, e.getMessage(), (GenericResponse) event, false));</b>
+<b class="nc">&nbsp;                    }catch(HandFullException e2){</b>
+&nbsp;
+&nbsp;                    }
+&nbsp;                }
+<b class="nc">&nbsp;                else if(chosenPosition == 6){</b>
+&nbsp;                    try {
+<b class="nc">&nbsp;                        getPlayerByNickname(nickname).getHand().DrawFromDeck(model.getTablecenter().getGoldDeck());</b>
+<b class="nc">&nbsp;                        getMVListenerByNickname(nickname).addEvent(new AckResponse(nickname, (GenericResponse) event, model.clone()));</b>
+&nbsp;
+&nbsp;                        //getMVListenerByNickname(nickname).addEvent(new ReturnDrawCard(getPlayerByNickname(nickname).getHand().getHandCards().clone(),nickname));
+<b class="nc">&nbsp;                    } catch (isEmptyException e) {</b>
+<b class="nc">&nbsp;                        isException = true;</b>
+<b class="nc">&nbsp;                        getMVListenerByNickname(nickname).addEvent(new AckResponse(nickname, e.getMessage(), (GenericResponse) event, false));</b>
+<b class="nc">&nbsp;                    }catch(HandFullException e2){</b>
+&nbsp;
+&nbsp;                    }
+&nbsp;                }
+<b class="nc">&nbsp;                if(!isException){</b>
+<b class="nc">&nbsp;                    model.turnPhase++;</b>
+<b class="nc">&nbsp;                    nextPlayer();</b>
+&nbsp;                }
+&nbsp;            }
+&nbsp;
+<b class="nc">&nbsp;            else if(event instanceof PlayCardResponse){</b>
+&nbsp;                try {
+<b class="nc">&nbsp;                    synchronized (model.lock){</b>
+<b class="nc">&nbsp;                        getPlayerByNickname(nickname).getHand().playCard(((PlayCardResponse)event).card, 40 + ((PlayCardResponse)event).posX, 40 + ((PlayCardResponse)event).posY);</b>
+<b class="nc">&nbsp;                        getMVListenerByNickname(nickname).addEvent(new AckResponse(nickname, (GenericResponse) event, model.clone()));</b>
+<b class="nc">&nbsp;                        model.turnPhase++;</b>
+<b class="nc">&nbsp;                    }</b>
+&nbsp;                    //getMVListenerByNickname(nickname).addEvent(new ReturnPlayCard(nickname,getPlayerByNickname(nickname).getHand().getDisplayedCards().clone(),getPlayerByNickname(nickname).getCurrentResources()));
+<b class="nc">&nbsp;                } catch (WrongPlayException e) {</b>
+<b class="nc">&nbsp;                    getMVListenerByNickname(nickname).addEvent(new AckResponse(nickname, e.message, (GenericResponse) event, false));</b>
+&nbsp;                }
+&nbsp;            }
+&nbsp;
+<b class="nc">&nbsp;            else if(event instanceof SetTokenColorResponse){</b>
+<b class="nc">&nbsp;               boolean ok=getPlayerByNickname(nickname).setToken(((SetTokenColorResponse)event).tokenColor);</b>
+<b class="nc">&nbsp;                if (ok){</b>
+<b class="nc">&nbsp;                    getMVListenerByNickname(nickname).addEvent(new AckResponse(nickname, (GenericResponse) event, model.clone()));</b>
+&nbsp;//                    synchronized (model.controllerLock){
+&nbsp;//
+&nbsp;//                        model.waitNumClient++;
+&nbsp;//                        model.controllerLock.notifyAll();
+&nbsp;//                    }
+&nbsp;                }
+<b class="nc">&nbsp;                else getMVListenerByNickname(nickname).addEvent(new AckResponse(nickname, &quot;Color already taken. Please try again.&quot;, (GenericResponse) event, false));</b>
+&nbsp;            }
+<b class="nc">&nbsp;            else if(event instanceof PlaceStartingCard){</b>
+&nbsp;                try {
+<b class="nc">&nbsp;                        getPlayerByNickname(nickname).placeStartingCard(((PlaceStartingCard) event).startingCard);</b>
+<b class="nc">&nbsp;                        getMVListenerByNickname(nickname).addEvent(new AckResponse(nickname, null, model.clone()));</b>
+&nbsp;
+<b class="nc">&nbsp;                        synchronized (model.lock) {</b>
+<b class="nc">&nbsp;                            model.waitNumClient++;</b>
+<b class="nc">&nbsp;                        }</b>
+<b class="nc">&nbsp;                } catch (WrongPlayException e) {</b>
+&nbsp;                    //shouldn&#39;t happen
+<b class="nc">&nbsp;                    getMVListenerByNickname(nickname).addEvent(new AckResponse(nickname, &quot;Error in placing starting card&quot;, null, false));                }</b>
+&nbsp;            }
+<b class="nc">&nbsp;            else if(event instanceof SetPassword){</b>
+<b class="nc">&nbsp;                passwords.put(event.nickname, ((SetPassword) event).getPassword());</b>
+<b class="nc">&nbsp;                getMVListenerByNickname(nickname).addEvent(new AckResponse(nickname, null, (GenericResponse) event, true));</b>
+&nbsp;                //String p = passwords.get(event.nickname);
+<b class="nc">&nbsp;                synchronized (flux_lock) {wait++;}</b>
+&nbsp;            }
+<b class="nc">&nbsp;            else if(event instanceof AckResponse){</b>
+<b class="nc">&nbsp;                if(((AckResponse) event).receivedEvent instanceof FinalRankings){</b>
+<b class="nc">&nbsp;                    server.notifyEndSent();</b>
+<b class="nc">&nbsp;                    if(server.getEndSent() &gt;= server.controller.getMVListeners().size()) server.restart();</b>
+&nbsp;                }
+&nbsp;            }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Getter for a specific player in the game.
+&nbsp;     * @param nickname the player&#39;s nickname.
+&nbsp;     * @return the player.
+&nbsp;     * @see Player
+&nbsp;     */
+&nbsp;    private Player getPlayerByNickname(String nickname){
+&nbsp;        try {
+<b class="nc">&nbsp;            for (Player player : model.getPlayers()) {</b>
+<b class="nc">&nbsp;                if (player.getNickname().equals(nickname)) {</b>
+<b class="nc">&nbsp;                    return player;</b>
+&nbsp;                }
+&nbsp;            }
+<b class="nc">&nbsp;            throw new PlayerNotFoundException(nickname);</b>
+<b class="nc">&nbsp;        } catch (PlayerNotFoundException e) {</b>
+<b class="nc">&nbsp;            server.logger.addLog(&quot;Player &quot; + nickname + &quot; not found\n&quot;, Severity.WARNING);</b>
+<b class="nc">&nbsp;            return null;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Sends a specific event to all registered listeners.
+&nbsp;     * @param event the event to send.
+&nbsp;     * @throws RemoteException
+&nbsp;     * @see ModelViewListener
+&nbsp;     */
+&nbsp;    private void sendEventToAll(GenericEvent event) throws RemoteException {
+<b class="fc">&nbsp;        event.mustBeSentToAll = true;</b>
+&nbsp;
+<b class="fc">&nbsp;        for(ModelViewListener listener : MVListeners) listener.addEvent(event);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Method to get a listener (if present) associated with a specific nickname.
+&nbsp;     * @param nickname the nickname
+&nbsp;     * @return the listener or null if none of them with that nickname has been found.
+&nbsp;     * @see ModelViewListener
+&nbsp;     */
+&nbsp;    public ModelViewListener getMVListenerByNickname(String nickname){
+<b class="nc">&nbsp;        for(int i = MVListeners.size() - 1; i &gt;= 0; i--){</b>
+<b class="nc">&nbsp;            if(MVListeners.get(i).nickname.equals(nickname)){</b>
+<b class="nc">&nbsp;                return MVListeners.get(i);</b>
+&nbsp;           }
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        server.logger.addLog(&quot;MVListener not found&quot;, Severity.WARNING);</b>
+<b class="nc">&nbsp;        return null;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Getter for the list of listeners.
+&nbsp;     * @return the list.
+&nbsp;     * @see ModelViewListener
+&nbsp;     */
+&nbsp;    public ArrayList&lt;ModelViewListener&gt; getMVListeners() {
+<b class="nc">&nbsp;        return MVListeners;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Method to add and start a listener. Calls handleEvent() into it to make it work.
+&nbsp;     * @param listener the listener to be added.
+&nbsp;     * @throws RemoteException default rmi exception
+&nbsp;     * @see ModelViewListener
+&nbsp;     */
+&nbsp;    public void addMVListener(ModelViewListener listener) throws RemoteException {
+<b class="fc">&nbsp;        synchronized (MVListeners){</b>
+<b class="fc">&nbsp;            MVListeners.add(listener);</b>
+<b class="fc">&nbsp;        }</b>
+<b class="fc">&nbsp;        listener.handleEvent();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Public method to add a temporary listener to the list. The controller will establish if it&#39;ll
+&nbsp;     * go to the real one or not by the login.
+&nbsp;     * @param listener the listener to add.
+&nbsp;     * @throws RemoteException default rmi exception
+&nbsp;     */
+&nbsp;    public void addTempMVL(ModelViewListener listener) throws RemoteException {
+<b class="nc">&nbsp;        tempMVListeners.add(listener);</b>
+<b class="nc">&nbsp;        listener.handleEvent();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private void nextPlayer() throws RemoteException{
+<b class="nc">&nbsp;        if(model.turnPhase!=2) System.out.println(&quot;Something went wrong with previous player&#39;s turn&quot;);</b>
+&nbsp;        //end turn event
+<b class="nc">&nbsp;        EndTurn endTurn=new EndTurn(model.getCurrentPlayerNickname(), model.players.get(model.getCurPlayerPosition()).getNickname(),model.clone());</b>
+<b class="nc">&nbsp;        sendEventToAll(endTurn);</b>
+<b class="nc">&nbsp;        if(model.getRemainingTurns() == 0) model.checkWinner();</b>
+<b class="nc">&nbsp;        else model.nextPlayer(model.players.get(model.getCurPlayerPosition()));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Method that disconnects a player by calling the necessary method in Game class.
+&nbsp;     * @param nickname the nickname of the disconnected player
+&nbsp;     * @see Game
+&nbsp;     */
+&nbsp;    public void disconnectPlayer(String nickname){
+<b class="nc">&nbsp;        model.disconnectPlayer(getPlayerByNickname(nickname));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Method that completely deletes a client, removing also its listener.
+&nbsp;     * @param client the disconnected client
+&nbsp;     * @throws RemoteException default rmi exception
+&nbsp;     * @see ModelViewListener
+&nbsp;     * @see ServerImpl
+&nbsp;     */
+&nbsp;    public void deleteClient(Client client) throws RemoteException {
+<b class="nc">&nbsp;        ModelViewListener listener = getMVListenerByNickname(client.getNickname());</b>
+<b class="nc">&nbsp;        listener.stop();</b>
+<b class="nc">&nbsp;        server.getClients().remove(client.getNickname());</b>
+<b class="nc">&nbsp;        MVListeners.remove(listener);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public Lobby getLobby(){
+<b class="fc">&nbsp;        return lobby;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-07-03 15:07</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,214 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > CardComponent</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.Graphical</a>
+</div>
+
+<h1>Coverage Summary for Class: CardComponent (it.polimi.ingsw.Graphical)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">CardComponent</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/9)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/13)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw.Graphical;
+&nbsp;
+&nbsp;import it.polimi.ingsw.Model.Card;
+&nbsp;
+&nbsp;import java.awt.image.BufferedImage;
+&nbsp;
+&nbsp;/**
+&nbsp; * describes the cards contained in the PlayedCardsPanel
+&nbsp; */
+&nbsp;public class CardComponent {
+&nbsp;    /**
+&nbsp;     * the card
+&nbsp;     */
+&nbsp;    private final Card card;
+&nbsp;    /**
+&nbsp;     * the image of the card
+&nbsp;     */
+&nbsp;    private BufferedImage image;
+&nbsp;    /**
+&nbsp;     * the x position of the card in the played cards matrix
+&nbsp;     */
+&nbsp;    private final int row;
+&nbsp;    /**
+&nbsp;     * the y position of the card in the played cards matrix
+&nbsp;     */
+&nbsp;    private final int col;
+&nbsp;    /**
+&nbsp;     * the play order of the card so that overlapping corners are correct
+&nbsp;     */
+&nbsp;    private final int positionOrder;
+&nbsp;    /**
+&nbsp;     * indicates whether tha card has been flipped
+&nbsp;     */
+&nbsp;    private boolean flipped;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Constructor
+&nbsp;     * @param card the card
+&nbsp;     * @param row the x position
+&nbsp;     * @param col the y position
+&nbsp;     * @param positionOrder the play order of the card
+&nbsp;     */
+<b class="nc">&nbsp;    public CardComponent(Card card, int row, int col, int positionOrder) {</b>
+<b class="nc">&nbsp;        this.card = card;</b>
+<b class="nc">&nbsp;        this.row = row;</b>
+<b class="nc">&nbsp;        this.col = col;</b>
+<b class="nc">&nbsp;        this.positionOrder = positionOrder;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * getter for the image
+&nbsp;     * @return the image
+&nbsp;     */
+&nbsp;    protected BufferedImage getImage() {
+<b class="nc">&nbsp;        return image;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * getter for the x position
+&nbsp;     * @return the x position of the card
+&nbsp;     */
+&nbsp;    public int getRow() {
+<b class="nc">&nbsp;        return row;</b>
+&nbsp;    }
+&nbsp;    /**
+&nbsp;     * getter for the y position
+&nbsp;     * @return the y position of the card
+&nbsp;     */
+&nbsp;    public int getCol() {
+<b class="nc">&nbsp;        return col;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * getter for the play order
+&nbsp;     * @return the play order
+&nbsp;     */
+&nbsp;    protected int getPositionOrder() {
+<b class="nc">&nbsp;        return positionOrder;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * setter for the image
+&nbsp;     * @param image the image
+&nbsp;     */
+&nbsp;    protected void setImage(BufferedImage image) {
+<b class="nc">&nbsp;        this.image = image;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * getter for the card id
+&nbsp;     * @return the card id
+&nbsp;     */
+&nbsp;    public int getCardID(){
+<b class="nc">&nbsp;        return card.getID();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Setter for the flipped attribute
+&nbsp;     * @param flipped indicates whether the card has been flipped
+&nbsp;     */
+&nbsp;    public void setFlipped(boolean flipped) {
+<b class="nc">&nbsp;        this.flipped = flipped;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Getter for the flipped attribute
+&nbsp;     * @return the value of the flipped attribute
+&nbsp;     */
+<b class="nc">&nbsp;    public boolean isFlipped() {return flipped;}</b>
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-07-03 15:07</div>
+</div>
+</body>
+</html>

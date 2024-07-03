@@ -1,0 +1,212 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > GoldCard</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.Model</a>
+</div>
+
+<h1>Coverage Summary for Class: GoldCard (it.polimi.ingsw.Model)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">GoldCard</td>
+<td class="coverageStat">
+  <span class="percent">
+    60%
+  </span>
+  <span class="absValue">
+    (3/5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    66,7%
+  </span>
+  <span class="absValue">
+    (4/6)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">GoldCard$MockitoMock$153869172</td>
+  </tr>
+  <tr>
+    <td class="name">GoldCard$MockitoMock$153869172$auxiliary$08HNGAeY</td>
+  </tr>
+  <tr>
+    <td class="name">GoldCard$MockitoMock$153869172$auxiliary$6pNc1a2L</td>
+  </tr>
+  <tr>
+    <td class="name">GoldCard$MockitoMock$153869172$auxiliary$AmHbsFFO</td>
+  </tr>
+  <tr>
+    <td class="name">GoldCard$MockitoMock$153869172$auxiliary$Cg70vOwK</td>
+  </tr>
+  <tr>
+    <td class="name">GoldCard$MockitoMock$153869172$auxiliary$FcoODXyH</td>
+  </tr>
+  <tr>
+    <td class="name">GoldCard$MockitoMock$153869172$auxiliary$JF8pSkUm</td>
+  </tr>
+  <tr>
+    <td class="name">GoldCard$MockitoMock$153869172$auxiliary$m9iB1PFM</td>
+  </tr>
+  <tr>
+    <td class="name">GoldCard$MockitoMock$153869172$auxiliary$mTZBqn7g</td>
+  </tr>
+  <tr>
+    <td class="name">GoldCard$MockitoMock$153869172$auxiliary$r90Tyspo</td>
+  </tr>
+  <tr>
+    <td class="name">GoldCard$MockitoMock$153869172$auxiliary$RZMoKSjH</td>
+  </tr>
+  <tr>
+    <td class="name">GoldCard$MockitoMock$153869172$auxiliary$sxi2r5iU</td>
+  </tr>
+  <tr>
+    <td class="name">GoldCard$MockitoMock$153869172$auxiliary$t0vMg9aV</td>
+  </tr>
+  <tr>
+    <td class="name">GoldCard$MockitoMock$153869172$auxiliary$UH9E9aqk</td>
+  </tr>
+  <tr>
+    <td class="name">GoldCard$MockitoMock$153869172$auxiliary$Y648TUhO</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    60%
+  </span>
+  <span class="absValue">
+    (3/5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    66,7%
+  </span>
+  <span class="absValue">
+    (4/6)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw.Model;
+&nbsp;
+&nbsp;import java.util.HashMap;
+&nbsp;
+&nbsp;/**
+&nbsp; * GoldCards represents the gold cards, it extends playable card because playable cards are composed by gold and resource cards.
+&nbsp; */
+<b class="fc">&nbsp;public class GoldCard extends PlayableCard{</b>
+&nbsp;    /**
+&nbsp;     * Rpoints are the resource needed to a gold card to bestow points for the score of a player.
+&nbsp;     */
+&nbsp;    // WATCH OUT! In the back of the gold cards, there&#39;s no requirement nor points
+&nbsp;    private Resource RPoints;
+&nbsp;    /**
+&nbsp;     * RpointsCorner is a boolean to know if corner requirements are satisfied, to allow the gold card to bestow points associated with those requirements.
+&nbsp;     */
+&nbsp;    private boolean RPointsCorner;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * addreq is a method that adds resource requirement to a gold card.
+&nbsp;     * @param resource the type of resource to add.
+&nbsp;     * @param value the value of points associated with that resource.
+&nbsp;     */
+&nbsp;    public void addReq(Resource resource, int value) {
+<b class="fc">&nbsp;        req.put(resource, value);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * the map between the resources and the relative required number to play a card
+&nbsp;     */
+<b class="fc">&nbsp;    HashMap&lt;Resource,Integer&gt; req = new HashMap&lt;&gt;();</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * getRpoints is a getter method used to know about which resource need any given gold card to bestow its bonus points.
+&nbsp;     * @return resource needed by a gold card to bestow its bonus points.
+&nbsp;     */
+&nbsp;    public Resource getRPoints() {
+<b class="nc">&nbsp;        return RPoints;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * getReq is a getter to know about the map of resource requirements for any given gold card.
+&nbsp;     * @return map of resource requirements for a gold card.
+&nbsp;     */
+&nbsp;    public HashMap&lt;Resource, Integer&gt; getReq() {
+<b class="fc">&nbsp;        return req;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * isRPointsCorner is a method used to know if corner requirements of any given gold card are satisfied.
+&nbsp;     * @return true if requirements are satisfied, false otherwise.
+&nbsp;     */
+&nbsp;    public boolean isRPointsCorner() {
+<b class="nc">&nbsp;        return RPointsCorner;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-07-03 15:07</div>
+</div>
+</body>
+</html>

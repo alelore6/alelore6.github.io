@@ -1,0 +1,109 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > Client</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.Distributed</a>
+</div>
+
+<h1>Coverage Summary for Class: Client (it.polimi.ingsw.Distributed)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">Client</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw.Distributed;
+&nbsp;
+&nbsp;import it.polimi.ingsw.Events.GenericEvent;
+&nbsp;import it.polimi.ingsw.View.View;
+&nbsp;
+&nbsp;import java.io.Serializable;
+&nbsp;import java.rmi.Remote;
+&nbsp;import java.rmi.RemoteException;
+&nbsp;
+&nbsp;/**
+&nbsp; * Interface that describes the server structure. Classes that implement it can be viewed as servers.
+&nbsp; */
+&nbsp;public interface Client extends Remote{
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Method to pong with the server.
+&nbsp;     * @throws RemoteException default rmi exception
+&nbsp;     */
+&nbsp;    void ping() throws RemoteException;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Method to update clients with an event.
+&nbsp;     * @param event the received event
+&nbsp;     * @throws RemoteException default rmi exception
+&nbsp;     */
+&nbsp;    void update(GenericEvent event) throws RemoteException;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Getter fot the nickname.
+&nbsp;     * @return the nickname.
+&nbsp;     * @throws RemoteException default rmi exception
+&nbsp;     */
+&nbsp;    String getNickname() throws RemoteException;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Setter for the nickname.
+&nbsp;     * @param nickname the entered nickname
+&nbsp;     * @throws RemoteException default rmi exception
+&nbsp;     */
+&nbsp;    void setNickname(String nickname) throws RemoteException;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-07-03 15:07</div>
+</div>
+</body>
+</html>

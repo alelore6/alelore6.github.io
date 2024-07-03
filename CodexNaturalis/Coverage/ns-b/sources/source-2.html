@@ -1,0 +1,1024 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > TUI</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.View</a>
+</div>
+
+<h1>Coverage Summary for Class: TUI (it.polimi.ingsw.View)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">TUI</td>
+<td class="coverageStat">
+  <span class="percent">
+    5,3%
+  </span>
+  <span class="absValue">
+    (1/19)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    2,5%
+  </span>
+  <span class="absValue">
+    (6/242)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    3,6%
+  </span>
+  <span class="absValue">
+    (9/250)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">TUI$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/12)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">TUI$2</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/82)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/109)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    4,3%
+  </span>
+  <span class="absValue">
+    (1/23)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    1,8%
+  </span>
+  <span class="absValue">
+    (6/332)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    2,4%
+  </span>
+  <span class="absValue">
+    (9/371)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw.View;
+&nbsp;
+&nbsp;import it.polimi.ingsw.Distributed.ClientImpl;
+&nbsp;import it.polimi.ingsw.Events.*;
+&nbsp;import it.polimi.ingsw.Model.*;
+&nbsp;import it.polimi.ingsw.ModelView.HandView;
+&nbsp;import it.polimi.ingsw.ModelView.PlayerView;
+&nbsp;import org.jetbrains.annotations.Contract;
+&nbsp;
+&nbsp;import java.io.*;
+&nbsp;import java.rmi.RemoteException;
+&nbsp;import java.util.*;
+&nbsp;import java.util.stream.Collectors;
+&nbsp;
+&nbsp;import static it.polimi.ingsw.Model.Position.*;
+&nbsp;import static java.lang.String.join;
+&nbsp;import static java.lang.Thread.sleep;
+&nbsp;
+&nbsp;/**
+&nbsp; * Class that handles event with respect to CLI-clients.
+&nbsp; */
+&nbsp;public class TUI extends UI {
+&nbsp;
+&nbsp;    /**
+&nbsp;     * String having the last inputs entered by the user.
+&nbsp;     */
+<b class="nc">&nbsp;    private final Queue&lt;String&gt; lastInputs = new LinkedList&lt;&gt;();</b>
+&nbsp;    /**
+&nbsp;     * Reader that permits to take inputs as strings.
+&nbsp;     */
+<b class="nc">&nbsp;    private final BufferedReader in = new BufferedReader(new InputStreamReader(System.in));</b>
+&nbsp;    /**
+&nbsp;     * Object to print on System.out.
+&nbsp;     */
+<b class="nc">&nbsp;    private final PrintStream out = new PrintStream(System.out, true);</b>
+&nbsp;    /**
+&nbsp;     * Object to print on System.err.
+&nbsp;     */
+<b class="nc">&nbsp;    private final PrintStream outErr = new PrintStream(System.err, true);</b>
+&nbsp;    /**
+&nbsp;     * String that, when the game starts, indicates the first user playing.
+&nbsp;     */
+<b class="nc">&nbsp;    private String firstPlayer = &quot;&quot;;</b>
+&nbsp;    /**
+&nbsp;     * Matrix containing the last played cards by the user.
+&nbsp;     */
+<b class="nc">&nbsp;    private Card[][] lastPlayedCards = null;</b>
+&nbsp;    /**
+&nbsp;     * Array containing the two public objective cards.
+&nbsp;     */
+<b class="nc">&nbsp;    private final ObjectiveCard[] publicObjCards = new ObjectiveCard[2];</b>
+&nbsp;    /**
+&nbsp;     * Boolean indicating if the public objective cards have been saved.
+&nbsp;     */
+<b class="nc">&nbsp;    private boolean objBool = true;</b>
+&nbsp;    /**
+&nbsp;     * The private objective card.
+&nbsp;     */
+<b class="nc">&nbsp;    private ObjectiveCard privateObjectiveCard = null;</b>
+&nbsp;    /**
+&nbsp;     * Lock for event queue.
+&nbsp;     */
+<b class="nc">&nbsp;    private final Object lock_events = new Object();</b>
+&nbsp;    /**
+&nbsp;     * Thread running.
+&nbsp;     */
+&nbsp;    private Thread TUIThread, commandThread;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Constructor
+&nbsp;     * @param client the client that owns the UI
+&nbsp;     */
+&nbsp;    public TUI(ClientImpl client) {
+<b class="nc">&nbsp;        super(client);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method allows to receive the user&#39;s choice between min and max included, and
+&nbsp;     * it runs until a proper answer isn&#39;t given.
+&nbsp;     * @param min
+&nbsp;     * @param max
+&nbsp;     * @return the number inserted in System.in and it is between min and max.
+&nbsp;     */
+&nbsp;    private final int chooseInt(int min, int max){
+<b class="nc">&nbsp;        boolean isValid = false;</b>
+<b class="nc">&nbsp;        String choice = null;</b>
+<b class="nc">&nbsp;        int intChoice = 0;</b>
+&nbsp;
+<b class="nc">&nbsp;        while(!isValid){</b>
+<b class="nc">&nbsp;            synchronized (lastInputs){</b>
+<b class="nc">&nbsp;                lastInputs.clear();</b>
+&nbsp;
+<b class="nc">&nbsp;                while(lastInputs.isEmpty()){</b>
+&nbsp;                    try{
+<b class="nc">&nbsp;                        lastInputs.wait();</b>
+<b class="nc">&nbsp;                    }catch(InterruptedException ignored){}</b>
+&nbsp;                }
+&nbsp;
+<b class="nc">&nbsp;                choice = lastInputs.poll();</b>
+<b class="nc">&nbsp;            }</b>
+&nbsp;
+&nbsp;            // Checks if the input is a chat message and if yes, it sends it.
+<b class="nc">&nbsp;                 if(listenToChat(choice))                  continue;</b>
+&nbsp;            // Checks if the input is a card print request and if yes, it sends it.
+<b class="nc">&nbsp;            else if(listenToCard(choice, lastPlayedCards)) continue;</b>
+&nbsp;
+&nbsp;            try{
+<b class="nc">&nbsp;                intChoice = Integer.parseInt(choice);</b>
+<b class="nc">&nbsp;            } catch (NumberFormatException e) {</b>
+<b class="nc">&nbsp;                printOut(inputError());</b>
+&nbsp;
+&nbsp;                continue;
+&nbsp;            }
+&nbsp;
+<b class="nc">&nbsp;            if(intChoice &gt;= min &amp;&amp; intChoice &lt;= max)  isValid = true;</b>
+&nbsp;
+<b class="nc">&nbsp;            if(!isValid)    printOut(inputError());</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        return intChoice;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Method to clear the console.
+&nbsp;     */
+&nbsp;    private static void clearConsole(){
+&nbsp;        try{
+<b class="nc">&nbsp;            final String so = System.getProperty(&quot;os.name&quot;);</b>
+&nbsp;
+<b class="nc">&nbsp;            if(so.contains(&quot;Windows&quot;))  Runtime.getRuntime().exec(&quot;cls&quot;);</b>
+<b class="nc">&nbsp;            else                        Runtime.getRuntime().exec(&quot;clear&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        catch (Exception ignored){}</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Method to ask the user to insert his nickname without spaces and at least 4 characters long.
+&nbsp;     * @return the nickname inserted.
+&nbsp;     */
+&nbsp;    public String chooseNickname() {
+<b class="nc">&nbsp;        return chooseString(&quot;nickname&quot;);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Method to ask the user to insert a string without spaces and at least 4 characters long.
+&nbsp;     * @param s the name of the string requested.
+&nbsp;     * @return the string inserted.
+&nbsp;     */
+&nbsp;    private final String chooseString(String s){
+<b class="nc">&nbsp;        boolean isValid = false;</b>
+<b class="nc">&nbsp;        String tempString = null;</b>
+&nbsp;
+<b class="nc">&nbsp;        printOut(&quot;\u001B[4m&quot; + &quot;Insert &quot; + s + &quot;:&quot; + &quot;\u001B[0m&quot;);</b>
+&nbsp;
+<b class="nc">&nbsp;        while(!isValid){</b>
+<b class="nc">&nbsp;            synchronized (lastInputs){</b>
+<b class="nc">&nbsp;                lastInputs.clear();</b>
+&nbsp;
+<b class="nc">&nbsp;                while(lastInputs.isEmpty()){</b>
+&nbsp;                    try{
+<b class="nc">&nbsp;                        lastInputs.wait();</b>
+<b class="nc">&nbsp;                    }catch(InterruptedException e){</b>
+<b class="nc">&nbsp;                        e.printStackTrace();</b>
+&nbsp;                    }
+&nbsp;                }
+&nbsp;
+<b class="nc">&nbsp;                tempString = lastInputs.poll();</b>
+<b class="nc">&nbsp;            }</b>
+&nbsp;
+<b class="nc">&nbsp;            if(tempString != null &amp;&amp; !tempString.contains(&quot; &quot;) &amp;&amp; tempString.length() &gt;= 4)</b>
+<b class="nc">&nbsp;                isValid = true;</b>
+<b class="nc">&nbsp;            else printOut(setColorForString(&quot;RED&quot;, &quot;Invalid &quot; + s + &quot;. It must be at least 4 characters and can&#39;t contain spaces. Try again:&quot;, true));</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        if(s.equals(&quot;nickname&quot;)) nickname = tempString;</b>
+&nbsp;
+<b class="nc">&nbsp;        return tempString.trim();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Method to print on System.out.
+&nbsp;     * @param s the message to be printed in the console
+&nbsp;     */
+&nbsp;    public final void printOut(String s){
+<b class="nc">&nbsp;        out.println(s);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Method to print on System.err.
+&nbsp;     * @param err the error message to be printed in the console
+&nbsp;     */
+&nbsp;    public final void printErr(String err){
+<b class="nc">&nbsp;        outErr.println(err);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Method to print a default error message if still running.
+&nbsp;     * @return the message that communicates an input error
+&nbsp;     */
+&nbsp;    private String inputError(){
+<b class="nc">&nbsp;        return running ? &quot;Input not allowed. Please try again&quot; : &quot;&quot;;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Method to add a color to the background of a string to be printed on terminal.
+&nbsp;     * @param color
+&nbsp;     * @param string
+&nbsp;     * @return the colored string.
+&nbsp;     */
+&nbsp;    private static String setColorForBackground(String color, String string){
+&nbsp;        String c;
+<b class="nc">&nbsp;        String reset = &quot;\u001B[49m&quot;;</b>
+<b class="nc">&nbsp;        switch (color){</b>
+<b class="nc">&nbsp;            case &quot;RED&quot; -&gt; c = &quot;\u001B[41m&quot;;</b>
+<b class="nc">&nbsp;            case &quot;GREEN&quot; -&gt; c = &quot;\u001B[42m&quot;;</b>
+<b class="nc">&nbsp;            case &quot;YELLOW&quot; -&gt; c = &quot;\u001B[43m&quot;;</b>
+<b class="nc">&nbsp;            case &quot;BLUE&quot; -&gt; c = &quot;\u001B[44m&quot;;</b>
+<b class="nc">&nbsp;            case &quot;PURPLE&quot; -&gt; c = &quot;\u001B[45m&quot;;</b>
+<b class="nc">&nbsp;            case &quot;CYAN&quot; -&gt; c = &quot;\u001B[46m&quot;;</b>
+<b class="nc">&nbsp;            case &quot;BLACK&quot; -&gt; c = &quot;\u001B[40m&quot;;</b>
+<b class="nc">&nbsp;            case &quot;WHITE&quot; -&gt; c = &quot;\u001B[47m&quot;;</b>
+<b class="nc">&nbsp;            default -&gt; c = &quot;&lt;INVALID COLOR&gt; &quot;;</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        return reset + c + string + reset;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Method to add a color to the string to be printed on terminal.
+&nbsp;     * @param color the color of the message
+&nbsp;     * @param string the string to be coloured
+&nbsp;     * @param isBright represent if the color is bright enough
+&nbsp;     * @return the colored string.
+&nbsp;     */
+&nbsp;    public static String setColorForString(String color, String string, boolean isBright){
+&nbsp;        String c;
+<b class="pc">&nbsp;        String temp = isBright ? &quot;9&quot; : &quot;3&quot;;</b>
+<b class="fc">&nbsp;        String resetColor = &quot;\u001B[0m&quot;;</b>
+&nbsp;
+<b class="pc">&nbsp;        switch (color){</b>
+<b class="fc">&nbsp;            case &quot;RED&quot; -&gt; c = &quot;\u001B[&quot; + temp + &quot;1m&quot;;</b>
+<b class="fc">&nbsp;            case &quot;GREEN&quot; -&gt; c = &quot;\u001B[&quot; + temp + &quot;2m&quot;;</b>
+<b class="fc">&nbsp;            case &quot;YELLOW&quot; -&gt; c = &quot;\u001B[&quot; + temp + &quot;3m&quot;;</b>
+<b class="fc">&nbsp;            case &quot;BLUE&quot; -&gt; c = &quot;\u001B[&quot; + temp + &quot;4m&quot;;</b>
+<b class="fc">&nbsp;            case &quot;PURPLE&quot; -&gt; c = &quot;\u001B[&quot; + temp + &quot;5m&quot;;</b>
+<b class="nc">&nbsp;            case &quot;CYAN&quot; -&gt; c = &quot;\u001B[&quot; + temp + &quot;6m&quot;;</b>
+<b class="nc">&nbsp;            case &quot;BLACK&quot; -&gt; c = &quot;\u001B[&quot; + temp + &quot;0m&quot;;</b>
+<b class="nc">&nbsp;            case &quot;WHITE&quot; -&gt; c = &quot;\u001B[&quot; + temp + &quot;7m&quot;;</b>
+<b class="nc">&nbsp;            default -&gt; c = &quot;&lt;INVALID COLOR&gt; &quot;;</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        return c + string + resetColor;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Method to print a playable or starting card in the terminal.
+&nbsp;     * @param card
+&nbsp;     * @see GoldCard
+&nbsp;     * @see ResourceCard
+&nbsp;     * @see StartingCard
+&nbsp;     */
+&nbsp;    private void printCard(Card card){
+<b class="nc">&nbsp;        if(card instanceof PlayableCard){</b>
+<b class="nc">&nbsp;            printOut(&quot;| CARD NUMBER &quot; + card.getID() + &quot;&#39;S DESCRIPTION:&quot;</b>
+<b class="nc">&nbsp;                    + &quot;\n\tColor: &quot; + setColorForString(card.getColor().toString(), card.getColor().toString(), false) +</b>
+&nbsp;                    &quot;\n\tVisible corners:\n\t\tFRONT:&quot;);
+<b class="nc">&nbsp;            for(Corner corner : card.getFrontCorners()){</b>
+<b class="nc">&nbsp;                if(corner.getPosition() != null &amp;&amp; corner.isCovered == false)</b>
+<b class="nc">&nbsp;                    printOut(&quot;\t\t\t&quot; + corner.getPosition() + (corner.getPosition().equals(UP_SX.toString()) || corner.getPosition().equals(UP_DX.toString()) ? &quot;  &quot; : &quot;&quot;)</b>
+<b class="nc">&nbsp;                            + &quot;: &quot;+ corner.getStringResource());</b>
+&nbsp;            }
+<b class="nc">&nbsp;            printOut(&quot;\t\tBACK:&quot;);</b>
+<b class="nc">&nbsp;            for(Corner corner : card.getBackCorners()){</b>
+<b class="nc">&nbsp;                printOut(&quot;\t\t\t&quot; + corner.getPosition() + (corner.getPosition().equals(UP_SX.toString()) || corner.getPosition().equals(UP_DX.toString()) ? &quot;  &quot; : &quot;&quot;)</b>
+<b class="nc">&nbsp;                        + &quot;: &quot; + corner.getStringResource());</b>
+&nbsp;            }
+&nbsp;
+<b class="nc">&nbsp;            if(card instanceof GoldCard){</b>
+<b class="nc">&nbsp;                printOut(&quot;\tRequirements:&quot;);</b>
+<b class="nc">&nbsp;                for(Resource res : ((GoldCard) card).getReq().keySet()){</b>
+<b class="nc">&nbsp;                    if(((GoldCard) card).getReq().get(res) &gt; 0)</b>
+<b class="nc">&nbsp;                        printOut(&quot;\t\t&quot; + ((GoldCard) card).getReq().get(res) + &quot; x &quot; + res.toString());</b>
+&nbsp;                }
+&nbsp;            }
+&nbsp;
+<b class="nc">&nbsp;            if(((PlayableCard) card).getPoints() == 0)  return;</b>
+&nbsp;
+<b class="nc">&nbsp;            printOut(&quot;\tReward:\t&quot; + ((PlayableCard) card).getPoints() + &quot; points&quot; +</b>
+<b class="nc">&nbsp;                    ((card instanceof GoldCard &amp;&amp; (((GoldCard) card).isRPointsCorner() == true || ((GoldCard) card).getRPoints() != null)) ?</b>
+<b class="nc">&nbsp;                    (&quot; for every &quot; + (((GoldCard) card).isRPointsCorner() ? &quot;covered corner&quot; : ((GoldCard) card).getRPoints().toString())) : &quot;&quot;));</b>
+&nbsp;
+&nbsp;            // printOut(&quot;The back of the card has four (all) empty corners with a resource in the center (of the corresponding color).&quot;);
+&nbsp;        }
+<b class="nc">&nbsp;        else if(card instanceof StartingCard){</b>
+<b class="nc">&nbsp;            printOut(&quot;\n| YOUR STARTING CARD&#39;S DESCRIPTION:&quot;);</b>
+<b class="nc">&nbsp;            printOut(&quot;Visible corners:\n\tFRONT:&quot;);</b>
+<b class="nc">&nbsp;            for(Corner corner : card.getFrontCorners()){</b>
+<b class="nc">&nbsp;                if(corner.getPosition() != null)</b>
+<b class="nc">&nbsp;                    printOut(&quot;\t\t&quot; + corner.getPosition() + &quot;: &quot;</b>
+<b class="nc">&nbsp;                            + (corner.getPosition().equals(UP_SX.toString()) || corner.getPosition().equals(UP_DX.toString()) ? &quot;  &quot; : &quot;&quot;)</b>
+<b class="nc">&nbsp;                            + corner.getStringResource());</b>
+&nbsp;            }
+<b class="nc">&nbsp;            printOut(&quot;\n\tBACK:&quot;);</b>
+<b class="nc">&nbsp;            for(Corner corner : card.getBackCorners()){</b>
+<b class="nc">&nbsp;                if(corner.getPosition() != null)</b>
+<b class="nc">&nbsp;                    printOut(&quot;\t\t&quot; + corner.getPosition() + &quot;: &quot;</b>
+<b class="nc">&nbsp;                            + (corner.getPosition().equals(UP_SX.toString()) || corner.getPosition().equals(UP_DX.toString()) ? &quot;  &quot; : &quot;&quot;)</b>
+<b class="nc">&nbsp;                            + corner.getStringResource());</b>
+&nbsp;            }
+<b class="nc">&nbsp;            printOut(&quot;\n\tRESOURCES IN THE BACK:&quot;);</b>
+<b class="nc">&nbsp;            for(Resource resource : ((StartingCard) card).resource){</b>
+<b class="nc">&nbsp;                 printOut(&quot;\t\t&quot; + resource.toString() + &quot;\t\t&quot;);</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Method to print an objective card in the terminal.
+&nbsp;     * @param card
+&nbsp;     * @see ObjectiveCard
+&nbsp;     */
+&nbsp;    private void printCard(ObjectiveCard card){
+<b class="nc">&nbsp;        printOut(&quot;\n| OBJECTIVE CARD NUMBER &quot; + card.getID() + &quot;&#39;S REQUESTS:&quot;);</b>
+<b class="nc">&nbsp;        if(card instanceof ObjectiveCard1){</b>
+<b class="nc">&nbsp;            printOut(&quot;\tPoints: &quot; + card.getPoints() + &quot;\n\tCards&#39; disposition:&quot;);</b>
+<b class="nc">&nbsp;            String grid = &quot;\t\t&quot;;</b>
+<b class="nc">&nbsp;            int index = 0;</b>
+<b class="nc">&nbsp;            List&lt;Integer&gt; positions = Arrays.stream(((ObjectiveCard1) card).getRequiredPositions()).boxed().toList();</b>
+&nbsp;
+<b class="nc">&nbsp;            for(int i = 1; index &lt; 3; i++){</b>
+<b class="nc">&nbsp;                if(positions.contains(i)){</b>
+<b class="nc">&nbsp;                    grid += setColorForString(((ObjectiveCard1) card).getCardColors()[index].toString(), &quot;?&quot;, false);</b>
+<b class="nc">&nbsp;                    index++;</b>
+&nbsp;                }
+<b class="nc">&nbsp;                else grid += &quot;  &quot;;</b>
+&nbsp;
+<b class="nc">&nbsp;                if(i == 4 || i == 8 || i == 12)    grid += &quot;\n\t\t&quot;;</b>
+&nbsp;
+&nbsp;                // Shouldn&#39;t happen.
+<b class="nc">&nbsp;                if(i &gt; 16)   printErr(&quot;\nPRINT ERROR.\n&quot;);</b>
+&nbsp;            }
+&nbsp;
+<b class="nc">&nbsp;            printOut(grid);</b>
+&nbsp;        }
+&nbsp;        else{ // card is an ObjectiveCard2
+<b class="nc">&nbsp;            printOut(&quot;\tPoints: &quot; + card.getPoints() + &quot;\n\tVISIBLE RESOURCES:&quot;);</b>
+<b class="nc">&nbsp;            for(Resource resource : ((ObjectiveCard2) card).getReqMap().keySet()){</b>
+<b class="nc">&nbsp;                if(((ObjectiveCard2) card).getReqMap().get(resource) &gt; 0)</b>
+<b class="nc">&nbsp;                    printOut(&quot;\t\t &quot; + ((ObjectiveCard2) card).getReqMap().get(resource) + &quot; x &quot; + resource.toString());</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Method to print the card with the specified ID. In order for it to be printed, the player
+&nbsp;     * must have been played it or having it in the objective cards.
+&nbsp;     * @param ID
+&nbsp;     * @param playedCards
+&nbsp;     */
+&nbsp;    private void requestCard(int ID, Card[][] playedCards){
+<b class="nc">&nbsp;        if(playedCards == null){</b>
+<b class="nc">&nbsp;            printErr(&quot;You can&#39;t see the card: you haven&#39;t even started the game!&quot;);</b>
+&nbsp;            return;
+&nbsp;        }
+<b class="nc">&nbsp;        if(publicObjCards[0] == null){</b>
+<b class="nc">&nbsp;            printErr(&quot;Can&#39;t see the card yet. Wait the start of your game!&quot;);</b>
+&nbsp;            return;
+&nbsp;        }
+<b class="nc">&nbsp;        if(publicObjCards[0].getID() == ID){</b>
+<b class="nc">&nbsp;            printCard(publicObjCards[0]);</b>
+&nbsp;            return;
+&nbsp;        }
+<b class="nc">&nbsp;        if(publicObjCards[1].getID() == ID){</b>
+<b class="nc">&nbsp;            printCard(publicObjCards[1]);</b>
+&nbsp;            return;
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        Optional&lt;Card&gt; cardRequested = Arrays.stream(playedCards).flatMap(Arrays::stream).filter(card -&gt; card != null &amp;&amp; card.getID() == ID).findFirst();</b>
+&nbsp;
+<b class="nc">&nbsp;        if(cardRequested.isPresent()) printCard(cardRequested.get());</b>
+<b class="nc">&nbsp;        else printErr(&quot;You can&#39;t see the card: it&#39;s not present on your played cards.&quot;);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Method to print the grid where the user can play a card. If a card can be placed in a certain
+&nbsp;     * position, it prints the spot with yellow, else with black. If a card is present in a position,
+&nbsp;     * it simply prints the card&#39;s ID colored by the card&#39;s color.
+&nbsp;     * @param playedCards
+&nbsp;     */
+&nbsp;    private void printGrid(Card[][] playedCards){
+<b class="nc">&nbsp;        int minRow = 100;</b>
+<b class="nc">&nbsp;        int minColumn = 100;</b>
+<b class="nc">&nbsp;        int maxRow = 0;</b>
+<b class="nc">&nbsp;        int maxColumn = 0;</b>
+<b class="nc">&nbsp;        final int size = playedCards.length;</b>
+<b class="nc">&nbsp;        int center_row = -100;</b>
+<b class="nc">&nbsp;        int center_column = -100;</b>
+<b class="nc">&nbsp;        final int GRID_MARGIN = HandView.GRID_MARGIN;</b>
+<b class="nc">&nbsp;        final String HORIZONTAL_SPACE = &quot;\t&quot;;</b>
+<b class="nc">&nbsp;        final String FAR_BLOCK = setColorForString(&quot;BLACK&quot;, &quot;?&quot;, false);</b>
+<b class="nc">&nbsp;        final String NEAR_BLOCK = setColorForString(&quot;YELLOW&quot;, &quot;?&quot;, true);</b>
+<b class="nc">&nbsp;        String grid = &quot;&quot;;</b>
+&nbsp;
+&nbsp;        // Find the min and max of rows and columns used for a better view:
+&nbsp;        // by doing so, every time it prints the used grid and not the entire one of the size of 80x80.
+<b class="nc">&nbsp;        for(int i = 0; i &lt; size; i++){</b>
+<b class="nc">&nbsp;            for(int j = 0; j &lt; size; j++){</b>
+<b class="nc">&nbsp;                if(playedCards[i][j] != null &amp;&amp; playedCards[i][j].getID() != -1){</b>
+<b class="nc">&nbsp;                    if(i - GRID_MARGIN &lt; minRow)    minRow    = i - GRID_MARGIN;</b>
+<b class="nc">&nbsp;                    if(i + GRID_MARGIN &gt; maxRow)    maxRow    = i + GRID_MARGIN;</b>
+<b class="nc">&nbsp;                    if(j - GRID_MARGIN &lt; minColumn) minColumn = j - GRID_MARGIN;</b>
+<b class="nc">&nbsp;                    if(j + GRID_MARGIN &gt; maxColumn) maxColumn = j + GRID_MARGIN;</b>
+&nbsp;                }
+&nbsp;            }
+&nbsp;        }
+&nbsp;
+&nbsp;        // Renormalization of pathological cases:
+&nbsp;        // if the margins are too big, it simply rescales the min and max of rows and columns.
+<b class="nc">&nbsp;        if(minRow    &lt; 0)  minRow    =  0;</b>
+<b class="nc">&nbsp;        if(minColumn &lt; 0)  minColumn =  0;</b>
+<b class="nc">&nbsp;        if(maxRow    &gt; 80) maxRow    = 80;</b>
+<b class="nc">&nbsp;        if(maxColumn &gt; 80) maxColumn = 80;</b>
+&nbsp;
+&nbsp;        // This finds the starting card&#39;s coordinates.
+<b class="nc">&nbsp;        for(int i = minRow; i &lt;= maxRow; i++){</b>
+<b class="nc">&nbsp;            boolean isFound = false;</b>
+<b class="nc">&nbsp;            for(int j = minColumn; j &lt;= maxColumn; j++){</b>
+<b class="nc">&nbsp;                if(playedCards[i][j] instanceof StartingCard &amp;&amp; playedCards[i][j].getID() != -1){</b>
+<b class="nc">&nbsp;                    center_row = i;</b>
+<b class="nc">&nbsp;                    center_column = j;</b>
+&nbsp;
+<b class="nc">&nbsp;                    isFound = true;</b>
+&nbsp;                    break;
+&nbsp;                }
+<b class="nc">&nbsp;                if(isFound) break;</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;
+&nbsp;        // It prints the column numbers.
+<b class="nc">&nbsp;        for(int j = minColumn; j &lt;= maxColumn; j++)</b>
+<b class="nc">&nbsp;            grid += HORIZONTAL_SPACE + (j - center_column);</b>
+&nbsp;
+&nbsp;        // It prints the rest.
+<b class="nc">&nbsp;        for(int i = minRow; i &lt;= maxRow; i++){</b>
+&nbsp;            // It prints the row numbers.
+<b class="nc">&nbsp;            grid += &quot;\n&quot; + ((i - center_row) &lt; 0 ? &quot;&quot; : &quot; &quot;) + (i - center_row);</b>
+&nbsp;
+<b class="nc">&nbsp;            for(int j = minColumn; j &lt;= maxColumn; j++){</b>
+<b class="nc">&nbsp;                boolean isOut = i &lt; 0 || j &lt; 0 || i &gt;= size || j &gt;= size;</b>
+&nbsp;                // If the current element is null, it checks possible adjacent cards and, if it finds at least one,
+&nbsp;                // it marks this position with yellow, else with black.
+<b class="nc">&nbsp;                if(isOut || playedCards[i][j] == null)</b>
+<b class="nc">&nbsp;                    grid += HORIZONTAL_SPACE + FAR_BLOCK;</b>
+<b class="nc">&nbsp;                else if(playedCards[i][j].getID() == -1)</b>
+<b class="nc">&nbsp;                    grid += HORIZONTAL_SPACE + NEAR_BLOCK;</b>
+&nbsp;
+&nbsp;                // If the current element has a valid card, it simply prints the card&#39;s ID located here colored by the corresponding color.
+&nbsp;                else{
+<b class="nc">&nbsp;                    grid += HORIZONTAL_SPACE + setColorForString(playedCards[i][j].getColor().toString(), String.valueOf(playedCards[i][j].getID()), true);</b>
+&nbsp;                }
+&nbsp;            }
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        printOut(grid + &quot;\n&quot;);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    // It returns true if the string is a chat message, and it also sends it.
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Method to check if the string is a chat command.
+&nbsp;     * @param string
+&nbsp;     * @return true if the string is a chat command.
+&nbsp;     */
+&nbsp;    private boolean listenToChat(String string){
+<b class="nc">&nbsp;        if(string == null || firstPlayer.isEmpty())  return false;</b>
+&nbsp;
+<b class="nc">&nbsp;        ArrayList&lt;String&gt; words = new ArrayList&lt;String&gt;(Arrays.asList(string.split(&quot; &quot;)));</b>
+&nbsp;
+&nbsp;        // If not, the chat message has not the correct format in order to be sent.
+<b class="nc">&nbsp;        if(words.get(0).equalsIgnoreCase(&quot;CHAT&quot;)){</b>
+<b class="nc">&nbsp;            String recipient = null;</b>
+&nbsp;
+&nbsp;            // Private chat mode.
+<b class="nc">&nbsp;            if(words.size() &gt; 3 &amp;&amp; words.get(1).equalsIgnoreCase(&quot;P&quot;)){</b>
+<b class="nc">&nbsp;                recipient = words.get(2);</b>
+&nbsp;
+<b class="nc">&nbsp;                if(nickname.equals(recipient)){</b>
+<b class="nc">&nbsp;                    printErr(&quot;You can&#39;t send a message to yourself!&quot;);</b>
+<b class="nc">&nbsp;                    return true;</b>
+&nbsp;                }
+<b class="nc">&nbsp;                if(words.get(3).isEmpty()){</b>
+<b class="nc">&nbsp;                    printErr(&quot;The message is empty!&quot;);</b>
+<b class="nc">&nbsp;                    return true;</b>
+&nbsp;                }
+&nbsp;
+<b class="nc">&nbsp;                words.remove(2);</b>
+<b class="nc">&nbsp;                words.remove(1);</b>
+&nbsp;            }
+<b class="nc">&nbsp;            else if(words.size() == 1 || words.get(1).isEmpty()){</b>
+<b class="nc">&nbsp;                printErr(&quot;The message is empty!&quot;);</b>
+&nbsp;
+<b class="nc">&nbsp;                return true;</b>
+&nbsp;            }
+&nbsp;
+<b class="nc">&nbsp;            words.remove(0);</b>
+&nbsp;
+<b class="nc">&nbsp;            listener.addEvent(new ChatMessage(join(&quot; &quot;, words), nickname, recipient));</b>
+&nbsp;
+<b class="nc">&nbsp;            return true;</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        return false;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Method to check if the string is a card command.
+&nbsp;     * @param string
+&nbsp;     * @return true if the string is a card command.
+&nbsp;     */
+&nbsp;    private boolean listenToCard(String string, Card[][] playedCards){
+<b class="nc">&nbsp;        if(string == null)  return false;</b>
+&nbsp;
+<b class="nc">&nbsp;        ArrayList&lt;String&gt; words = new ArrayList&lt;String&gt;(Arrays.asList(string.split(&quot; &quot;)));</b>
+&nbsp;        int ID;
+&nbsp;
+<b class="nc">&nbsp;        if(words.get(0).equalsIgnoreCase(&quot;CARD&quot;) &amp;&amp; words.size() &gt; 1){</b>
+&nbsp;            try{
+<b class="nc">&nbsp;                ID = Integer.parseInt(words.get(1));</b>
+<b class="nc">&nbsp;            } catch (NumberFormatException e) {</b>
+<b class="nc">&nbsp;                printOut(inputError());</b>
+&nbsp;
+<b class="nc">&nbsp;                return true;</b>
+&nbsp;            }
+<b class="nc">&nbsp;            if(ID &lt; 1 || ID &gt; 102){</b>
+<b class="nc">&nbsp;                printErr(&quot;There&#39;s no card with such ID.&quot;);</b>
+<b class="nc">&nbsp;                return true;</b>
+&nbsp;            }
+&nbsp;
+&nbsp;            // If the player wants to print theirs objective card.
+<b class="nc">&nbsp;            if(privateObjectiveCard != null &amp;&amp; ID == privateObjectiveCard.getID()){</b>
+<b class="nc">&nbsp;                printCard(privateObjectiveCard);</b>
+<b class="nc">&nbsp;                return true;</b>
+&nbsp;            }
+&nbsp;
+<b class="nc">&nbsp;            requestCard(ID, playedCards);</b>
+&nbsp;
+<b class="nc">&nbsp;            return true;</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        return false;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Method to check if the string is a disconnection command.
+&nbsp;     * @param command
+&nbsp;     * @return true if the string is a disconnection command.
+&nbsp;     */
+&nbsp;    private boolean listenToDisconnection(String command){
+<b class="nc">&nbsp;        if(command == null)  return false;</b>
+&nbsp;
+<b class="nc">&nbsp;        ArrayList&lt;String&gt; words = new ArrayList&lt;String&gt;(Arrays.asList(command.split(&quot; &quot;)));</b>
+&nbsp;
+<b class="nc">&nbsp;        if(words.get(0).equalsIgnoreCase(&quot;EXIT&quot;)) {</b>
+&nbsp;            // client.clientApp.stop();
+<b class="nc">&nbsp;            System.exit(0);</b>
+<b class="nc">&nbsp;            return true;</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        return false;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Method to handle the incoming events, treating them with respect to their type.
+&nbsp;     * @param event the received event
+&nbsp;     * @see GenericEvent
+&nbsp;     */
+&nbsp;    public final void update(GenericEvent event){
+<b class="nc">&nbsp;        if(event instanceof ChatMessage){</b>
+<b class="nc">&nbsp;            if(event instanceof ChatAck == event.nickname.equals(nickname)){</b>
+<b class="nc">&nbsp;                printOut(event.msgOutput());</b>
+&nbsp;            }
+&nbsp;            // else ignored
+&nbsp;        }
+<b class="nc">&nbsp;        else if(event instanceof FinalRankings){</b>
+<b class="nc">&nbsp;            printOut(setColorForString(&quot;GREEN&quot;, event.msgOutput(), true));</b>
+&nbsp;
+<b class="nc">&nbsp;            notifyListener(new AckResponse(nickname, (FinalRankings) event));</b>
+&nbsp;        }
+<b class="nc">&nbsp;        else if(event instanceof StartTurn){</b>
+<b class="nc">&nbsp;            printOut(&quot;It&#39;s &quot; + setColorForString(((StartTurn) event).color, ((StartTurn) event).turnPlayer, true) + &quot;&#39;s turn.&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        else if(event instanceof ServerMessage &amp;&amp; (event.mustBeSentToAll || event.nickname.equals(nickname))){</b>
+<b class="nc">&nbsp;            if(event.msgOutput() != null) printOut(event.msgOutput());</b>
+&nbsp;        }
+&nbsp;        else{
+<b class="nc">&nbsp;            synchronized(lock_events){</b>
+<b class="nc">&nbsp;                inputEvents.add(event);</b>
+<b class="nc">&nbsp;            }</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Method that contains all the threads of this class. It handles the event filtered by the
+&nbsp;     * update method, and it also listens to strings inserted by the user such as command, requests&#39; input etc.
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void run() {
+&nbsp;
+<b class="nc">&nbsp;        clearConsole();</b>
+&nbsp;
+&nbsp;        // Commands input
+<b class="nc">&nbsp;        commandThread = new Thread(){</b>
+&nbsp;            @Override
+&nbsp;            public void run() {
+<b class="nc">&nbsp;                while(running){</b>
+<b class="nc">&nbsp;                    String s = null;</b>
+&nbsp;                    try {
+<b class="nc">&nbsp;                        s = in.readLine();</b>
+<b class="nc">&nbsp;                        synchronized(lastInputs){</b>
+<b class="nc">&nbsp;                            if(!(listenToChat(s) || listenToCard(s, lastPlayedCards) || listenToDisconnection(s))){</b>
+<b class="nc">&nbsp;                                lastInputs.add(s);</b>
+<b class="nc">&nbsp;                                lastInputs.notifyAll();</b>
+&nbsp;                            }
+<b class="nc">&nbsp;                        }</b>
+<b class="nc">&nbsp;                    } catch (IOException e) {</b>
+<b class="nc">&nbsp;                        e.printStackTrace();</b>
+<b class="nc">&nbsp;                        System.exit(1);</b>
+&nbsp;                    }
+&nbsp;                }
+&nbsp;            }
+&nbsp;        };
+&nbsp;
+<b class="nc">&nbsp;        commandThread.start();</b>
+&nbsp;
+&nbsp;        // Event&#39;s handling thread
+<b class="nc">&nbsp;        TUIThread = new Thread(){</b>
+&nbsp;            @Override
+&nbsp;            public void run() {
+<b class="nc">&nbsp;                while(running){</b>
+<b class="nc">&nbsp;                    GenericEvent ev = null;</b>
+&nbsp;
+<b class="nc">&nbsp;                    synchronized(lock_events){</b>
+<b class="nc">&nbsp;                        if(inputEvents.isEmpty())   continue;</b>
+&nbsp;
+<b class="nc">&nbsp;                        ev = inputEvents.poll();</b>
+<b class="nc">&nbsp;                    }</b>
+&nbsp;
+<b class="nc">&nbsp;                    if(ev instanceof JoinLobby &amp;&amp; !((JoinLobby) ev).getNewNickname().equals(nickname)){</b>
+<b class="nc">&nbsp;                        client.setNickname(((JoinLobby) ev).getNewNickname());</b>
+<b class="nc">&nbsp;                        nickname = client.getNickname();</b>
+&nbsp;                    }
+&nbsp;                    // Ignore all other player&#39;s events
+<b class="nc">&nbsp;                    else if(!ev.mustBeSentToAll &amp;&amp; !ev.nickname.equals(nickname)) continue;</b>
+&nbsp;
+<b class="nc">&nbsp;                    int n = -1;</b>
+&nbsp;
+<b class="nc">&nbsp;                    clearConsole();</b>
+&nbsp;
+<b class="nc">&nbsp;                    if((ev instanceof AckResponse) || !(ev instanceof GenericResponse))</b>
+<b class="nc">&nbsp;                        printOut(ev.msgOutput());</b>
+&nbsp;
+&nbsp;                    // If login fails.
+<b class="nc">&nbsp;                    if(ev instanceof AckResponse &amp;&amp; ((AckResponse) ev).receivedEvent instanceof ReconnectionResponse &amp;&amp; ((AckResponse) ev).ok == false){</b>
+<b class="nc">&nbsp;                        printErr(&quot;Exiting...&quot;);</b>
+<b class="nc">&nbsp;                        System.exit(1);</b>
+&nbsp;                    }
+&nbsp;
+<b class="nc">&nbsp;                    switch(ev){</b>
+<b class="nc">&nbsp;                        case DrawCardRequest e :</b>
+<b class="nc">&nbsp;                            boolean[] presentCards = new boolean[4];</b>
+<b class="nc">&nbsp;                            for(int i = 1; i &lt;= e.tableCenterView.centerCards.length; i++){</b>
+<b class="nc">&nbsp;                                if(e.tableCenterView.centerCards[i-1] != null){</b>
+<b class="nc">&nbsp;                                    printOut(&quot;\n\n&quot; + setColorForString(&quot;BLACK&quot;, setColorForBackground(&quot;YELLOW&quot;, &quot;(&quot; + i + &quot;)&quot;), false));</b>
+<b class="nc">&nbsp;                                    printCard(e.tableCenterView.centerCards[i-1]);</b>
+<b class="nc">&nbsp;                                    presentCards[i-1] = true;</b>
+&nbsp;                                }
+<b class="nc">&nbsp;                                else presentCards[i-1] = false;</b>
+&nbsp;                            }
+<b class="nc">&nbsp;                            printOut(&quot;\n\n&quot; + setColorForString(&quot;BLACK&quot;, setColorForBackground(&quot;YELLOW&quot;, &quot;(5)&quot;), false) + &quot; &quot; +setColorForString(e.tableCenterView.topResourceCardColor.toString(), &quot;Resource deck&quot;, false) + &quot; (&quot; + e.resCardinDeck + &quot; card&quot; + (e.resCardinDeck == 1 ? &quot;&quot; : &quot;s&quot;) + &quot; left).\n&quot;);</b>
+<b class="nc">&nbsp;                                    printOut(setColorForString(&quot;BLACK&quot;, setColorForBackground(&quot;YELLOW&quot;, &quot;(6)&quot;), false) + &quot; &quot; + setColorForString(e.tableCenterView.topGoldCardColor.toString(), &quot;Gold deck&quot;, false) + &quot; (&quot; + e.goldCardinDeck + &quot; card&quot; + (e.goldCardinDeck == 1 ? &quot;&quot; : &quot;s&quot;) + &quot; left).\n&quot;);</b>
+&nbsp;
+<b class="nc">&nbsp;                            n = -1;</b>
+&nbsp;                            do{
+<b class="nc">&nbsp;                                if(n != -1) printOut(inputError());</b>
+<b class="nc">&nbsp;                                n = chooseInt(1, 6);</b>
+<b class="nc">&nbsp;                            } while (n &lt;= 4 &amp;&amp; !presentCards[n-1]);</b>
+&nbsp;
+<b class="nc">&nbsp;                            notifyListener(new DrawCardResponse(n,nickname));</b>
+&nbsp;                            break;
+&nbsp;
+<b class="nc">&nbsp;                        case ErrorJoinLobby e :</b>
+<b class="nc">&nbsp;                            printOut(&quot;Do you want to try to connect again?\n&quot; +</b>
+&nbsp;                                    &quot;(1) for yes, (2) for no:&quot;);
+<b class="nc">&nbsp;                            n = chooseInt(1,2);</b>
+<b class="nc">&nbsp;                            if(n == 1)  notifyListener(new ClientRegister(client));</b>
+<b class="nc">&nbsp;                            else        System.exit(0);</b>
+&nbsp;                            break;
+&nbsp;
+<b class="nc">&nbsp;                        case ChooseObjectiveRequest e :</b>
+<b class="nc">&nbsp;                            printCard(e.objCard1);</b>
+<b class="nc">&nbsp;                            printCard(e.objCard2);</b>
+<b class="nc">&nbsp;                            printOut(e.msgOutput2());</b>
+<b class="nc">&nbsp;                            n = chooseInt(1,2);</b>
+<b class="nc">&nbsp;                            notifyListener(new ChooseObjectiveResponse(e.getChosenCard(n), nickname));</b>
+<b class="nc">&nbsp;                            privateObjectiveCard = e.getChosenCard(n);</b>
+&nbsp;                            break;
+&nbsp;
+<b class="nc">&nbsp;                        case NumPlayersRequest e :</b>
+<b class="nc">&nbsp;                            notifyListener(new NumPlayersResponse(chooseInt(2,4), nickname));</b>
+&nbsp;                            break;
+&nbsp;
+<b class="nc">&nbsp;                        case PlayCardRequest e :</b>
+<b class="nc">&nbsp;                            String STATS_COLOR = &quot;CYAN&quot;;</b>
+<b class="nc">&nbsp;                            if(objBool){</b>
+<b class="nc">&nbsp;                                publicObjCards[0] = e.getTableView().objCards[0];</b>
+<b class="nc">&nbsp;                                publicObjCards[1] = e.getTableView().objCards[1];</b>
+&nbsp;
+<b class="nc">&nbsp;                                objBool = false;</b>
+&nbsp;                            }
+<b class="nc">&nbsp;                            printOut(setColorForString(&quot;BLACK&quot;, setColorForBackground(STATS_COLOR, &quot;CURRENT RANKINGS&quot;), false));</b>
+<b class="nc">&nbsp;                            n = 1;</b>
+&nbsp;
+<b class="nc">&nbsp;                            HashMap&lt;String, Integer&gt; map = e.getTableView().scoreTrack.points;</b>
+&nbsp;
+<b class="nc">&nbsp;                            String nick0 = null;</b>
+<b class="nc">&nbsp;                            for(int i = 0; i &lt; map.keySet().size(); i++){</b>
+<b class="nc">&nbsp;                                String nick = e.getTableView().scoreTrack.nickToString(i);</b>
+<b class="nc">&nbsp;                                if(i == 0)  nick0 = nick;</b>
+<b class="nc">&nbsp;                                printOut(setColorForString(&quot;WHITE&quot;, n + &quot;) &quot; + nick + &quot;: &quot; + map.get(nick) + &quot; point&quot; + (map.get(nick) == 1 ? &quot;&quot; : &quot;s&quot;), map.get(nick) == map.get(nick0) ? true : false));</b>
+<b class="nc">&nbsp;                                n++;</b>
+&nbsp;                            }
+<b class="nc">&nbsp;                            printOut(setColorForString(&quot;BLACK&quot;, setColorForBackground(STATS_COLOR, &quot;YOUR SECRET OBJECTIVE CARD&#39;s ID&quot;), false) + &quot;\n&quot; + privateObjectiveCard.getID());</b>
+<b class="nc">&nbsp;                            printOut(setColorForString(&quot;BLACK&quot;, setColorForBackground(STATS_COLOR, &quot;PUBLIC OBJECTIVE CARDS&quot;), false) + &quot;\n&quot; + publicObjCards[0].getID() + &quot;, &quot; + publicObjCards[1].getID());</b>
+<b class="nc">&nbsp;                            printOut(setColorForString(&quot;BLACK&quot;, setColorForBackground(STATS_COLOR, &quot;YOUR CURRENT RESOURCES&quot;), false));</b>
+<b class="nc">&nbsp;                            boolean isAny = false;</b>
+<b class="nc">&nbsp;                            for(Resource resource : e.getPlayerView(e.nickname).currentResources.keySet()){</b>
+<b class="nc">&nbsp;                                if(e.getPlayerView(e.nickname).currentResources.get(resource) &gt; 0){</b>
+<b class="nc">&nbsp;                                    printOut(&quot;\t&quot; + resource.toString() + &quot; x &quot; + e.getPlayerView(e.nickname).currentResources.get(resource));</b>
+<b class="nc">&nbsp;                                    isAny = true;</b>
+&nbsp;                                }
+&nbsp;                            }
+&nbsp;
+<b class="nc">&nbsp;                            if(!isAny)  printOut(&quot;\tnone&quot;);</b>
+&nbsp;
+<b class="nc">&nbsp;                            printOut(setColorForString(&quot;BLACK&quot;, setColorForBackground(STATS_COLOR, &quot;YOUR PLAYED CARDS&quot;), false));</b>
+<b class="nc">&nbsp;                            printGrid(e.getPlayerView(e.nickname).hand.playedCards);</b>
+&nbsp;
+<b class="nc">&nbsp;                            printOut(setColorForString(&quot;BLACK&quot;, setColorForBackground(STATS_COLOR, &quot;YOUR HAND&quot;), false));</b>
+<b class="nc">&nbsp;                            for(Card card : e.getPlayerView(e.nickname).hand.handCards){</b>
+<b class="nc">&nbsp;                                printCard(card);</b>
+<b class="nc">&nbsp;                                printOut(&quot;\n&quot;);</b>
+&nbsp;                            }
+&nbsp;
+<b class="nc">&nbsp;                            lastPlayedCards = e.getPlayerView(e.nickname).hand.playedCards;</b>
+&nbsp;
+<b class="nc">&nbsp;                            n = chooseInt(1,3);</b>
+&nbsp;
+<b class="nc">&nbsp;                            printOut(e.msgOutput2());</b>
+<b class="nc">&nbsp;                            if(chooseInt(1,2) == 2) e.getPlayerView(e.nickname).hand.handCards[n-1].isFacedown = true;</b>
+&nbsp;
+<b class="nc">&nbsp;                            printOut(e.msgOutput3());</b>
+<b class="nc">&nbsp;                            notifyListener(new PlayCardResponse(nickname, e.getPlayerView(e.nickname).hand.handCards[n-1], chooseInt(-40, 40), chooseInt(-40, 40)));</b>
+&nbsp;                            break;
+&nbsp;
+<b class="nc">&nbsp;                        case SetTokenColorRequest e :</b>
+<b class="nc">&nbsp;                            n = -1;</b>
+<b class="nc">&nbsp;                            printOut(e.msgOutput2());</b>
+&nbsp;                            do{
+<b class="nc">&nbsp;                                if(n != -1) printOut(inputError());</b>
+<b class="nc">&nbsp;                                n = chooseInt(1, 4);</b>
+<b class="nc">&nbsp;                            } while (!e.choiceIsValid(n));</b>
+&nbsp;
+<b class="nc">&nbsp;                            notifyListener(new SetTokenColorResponse(n, nickname));</b>
+&nbsp;                            break;
+&nbsp;
+<b class="nc">&nbsp;                        case JoinLobby e :</b>
+&nbsp;
+<b class="nc">&nbsp;                            notifyListener(new SetPassword(nickname, chooseString(&quot;password&quot;)));</b>
+&nbsp;                            break;
+&nbsp;
+<b class="nc">&nbsp;                        case PlaceStartingCard e :</b>
+<b class="nc">&nbsp;                            printCard(e.startingCard);</b>
+<b class="nc">&nbsp;                            printOut(e.msgOutput2());</b>
+<b class="nc">&nbsp;                            if(chooseInt(1,2) == 2) e.startingCard.isFacedown = true;</b>
+&nbsp;
+<b class="nc">&nbsp;                            notifyListener(new PlaceStartingCard( e.startingCard, nickname));</b>
+<b class="nc">&nbsp;                            printOut(&quot;\nWaiting for other players...&quot;);</b>
+&nbsp;                            break;
+&nbsp;
+<b class="nc">&nbsp;                        case TurnOrder e :</b>
+<b class="nc">&nbsp;                            firstPlayer = e.order.split(&quot; &quot;)[3];</b>
+&nbsp;
+<b class="nc">&nbsp;                            PlayerView p = null;</b>
+&nbsp;
+<b class="nc">&nbsp;                            for(PlayerView player : e.gameView.players){</b>
+<b class="nc">&nbsp;                                if(player.nickname.equals(nickname)){</b>
+<b class="nc">&nbsp;                                    p = player;</b>
+&nbsp;                                    break;
+&nbsp;                                }
+&nbsp;                            }
+&nbsp;
+<b class="nc">&nbsp;                            assert p != null;</b>
+&nbsp;
+<b class="nc">&nbsp;                            privateObjectiveCard = p.objectiveCard;</b>
+&nbsp;
+&nbsp;                            break;
+&nbsp;
+<b class="nc">&nbsp;                        case ReconnectionRequest e:</b>
+<b class="nc">&nbsp;                            notifyListener(new ReconnectionResponse( nickname,chooseString(&quot;password&quot;)));</b>
+&nbsp;                            break;
+&nbsp;
+&nbsp;                        default :
+&nbsp;                            break;
+&nbsp;                    }
+&nbsp;                }
+&nbsp;            }
+&nbsp;        };
+&nbsp;
+<b class="nc">&nbsp;        TUIThread.start();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Method to stop the running threads.
+&nbsp;     *//*
+&nbsp;    @Override
+&nbsp;    public void stop(){
+&nbsp;        running = false;
+&nbsp;
+&nbsp;        try{
+&nbsp;            in.close();
+&nbsp;        }catch (IOException ignored){
+&nbsp;            ignored.printStackTrace();
+&nbsp;        }
+&nbsp;
+&nbsp;        commandThread.interrupt();
+&nbsp;        TUIThread.interrupt();
+&nbsp;    }
+&nbsp;    */
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-07-03 15:07</div>
+</div>
+</body>
+</html>

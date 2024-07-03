@@ -1,0 +1,179 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > Deck</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.Model</a>
+</div>
+
+<h1>Coverage Summary for Class: Deck (it.polimi.ingsw.Model)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Deck</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (3/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (7/7)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">Deck$MockitoMock$1198744606</td>
+  </tr>
+  <tr>
+    <td class="name">Deck$MockitoMock$1198744606$auxiliary$DrjMZMPy</td>
+  </tr>
+  <tr>
+    <td class="name">Deck$MockitoMock$1198744606$auxiliary$G49XR3Lo</td>
+  </tr>
+  <tr>
+    <td class="name">Deck$MockitoMock$1198744606$auxiliary$Q3v5rlIT</td>
+  </tr>
+  <tr>
+    <td class="name">Deck$MockitoMock$1198744606$auxiliary$tzrgyrka</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (3/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (7/7)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw.Model;
+&nbsp;
+&nbsp;import it.polimi.ingsw.Exceptions.isEmptyException;
+&nbsp;
+&nbsp;import java.io.Serializable;
+&nbsp;import java.util.Arrays;
+&nbsp;import java.util.Collections;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;/**
+&nbsp; * Abstract class that handles all the methods of all kinds of deck in the game.
+&nbsp; * It implements Serializable because through serialization is possible to transmit objects between different machines in a network.
+&nbsp; */
+<b class="fc">&nbsp;public abstract class Deck implements Serializable {</b>
+&nbsp;    /**
+&nbsp;     * The integer used to count the number of cards in a deck.
+&nbsp;     */
+&nbsp;    protected int NCards;
+&nbsp;    /**
+&nbsp;     * A boolean of the ack to let us know when the deck is empty, obviously i the beginning it will be false because the deck should be full.
+&nbsp;     */
+<b class="fc">&nbsp;    protected boolean AckEmpty=false;</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Method to draw a card from a deck.
+&nbsp;     * @return the drawn card
+&nbsp;     * @throws isEmptyException if deck is empty
+&nbsp;     */
+&nbsp;    public abstract Card draw() throws isEmptyException;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Method to know the exact number of cards in the deck.
+&nbsp;     * @return the integer of number of cards.
+&nbsp;     */
+&nbsp;    public int getNCards(){
+<b class="fc">&nbsp;        return NCards;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method shuffle the cards of the deck to permit the randomness of the draw.
+&nbsp;     * @param deck
+&nbsp;     * @return the deck with the order of card inside changed.
+&nbsp;     */
+&nbsp;    protected Card[] shuffle(Card[] deck){
+<b class="fc">&nbsp;        List&lt;Card&gt; cardList = Arrays.asList(deck);</b>
+&nbsp;
+<b class="fc">&nbsp;        Collections.shuffle(cardList);</b>
+&nbsp;
+<b class="fc">&nbsp;        cardList.toArray(deck);</b>
+&nbsp;
+<b class="fc">&nbsp;        return deck;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-07-03 15:07</div>
+</div>
+</body>
+</html>

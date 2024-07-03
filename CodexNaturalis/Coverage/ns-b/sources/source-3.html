@@ -1,0 +1,184 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > UI</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.View</a>
+</div>
+
+<h1>Coverage Summary for Class: UI (it.polimi.ingsw.View)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">UI</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/7)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw.View;
+&nbsp;
+&nbsp;import it.polimi.ingsw.Distributed.ClientImpl;
+&nbsp;import it.polimi.ingsw.Events.GenericEvent;
+&nbsp;import it.polimi.ingsw.Listeners.ViewControllerListener;
+&nbsp;
+&nbsp;import java.util.Deque;
+&nbsp;import java.util.LinkedList;
+&nbsp;
+&nbsp;/**
+&nbsp; * generic interface representing the UI
+&nbsp; */
+&nbsp;public abstract class UI implements View{
+&nbsp;    /**
+&nbsp;     * the queue of incoming events
+&nbsp;     */
+<b class="nc">&nbsp;    final Deque&lt;GenericEvent&gt; inputEvents = new LinkedList&lt;&gt;();</b>
+&nbsp;    /**
+&nbsp;     * the client that owns the UI
+&nbsp;     */
+&nbsp;    final ClientImpl client;
+&nbsp;    /**
+&nbsp;     * the listener to communicate with the server
+&nbsp;     */
+&nbsp;    final ViewControllerListener listener;
+&nbsp;    /**
+&nbsp;     * boolean representing the running status of the UI
+&nbsp;     */
+<b class="nc">&nbsp;    public volatile boolean running = true;</b>
+&nbsp;    /**
+&nbsp;     * the nickname of the owner of the UI
+&nbsp;     */
+&nbsp;    String nickname;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Constructor
+&nbsp;     * @param client the client that owns the UI
+&nbsp;     */
+<b class="nc">&nbsp;    UI(ClientImpl client) {</b>
+<b class="nc">&nbsp;        this.client = client;</b>
+<b class="nc">&nbsp;        this.listener = new ViewControllerListener(client);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Getter for the listener.
+&nbsp;     * @return the listener.
+&nbsp;     */
+&nbsp;    public ViewControllerListener getListener() {
+<b class="nc">&nbsp;        return listener;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Method to send the event designated to the server controller.
+&nbsp;     * @param event the event sent to the listener.
+&nbsp;     * @see ViewControllerListener
+&nbsp;     */
+&nbsp;    public final void notifyListener(GenericEvent event) {
+<b class="nc">&nbsp;        listener.addEvent(event);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * allow the player to set his nickname
+&nbsp;     * @return the chosen nickname
+&nbsp;     * @see GUI
+&nbsp;     * @see TUI
+&nbsp;     */
+&nbsp;    public abstract String chooseNickname();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * print errors in the console
+&nbsp;     * @param s the error message
+&nbsp;     */
+&nbsp;    public abstract void printErr(String s);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * print messages in the console
+&nbsp;     * @param s the message
+&nbsp;     */
+&nbsp;    public abstract void printOut(String s);
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-07-03 15:07</div>
+</div>
+</body>
+</html>
